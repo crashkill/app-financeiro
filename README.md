@@ -1,108 +1,84 @@
 # App Financeiro
 
-Aplicação web para gerenciamento financeiro desenvolvida com React, TypeScript e Vite.
+Aplicação para gerenciamento e visualização de dados financeiros de projetos.
 
 ## Funcionalidades
 
 ### Dashboard
-- Visualização da Receita Total (soma de todos os lançamentos com natureza RECEITA)
-- Visualização do Custo Total (soma de todos os lançamentos com natureza CUSTO)
+- Visualização de receitas e custos por projeto
+- Gráfico de barras empilhadas mostrando:
+  - Receita (verde)
+  - Custo (vermelho)
+  - Linha de margem (azul)
+- Filtros:
+  - Seleção múltipla de projetos
+  - Seleção de ano (padrão: 2024)
+- Totalizadores:
+  - Receita total do período
+  - Custo total do período
 
-### Receitas e Despesas
-- Listagem de todas as transações
-- Adição de novas transações
-- Edição de transações existentes
-- Exclusão de transações
-- Categorização das transações
-- Visualização do total por tipo
+### Gráficos
+- Barras empilhadas por mês
+- Linha de margem (1 - custo/receita)
+- Formatação em milhões (Mi)
+- Tooltips detalhados com valores e percentuais
 
-### Upload de Arquivos
-- Importação de dados via arquivo Excel (.xlsx, .xls) ou CSV
-- Preview dos dados antes da importação
-- Validação do formato dos dados
-- Importação automática para o banco de dados local
+## Tecnologias
 
-### Relatórios
-- Visualização de relatórios financeiros
-- Filtros por período
-- Filtros por categoria
-- Gráficos de distribuição
-
-### Configurações
-- Personalização da moeda (BRL, USD, EUR)
-- Formato de data
-- Notificações
-- Modo escuro
-
-## Tecnologias Utilizadas
-
-- React 18
+- React
 - TypeScript
-- Vite
-- React Router
+- Chart.js / react-chartjs-2
 - React Bootstrap
-- IndexedDB (Dexie.js)
-- XLSX
-- React Dropzone
+- DexieJS (IndexedDB)
+
+## Instalação
+
+```bash
+# Instalar dependências
+npm install
+
+# Rodar em desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+```
 
 ## Estrutura do Projeto
 
 ```
-app-financeiro/
-├── src/
-│   ├── components/      # Componentes reutilizáveis
-│   ├── contexts/        # Contextos do React (Auth, Config)
-│   ├── db/             # Configuração do banco de dados local
-│   ├── hooks/          # Hooks personalizados
-│   ├── pages/          # Páginas da aplicação
-│   ├── styles/         # Arquivos de estilo
-│   ├── App.tsx         # Componente principal
-│   └── main.tsx        # Ponto de entrada
-├── public/             # Arquivos públicos
-└── package.json        # Dependências e scripts
+src/
+  ├── components/         # Componentes reutilizáveis
+  │   └── ProjectCharts.tsx  # Gráfico de barras e linha
+  ├── pages/             # Páginas da aplicação
+  │   └── Dashboard.tsx     # Dashboard principal
+  ├── db/               # Configuração do banco de dados
+  │   └── database.ts     # Schema e conexão
+  ├── styles/           # Estilos
+  └── utils/            # Utilitários
 ```
 
-## Instalação
+## Dados
 
-1. Clone o repositório:
-```bash
-git clone [URL_DO_REPOSITORIO]
-```
+O sistema utiliza dados de:
+- Receitas e custos por projeto
+- Período (mês/ano)
+- Natureza (RECEITA/CUSTO)
+- Valores em Reais (BRL)
 
-2. Instale as dependências:
-```bash
-npm install
-```
+## Atualizações Recentes
 
-3. Execute o projeto:
-```bash
-npm run dev
-```
+### 26/12/2023
+- Adicionado gráfico de barras empilhadas com linha de margem
+- Implementado filtro de ano
+- Melhorada visualização dos dados por mês
+- Ajustada formatação de valores em milhões
+- Adicionada linha de margem sobre as barras
 
-## Formato do Arquivo de Importação
+## Próximos Passos
 
-O arquivo Excel/CSV deve conter as seguintes colunas:
-
-- natureza: RECEITA ou CUSTO
-- lancamento: valor numérico
-- projeto: (opcional) nome do projeto
-- descricao: descrição da transação
-- data: data da transação
-- categoria: categoria da transação
-
-## Credenciais de Teste
-
-- Email: admin
-- Senha: admin
-
-## Contribuição
-
-1. Faça o fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+- [ ] Adicionar mais filtros (categoria, cliente)
+- [ ] Implementar exportação de dados
+- [ ] Adicionar mais tipos de gráficos
+- [ ] Melhorar responsividade
+- [ ] Adicionar testes automatizados

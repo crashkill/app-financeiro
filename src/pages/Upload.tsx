@@ -36,6 +36,10 @@ const Upload = () => {
           const worksheet = workbook.Sheets[sheetName]
           const data = XLSX.utils.sheet_to_json(worksheet)
 
+          // Log para debug
+          console.log('Primeira linha do Excel:', data[0])
+          console.log('Campos disponíveis:', Object.keys(data[0]))
+
           // Mostrar apenas as 5 primeiras linhas no preview
           const previewData = data.slice(0, 5)
 
@@ -50,6 +54,7 @@ const Upload = () => {
 
           setPreview(previewData)
         } catch (err) {
+          console.error('Erro ao ler arquivo:', err)
           setError('Erro ao ler o arquivo. Certifique-se de que é uma planilha válida.')
         }
       }
@@ -107,135 +112,95 @@ const Upload = () => {
     <Container>
       <Row className="mb-4">
         <Col>
-          <h1>Upload de Arquivos</h1>
-          <p className="text-muted">Importe seus dados financeiros</p>
+          <h1>Upload de Dados</h1>
         </Col>
       </Row>
 
       {error && (
-        <Row className="mb-4">
-          <Col>
-            <Alert variant="danger">{error}</Alert>
-          </Col>
-        </Row>
+        <Alert variant="danger" onClose={() => setError('')} dismissible>
+          {error}
+        </Alert>
       )}
 
       {success && (
-        <Row className="mb-4">
-          <Col>
-            <Alert variant="success">{success}</Alert>
-          </Col>
-        </Row>
+        <Alert variant="success" onClose={() => setSuccess('')} dismissible>
+          {success}
+        </Alert>
       )}
 
-      <Row className="mb-4">
+      <Row>
         <Col>
           <Card>
             <Card.Body>
               <div
                 {...getRootProps()}
-                className={`text-center p-5 border-2 border-dashed rounded-3 ${
-                  isDragActive ? 'bg-light border-primary' : 'border-secondary'
-                }`}
-                style={{ cursor: 'pointer' }}
+                className={`dropzone ${isDragActive ? 'active' : ''}`}
+                style={{
+                  border: '2px dashed #cccccc',
+                  borderRadius: '4px',
+                  padding: '20px',
+                  textAlign: 'center',
+                  cursor: 'pointer'
+                }}
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                  <p className="mb-0">Solte o arquivo aqui...</p>
+                  <p>Solte o arquivo aqui...</p>
                 ) : (
-                  <>
-                    <p className="mb-0">
-                      Arraste e solte um arquivo aqui, ou clique para selecionar
-                    </p>
-                    <p className="text-muted small mb-0">
-                      (Aceita arquivos .xlsx, .xls e .csv)
-                    </p>
-                  </>
+                  <p>Arraste e solte um arquivo aqui, ou clique para selecionar</p>
                 )}
               </div>
+
+              {files.length > 0 && (
+                <div className="mt-3">
+                  <h5>Arquivo selecionado:</h5>
+                  <ul>
+                    {files.map((file, index) => (
+                      <li key={index}>
+                        {file.name} - {formatFileSize(file.size)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {preview.length > 0 && (
+                <div className="mt-3">
+                  <h5>Preview dos dados:</h5>
+                  <div className="table-responsive">
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          {Object.keys(preview[0]).map((key) => (
+                            <th key={key}>{key}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {preview.map((row, index) => (
+                          <tr key={index}>
+                            {Object.values(row).map((value: any, i) => (
+                              <td key={i}>{value?.toString()}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
+
+                  <Button
+                    variant="primary"
+                    onClick={handleImportData}
+                    disabled={isImporting}
+                  >
+                    {isImporting ? 'Importando...' : 'Importar Dados'}
+                  </Button>
+                </div>
+              )}
             </Card.Body>
           </Card>
         </Col>
       </Row>
-
-      {files.length > 0 && (
-        <>
-          <Row className="mb-4">
-            <Col>
-              <h5>Arquivos Carregados</h5>
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Tamanho</th>
-                    <th>Tipo</th>
-                    <th>Data de Modificação</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {files.map((file, index) => (
-                    <tr key={index}>
-                      <td>{file.name}</td>
-                      <td>{formatFileSize(file.size)}</td>
-                      <td>{file.type || 'N/A'}</td>
-                      <td>
-                        {new Date(file.lastModified).toLocaleDateString('pt-BR')}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-
-          {preview.length > 0 && (
-            <>
-              <Row className="mb-4">
-                <Col>
-                  <h5>Preview dos Dados</h5>
-                  <Card>
-                    <Card.Body>
-                      <div className="table-responsive">
-                        <Table hover>
-                          <thead>
-                            <tr>
-                              {Object.keys(preview[0]).map((key) => (
-                                <th key={key}>{key}</th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {preview.map((row, index) => (
-                              <tr key={index}>
-                                {Object.values(row).map((value: any, i) => (
-                                  <td key={i}>{value}</td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </Table>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-
-              <Row className="mb-4">
-                <Col className="text-center">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={handleImportData}
-                    disabled={isImporting}
-                  >
-                    {isImporting ? 'Importando...' : 'Inserir Dados'}
-                  </Button>
-                </Col>
-              </Row>
-            </>
-          )}
-        </>
-      )}
     </Container>
   )
 }
