@@ -101,20 +101,20 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     labels: Array.from(monthlyData.keys()).map(formatMonth),
     datasets: [
       {
-        label: 'Receita',
-        data: Array.from(monthlyData.values()).map(d => d.receita),
-        backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
-        stack: 'Stack 0',
-        type: 'bar' as const,
-        order: 2
-      },
-      {
         label: 'Custo',
         data: Array.from(monthlyData.values()).map(d => d.custo), // Mantém negativo
         backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
         stack: 'Stack 0',
         type: 'bar' as const,
-        order: 2
+        order: 3 // Maior ordem = renderiza primeiro (embaixo)
+      },
+      {
+        label: 'Receita',
+        data: Array.from(monthlyData.values()).map(d => d.receita),
+        backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
+        stack: 'Stack 0',
+        type: 'bar' as const,
+        order: 2 // Menor ordem = renderiza depois (em cima)
       },
       {
         label: 'Margem',
@@ -127,7 +127,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         borderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
-        order: 1,
+        order: 1, // Menor ordem = renderiza por último (na frente)
         fill: false
       }
     ]
