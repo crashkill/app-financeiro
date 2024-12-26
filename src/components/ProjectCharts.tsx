@@ -104,6 +104,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         label: 'Receita',
         data: Array.from(monthlyData.values()).map(d => d.receita),
         backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
+        stack: 'Stack 0',
         type: 'bar' as const,
         order: 2
       },
@@ -111,6 +112,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         label: 'Custo',
         data: Array.from(monthlyData.values()).map(d => d.custo), // Mantém negativo
         backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
+        stack: 'Stack 0',
         type: 'bar' as const,
         order: 2
       },
@@ -181,11 +183,13 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     },
     scales: {
       x: {
+        stacked: true,
         grid: {
           display: false
         }
       },
       y: {
+        stacked: true,
         beginAtZero: true,
         position: 'left',
         ticks: {
