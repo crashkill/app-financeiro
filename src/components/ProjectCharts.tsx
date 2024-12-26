@@ -64,9 +64,10 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
 
     // Calcula o percentual e margem
     monthMap.forEach((data) => {
-      data.percentual = data.custo > 0 ? (data.receita / data.custo) * 100 : 0
-      // Margem = (Receita + Custo) / Receita, pois Custo já é negativo
-      data.margem = data.receita > 0 ? (data.receita + data.custo) / data.receita : 0
+      // Percentual não é mais usado
+      data.percentual = 0
+      // Margem = (Receita - |Custo|) / Receita
+      data.margem = data.receita > 0 ? (data.receita - Math.abs(data.custo)) / data.receita : 0
     })
 
     setMonthlyData(monthMap)
@@ -105,7 +106,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
         stack: 'Stack 0',
         type: 'bar' as const,
-        order: 2 // Ordem maior = renderiza primeiro (atrás)
+        order: 2
       },
       {
         label: 'Custo',
@@ -126,8 +127,8 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         borderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
-        order: 1, // Ordem menor = renderiza por último (na frente)
-        fill: false // Garante que a linha fique bem visível
+        order: 1,
+        fill: false
       }
     ]
   }
@@ -161,7 +162,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       tooltip: {
         callbacks: {
           label: function(context: any) {
-            const value = Math.abs(context.raw)
+            const value = context.raw
             const label = context.dataset.label
             const dataIndex = context.dataIndex
             const data = Array.from(monthlyData.values())[dataIndex]
@@ -193,14 +194,14 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         position: 'left',
         ticks: {
           callback: function(value: any) {
-            return formatMillions(Math.abs(value))
+            return formatMillions(value)
           }
         }
       },
       y1: {
         beginAtZero: true,
         position: 'right',
-        min: -1,
+        min: 0,
         max: 1,
         ticks: {
           callback: function(value: any) {
