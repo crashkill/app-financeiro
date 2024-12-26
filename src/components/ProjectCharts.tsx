@@ -65,7 +65,8 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     // Calcula o percentual e margem
     monthMap.forEach((data) => {
       data.percentual = data.custo > 0 ? (data.receita / data.custo) * 100 : 0
-      data.margem = data.receita > 0 ? 1 - (data.custo / data.receita) : 0
+      // Margem = (Receita - Custo) / Receita
+      data.margem = data.receita > 0 ? (data.receita - data.custo) / data.receita : 0
     })
 
     setMonthlyData(monthMap)
