@@ -57,7 +57,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         if (transacao.natureza === 'RECEITA') {
           data.receita += transacao.lancamento
         } else {
-          data.custo += Math.abs(transacao.lancamento)
+          data.custo += transacao.lancamento // Mantém o sinal negativo
         }
       }
     })
@@ -65,8 +65,8 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     // Calcula o percentual e margem
     monthMap.forEach((data) => {
       data.percentual = data.custo > 0 ? (data.receita / data.custo) * 100 : 0
-      // Margem = (Receita - Custo) / Receita
-      data.margem = data.receita > 0 ? (data.receita - data.custo) / data.receita : 0
+      // Margem = (Receita + Custo) / Receita, pois Custo já é negativo
+      data.margem = data.receita > 0 ? (data.receita + data.custo) / data.receita : 0
     })
 
     setMonthlyData(monthMap)
@@ -109,7 +109,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       },
       {
         label: 'Custo',
-        data: Array.from(monthlyData.values()).map(d => -d.custo),
+        data: Array.from(monthlyData.values()).map(d => Math.abs(d.custo)), // Converte para positivo só na exibição
         backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
         stack: 'Stack 0',
         type: 'bar' as const,
