@@ -106,7 +106,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
         stack: 'Stack 0',
         type: 'bar' as const,
-        order: 3 // Maior ordem = renderiza primeiro (embaixo)
+        order: 2 // Menor ordem = renderiza depois (embaixo)
       },
       {
         label: 'Receita',
@@ -114,7 +114,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
         stack: 'Stack 0',
         type: 'bar' as const,
-        order: 2 // Menor ordem = renderiza depois (em cima)
+        order: 3 // Maior ordem = renderiza primeiro (em cima)
       },
       {
         label: 'Margem',
@@ -127,7 +127,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         borderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
-        order: 1, // Menor ordem = renderiza por último (na frente)
+        order: 1, // Menor ordem = renderiza por último (na frente de tudo)
         fill: false
       }
     ]
