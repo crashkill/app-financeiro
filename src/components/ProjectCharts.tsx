@@ -110,11 +110,11 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         type: 'bar' as const,
         order: 2,
         datalabels: {
-          align: 'end',
-          anchor: 'end',
+          align: 'center',
+          anchor: 'center',
           rotation: -90,
           formatter: (value: number) => formatCurrency(Math.abs(value)),
-          color: '#000',
+          color: '#4169E1', // Royal Blue
           font: {
             weight: 'bold',
             size: 11
@@ -129,11 +129,11 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         type: 'bar' as const,
         order: 3,
         datalabels: {
-          align: 'end',
-          anchor: 'end',
+          align: 'center',
+          anchor: 'center',
           rotation: -90,
           formatter: (value: number) => formatCurrency(value),
-          color: '#000',
+          color: '#4169E1', // Royal Blue
           font: {
             weight: 'bold',
             size: 11
@@ -143,8 +143,8 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       {
         label: 'Margem',
         data: Array.from(monthlyData.values()).map(d => d.margem),
-        borderColor: 'rgb(0, 0, 205)', // Azul mais escuro (Medium Blue)
-        backgroundColor: 'rgba(0, 0, 205, 0.5)',
+        borderColor: 'rgb(53, 162, 235)', // Voltando ao azul original
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
         type: 'line' as const,
         yAxisID: 'y1',
         tension: 0.4,
@@ -157,7 +157,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       {
         label: 'Margem Esperada',
         data: Array.from(monthlyData.values()).map(() => 0.07),
-        borderColor: 'rgb(25, 25, 112)', // Azul ainda mais escuro (Midnight Blue)
+        borderColor: 'rgb(25, 25, 112)', // Mantendo azul escuro
         backgroundColor: 'rgba(25, 25, 112, 0.5)',
         type: 'line' as const,
         yAxisID: 'y1',
