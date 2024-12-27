@@ -121,6 +121,11 @@ export const importarDados = async (dados: any[]) => {
 
     // Inserir todos os dados em uma única transação
     await db.transaction('rw', db.transacoes, async () => {
+      // Limpar tabela antes de inserir novos dados
+      await db.transacoes.clear()
+      console.log('Tabela limpa. Inserindo novos dados...')
+      
+      // Inserir novos dados
       await db.transacoes.bulkAdd(transacoes)
     })
 
