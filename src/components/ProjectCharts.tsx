@@ -114,7 +114,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
           anchor: 'center',
           rotation: -90,
           formatter: (value: number) => formatCurrency(Math.abs(value)),
-          color: '#4169E1', // Royal Blue
+          color: '#FFFFFF', // Branco
           font: {
             weight: 'bold',
             size: 11
@@ -133,7 +133,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
           anchor: 'center',
           rotation: -90,
           formatter: (value: number) => formatCurrency(value),
-          color: '#4169E1', // Royal Blue
+          color: '#FFFFFF', // Branco
           font: {
             weight: 'bold',
             size: 11
