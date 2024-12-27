@@ -10,6 +10,7 @@ import {
   LineElement,
   PointElement
 } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { Chart } from 'react-chartjs-2'
 import type { Transacao } from '../db/database'
 
@@ -21,7 +22,8 @@ ChartJS.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 )
 
 interface MonthData {
@@ -102,11 +104,16 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     datasets: [
       {
         label: 'Custo',
-        data: Array.from(monthlyData.values()).map(d => d.custo), // Mantém negativo
+        data: Array.from(monthlyData.values()).map(d => d.custo),
         backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
         stack: 'Stack 0',
         type: 'bar' as const,
-        order: 2 // Menor ordem = renderiza depois (embaixo)
+        order: 2,
+        datalabels: {
+          align: 'end',
+          anchor: 'end',
+          formatter: (value: number) => formatCurrency(Math.abs(value))
+        }
       },
       {
         label: 'Receita',
@@ -114,7 +121,12 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
         stack: 'Stack 0',
         type: 'bar' as const,
-        order: 3 // Maior ordem = renderiza primeiro (em cima)
+        order: 3,
+        datalabels: {
+          align: 'end',
+          anchor: 'end',
+          formatter: (value: number) => formatCurrency(value)
+        }
       },
       {
         label: 'Margem',
@@ -127,7 +139,22 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         borderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
-        order: 1, // Menor ordem = renderiza por último (na frente de tudo)
+        order: 1,
+        fill: false
+      },
+      {
+        label: 'Margem Esperada',
+        data: Array.from(monthlyData.values()).map(() => 0.07), // 7% fixo
+        borderColor: 'rgb(0, 0, 139)', // Azul escuro
+        backgroundColor: 'rgba(0, 0, 139, 0.5)',
+        type: 'line' as const,
+        yAxisID: 'y1',
+        tension: 0,
+        borderWidth: 2,
+        borderDash: [5, 5], // Linha tracejada
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        order: 1,
         fill: false
       }
     ]
@@ -141,6 +168,13 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       intersect: false,
     },
     plugins: {
+      datalabels: {
+        color: '#fff',
+        font: {
+          weight: 'bold'
+        },
+        display: true
+      },
       title: {
         display: true,
         text: 'Receita, Custo e Margem por Mês',
@@ -168,6 +202,8 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
             const data = Array.from(monthlyData.values())[dataIndex]
             
             if (label === 'Margem') {
+              return `${label}: ${formatPercent(value)}`
+            } else if (label === 'Margem Esperada') {
               return `${label}: ${formatPercent(value)}`
             } else if (label === 'Receita') {
               return `${label}: ${formatCurrency(value)}`
