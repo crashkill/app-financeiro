@@ -105,34 +105,46 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       {
         label: 'Custo',
         data: Array.from(monthlyData.values()).map(d => d.custo),
-        backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
+        backgroundColor: 'rgba(220, 20, 60, 0.8)', // Vermelho mais escuro (Crimson)
         stack: 'Stack 0',
         type: 'bar' as const,
         order: 2,
         datalabels: {
           align: 'end',
           anchor: 'end',
-          formatter: (value: number) => formatCurrency(Math.abs(value))
+          rotation: -90,
+          formatter: (value: number) => formatCurrency(Math.abs(value)),
+          color: '#000',
+          font: {
+            weight: 'bold',
+            size: 11
+          }
         }
       },
       {
         label: 'Receita',
         data: Array.from(monthlyData.values()).map(d => d.receita),
-        backgroundColor: 'rgba(75, 192, 75, 0.8)', // Verde
+        backgroundColor: 'rgba(34, 139, 34, 0.8)', // Verde mais escuro (Forest Green)
         stack: 'Stack 0',
         type: 'bar' as const,
         order: 3,
         datalabels: {
           align: 'end',
           anchor: 'end',
-          formatter: (value: number) => formatCurrency(value)
+          rotation: -90,
+          formatter: (value: number) => formatCurrency(value),
+          color: '#000',
+          font: {
+            weight: 'bold',
+            size: 11
+          }
         }
       },
       {
         label: 'Margem',
         data: Array.from(monthlyData.values()).map(d => d.margem),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        borderColor: 'rgb(0, 0, 205)', // Azul mais escuro (Medium Blue)
+        backgroundColor: 'rgba(0, 0, 205, 0.5)',
         type: 'line' as const,
         yAxisID: 'y1',
         tension: 0.4,
@@ -144,14 +156,14 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       },
       {
         label: 'Margem Esperada',
-        data: Array.from(monthlyData.values()).map(() => 0.07), // 7% fixo
-        borderColor: 'rgb(0, 0, 139)', // Azul escuro
-        backgroundColor: 'rgba(0, 0, 139, 0.5)',
+        data: Array.from(monthlyData.values()).map(() => 0.07),
+        borderColor: 'rgb(25, 25, 112)', // Azul ainda mais escuro (Midnight Blue)
+        backgroundColor: 'rgba(25, 25, 112, 0.5)',
         type: 'line' as const,
         yAxisID: 'y1',
         tension: 0,
         borderWidth: 2,
-        borderDash: [5, 5], // Linha tracejada
+        borderDash: [5, 5],
         pointRadius: 0,
         pointHoverRadius: 0,
         order: 1,
@@ -169,10 +181,6 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     },
     plugins: {
       datalabels: {
-        color: '#fff',
-        font: {
-          weight: 'bold'
-        },
         display: true
       },
       title: {
@@ -230,7 +238,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         position: 'left',
         ticks: {
           callback: function(value: any) {
-            return formatMillions(Math.abs(value))
+            return formatCurrency(Math.abs(value))
           }
         }
       },
