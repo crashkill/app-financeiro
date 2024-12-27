@@ -105,7 +105,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       {
         label: 'Custo',
         data: Array.from(monthlyData.values()).map(d => d.custo),
-        backgroundColor: 'rgba(220, 20, 60, 0.8)', // Vermelho mais escuro (Crimson)
+        backgroundColor: 'rgba(255, 99, 132, 0.7)', // Rosa suave
         stack: 'Stack 0',
         type: 'bar' as const,
         order: 2,
@@ -114,7 +114,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
           anchor: 'center',
           rotation: -90,
           formatter: (value: number) => formatCurrency(Math.abs(value)),
-          color: '#FFFFFF', // Branco
+          color: 'rgba(255, 255, 255, 0.9)', // Branco suave
           font: {
             weight: 'bold',
             size: 11
@@ -124,7 +124,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       {
         label: 'Receita',
         data: Array.from(monthlyData.values()).map(d => d.receita),
-        backgroundColor: 'rgba(34, 139, 34, 0.8)', // Verde mais escuro (Forest Green)
+        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Verde água suave
         stack: 'Stack 0',
         type: 'bar' as const,
         order: 3,
@@ -133,41 +133,12 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
           anchor: 'center',
           rotation: -90,
           formatter: (value: number) => formatCurrency(value),
-          color: '#FFFFFF', // Branco
+          color: 'rgba(255, 255, 255, 0.9)', // Branco suave
           font: {
             weight: 'bold',
             size: 11
           }
         }
-      },
-      {
-        label: 'Margem',
-        data: Array.from(monthlyData.values()).map(d => d.margem),
-        borderColor: 'rgb(53, 162, 235)', // Voltando ao azul original
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        type: 'line' as const,
-        yAxisID: 'y1',
-        tension: 0.4,
-        borderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        order: 1,
-        fill: false
-      },
-      {
-        label: 'Margem Esperada',
-        data: Array.from(monthlyData.values()).map(() => 0.07),
-        borderColor: 'rgb(25, 25, 112)', // Mantendo azul escuro
-        backgroundColor: 'rgba(25, 25, 112, 0.5)',
-        type: 'line' as const,
-        yAxisID: 'y1',
-        tension: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        pointRadius: 0,
-        pointHoverRadius: 0,
-        order: 1,
-        fill: false
       }
     ]
   }
@@ -185,7 +156,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       },
       title: {
         display: true,
-        text: 'Receita, Custo e Margem por Mês',
+        text: 'Receita e Custo por Mês',
         font: {
           size: 16,
           weight: 'bold'
@@ -209,11 +180,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
             const dataIndex = context.dataIndex
             const data = Array.from(monthlyData.values())[dataIndex]
             
-            if (label === 'Margem') {
-              return `${label}: ${formatPercent(value)}`
-            } else if (label === 'Margem Esperada') {
-              return `${label}: ${formatPercent(value)}`
-            } else if (label === 'Receita') {
+            if (label === 'Receita') {
               return `${label}: ${formatCurrency(value)}`
             } else {
               return [
@@ -240,20 +207,6 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
           callback: function(value: any) {
             return formatCurrency(Math.abs(value))
           }
-        }
-      },
-      y1: {
-        beginAtZero: true,
-        position: 'right',
-        min: 0,
-        max: 1,
-        ticks: {
-          callback: function(value: any) {
-            return formatPercent(value)
-          }
-        },
-        grid: {
-          drawOnChartArea: false
         }
       }
     }
