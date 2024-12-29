@@ -47,7 +47,6 @@ class CacheService {
   }
 
   public setFilteredData(
-    data: FinancialData[],
     project: string,
     period: string[],
     result: { [key: string]: FinancialData[] }
