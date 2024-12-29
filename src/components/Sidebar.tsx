@@ -39,6 +39,14 @@ const Sidebar = () => {
           </Nav.Item>
           <Nav.Item>
             <Link
+              to="/forecast"
+              className={`nav-link py-2 ${isActive('/forecast') ? 'active bg-primary' : 'text-white'}`}
+            >
+              Forecast
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link
               to="/upload"
               className={`nav-link py-2 ${isActive('/upload') ? 'active bg-primary' : 'text-white'}`}
             >

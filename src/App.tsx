@@ -7,6 +7,7 @@ import Despesas from './pages/Despesas'
 import Upload from './pages/Upload'
 import Relatorios from './pages/Relatorios'
 import Configuracoes from './pages/Configuracoes'
+import Forecast from './pages/Forecast'
 import Layout from './components/Layout'
 
 // Componente para rotas protegidas
@@ -45,6 +46,14 @@ function App() {
         element={
           <PrivateRoute>
             <Despesas />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/forecast"
+        element={
+          <PrivateRoute>
+            <Forecast />
           </PrivateRoute>
         }
       />
