@@ -71,12 +71,7 @@ export const importarDados = async (dados: any[]) => {
       const natureza = String(item.Natureza || '').toUpperCase() === 'RECEITA' ? 'RECEITA' : 'CUSTO'
       
       // Converter o valor do lançamento para número
-      let valorFinal = converterParaNumero(item.Lancamento)
-
-      // Garantir que custos sejam sempre positivos
-      if (natureza === 'CUSTO') {
-        valorFinal = Math.abs(valorFinal)
-      }
+      const valorFinal = converterParaNumero(item.Lancamento)
 
       // Análise por natureza
       const grupo = analise[natureza]
@@ -99,37 +94,35 @@ export const importarDados = async (dados: any[]) => {
         valor: valorFinal,
         data: item.Periodo || new Date().toISOString().split('T')[0],
         categoria: String(item.LinhaNegocio || 'Outros'),
-        observacao: String(item.Cliente || ''),
-        lancamento: valorFinal,
-        projeto: String(item.CodigoProjeto || ''),
-        periodo: item.Periodo
+        lancamento: valorFinal, // Mantém o sinal original
+        periodo: String(item.Periodo || '')
       }
     })
 
-    // Log da análise
-    console.log('\nAnálise dos dados:')
-    console.log('RECEITA:', {
-      quantidade: analise.RECEITA.count,
-      total: analise.RECEITA.total.toFixed(2),
-      exemplos: analise.RECEITA.exemplos
-    })
-    console.log('CUSTO:', {
-      quantidade: analise.CUSTO.count,
-      total: analise.CUSTO.total.toFixed(2),
-      exemplos: analise.CUSTO.exemplos
-    })
-
-    // Inserir todos os dados em uma única transação
-    await db.transaction('rw', db.transacoes, async () => {
-      // Limpar tabela antes de inserir novos dados
-      await db.transacoes.clear()
-      console.log('Tabela limpa. Inserindo novos dados...')
-      
-      // Inserir novos dados
-      await db.transacoes.bulkAdd(transacoes)
+    // Log de análise
+    console.log('Análise dos dados:', {
+      RECEITA: {
+        count: analise.RECEITA.count,
+        total: analise.RECEITA.total,
+        exemplos: analise.RECEITA.exemplos
+      },
+      CUSTO: {
+        count: analise.CUSTO.count,
+        total: analise.CUSTO.total,
+        exemplos: analise.CUSTO.exemplos
+      }
     })
 
-    return { success: true, count: transacoes.length }
+    // Limpar tabela existente
+    await db.transacoes.clear()
+
+    // Inserir novos dados
+    const result = await db.transacoes.bulkAdd(transacoes)
+
+    return {
+      count: transacoes.length,
+      result
+    }
   } catch (error) {
     console.error('Erro ao importar dados:', error)
     throw error

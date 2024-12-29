@@ -38,12 +38,12 @@ const Upload = () => {
 
           // Log para debug
           console.log('Primeira linha do Excel:', data[0])
-          console.log('Campos disponíveis:', data[0] ? Object.keys(data[0] as object) : [])
+          console.log('Campos disponíveis:', data[0] ? Object.keys(data[0] as Record<string, unknown>) : [])
 
           // Mostrar apenas as 5 primeiras linhas no preview
           const previewData = data.slice(0, 5)
 
-          setFiles(() => [{
+          setFiles([{
             name: file.name,
             size: file.size,
             type: file.type,
@@ -100,14 +100,6 @@ const Upload = () => {
     }
   }
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
-
   return (
     <Container>
       <Row className="mb-4">
@@ -130,77 +122,76 @@ const Upload = () => {
 
       <Row>
         <Col>
-          <Card>
+          <Card className="mb-4">
             <Card.Body>
               <div
                 {...getRootProps()}
                 className={`dropzone ${isDragActive ? 'active' : ''}`}
-                style={{
-                  border: '2px dashed #cccccc',
-                  borderRadius: '4px',
-                  padding: '20px',
-                  textAlign: 'center',
-                  cursor: 'pointer'
-                }}
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                  <p>Solte o arquivo aqui...</p>
+                  <p>Solte o arquivo aqui ...</p>
                 ) : (
-                  <p>Arraste e solte um arquivo aqui, ou clique para selecionar</p>
+                  <p>
+                    Arraste e solte um arquivo Excel aqui, ou clique para
+                    selecionar
+                  </p>
                 )}
               </div>
-
-              {files.length > 0 && (
-                <div className="mt-3">
-                  <h5>Arquivo selecionado:</h5>
-                  <ul>
-                    {files.map((file, index) => (
-                      <li key={index}>
-                        {file.name} - {formatFileSize(file.size)}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {preview.length > 0 && (
-                <div className="mt-3">
-                  <h5>Preview dos dados:</h5>
-                  <div className="table-responsive">
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          {Object.keys(preview[0]).map((key) => (
-                            <th key={key}>{key}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {preview.map((row, index) => (
-                          <tr key={index}>
-                            {Object.values(row).map((value: any, i) => (
-                              <td key={i}>{value?.toString()}</td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </div>
-
-                  <Button
-                    variant="primary"
-                    onClick={handleImportData}
-                    disabled={isImporting}
-                  >
-                    {isImporting ? 'Importando...' : 'Importar Dados'}
-                  </Button>
-                </div>
-              )}
             </Card.Body>
           </Card>
         </Col>
       </Row>
+
+      {files.length > 0 && preview.length > 0 && (
+        <>
+          <Row className="mb-3">
+            <Col>
+              <h3>Preview dos Dados</h3>
+              <p className="text-muted">
+                Mostrando as primeiras 5 linhas do arquivo
+              </p>
+            </Col>
+          </Row>
+
+          <Row className="mb-4">
+            <Col>
+              <div className="table-responsive">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      {Object.keys(preview[0]).map((header) => (
+                        <th key={header}>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {preview.map((row, index) => (
+                      <tr key={index}>
+                        {Object.values(row).map((value: any, i) => (
+                          <td key={i}>{value}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col className="text-center">
+              <Button
+                variant="primary"
+                onClick={handleImportData}
+                disabled={isImporting}
+              >
+                {isImporting ? 'Importando...' : 'Importar Dados'}
+              </Button>
+            </Col>
+          </Row>
+        </>
+      )}
     </Container>
   )
 }

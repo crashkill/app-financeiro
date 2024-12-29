@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card, Form } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import { db } from '../db/database'
 import type { Transacao } from '../db/database'
 import { ProjectCharts } from '../components/ProjectCharts'
+import FilterPanel from '../components/FilterPanel'
 
 const Dashboard = () => {
   const [allTransactions, setAllTransactions] = useState<Transacao[]>([])
@@ -75,23 +76,6 @@ const Dashboard = () => {
     setTotais(totaisCalculados)
   }, [filteredTransactions])
 
-  // Handler para mudança na seleção de projetos
-  const handleProjectSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const options = event.target.options
-    const selected: string[] = []
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selected.push(options[i].value)
-      }
-    }
-    setSelectedProjects(selected)
-  }
-
-  // Handler para mudança na seleção do ano
-  const handleYearSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedYear(parseInt(event.target.value))
-  }
-
   return (
     <Container>
       <Row className="mb-4">
@@ -100,53 +84,14 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      <Row className="mb-4">
-        <Col md={9}>
-          <Card className="shadow">
-            <Card.Body>
-              <Form.Group>
-                <Form.Label><strong>Filtrar Projetos</strong></Form.Label>
-                <Form.Select 
-                  multiple 
-                  size={5}
-                  onChange={handleProjectSelection}
-                  value={selectedProjects}
-                  className="form-control"
-                >
-                  {projects.map((project) => (
-                    <option key={project} value={project}>
-                      {project}
-                    </option>
-                  ))}
-                </Form.Select>
-                <Form.Text className="text-muted">
-                  Segure Ctrl para selecionar múltiplos projetos. Nenhuma seleção mostra todos os projetos.
-                </Form.Text>
-              </Form.Group>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3}>
-          <Card className="shadow h-100">
-            <Card.Body>
-              <Form.Group>
-                <Form.Label><strong>Filtrar Ano</strong></Form.Label>
-                <Form.Select
-                  onChange={handleYearSelection}
-                  value={selectedYear}
-                  className="form-control"
-                >
-                  {years.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      <FilterPanel
+        projects={projects}
+        selectedProjects={selectedProjects}
+        years={years}
+        selectedYear={selectedYear}
+        onProjectChange={setSelectedProjects}
+        onYearChange={setSelectedYear}
+      />
 
       <Row>
         <Col md={6} className="mb-4">

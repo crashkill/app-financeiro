@@ -1,49 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Card } from 'react-bootstrap';
+import { Card, Col, Form, Row } from 'react-bootstrap';
 import { db } from '../db/database';
+
+export interface Filters {
+  projects: string[];
+  year: number;
+}
 
 interface ForecastFiltersProps {
   onFilterChange: (filters: Filters) => void;
-  initialFilters?: Filters;
-}
-
-export interface Filters {
-  projects?: string[];
-  year?: number;
+  initialFilters: Filters;
 }
 
 const ForecastFilters: React.FC<ForecastFiltersProps> = ({ onFilterChange, initialFilters }) => {
-  const [projects, setProjects] = useState<string[]>([]);
-  const [selectedProjects, setSelectedProjects] = useState<string[]>(initialFilters?.projects || []);
-  const [years, setYears] = useState<number[]>([]);
-  const [selectedYear, setSelectedYear] = useState<number>(initialFilters?.year || new Date().getFullYear());
+  const [availableProjects, setAvailableProjects] = useState<string[]>([]);
+  const [selectedProjects, setSelectedProjects] = useState<string[]>(initialFilters.projects);
+  const [selectedYear, setSelectedYear] = useState(initialFilters.year);
 
+  // Carrega projetos disponíveis ao montar o componente
   useEffect(() => {
-    const carregarDados = async () => {
+    const loadProjects = async () => {
       try {
         const transacoes = await db.transacoes.toArray();
+        const projetos = [...new Set(transacoes.map(t => t.descricao))];
+        setAvailableProjects(projetos.sort());
         
-        // Extrair lista única de projetos
-        const uniqueProjects = Array.from(new Set(transacoes.map(t => t.descricao || 'Sem Projeto')));
-        setProjects(uniqueProjects);
-
-        // Extrair lista única de anos
-        const uniqueYears = Array.from(new Set(transacoes.map(t => {
-          const [, ano] = (t.periodo || '').split('/');
-          return parseInt(ano);
-        }))).filter(year => !isNaN(year)).sort((a, b) => b - a);
-
-        setYears(uniqueYears);
+        // Se não houver projetos selecionados, seleciona todos
+        if (selectedProjects.length === 0) {
+          setSelectedProjects(projetos);
+          onFilterChange({
+            ...initialFilters,
+            projects: projetos
+          });
+        }
       } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('Erro ao carregar projetos:', error);
       }
     };
 
-    carregarDados();
+    loadProjects();
   }, []);
 
-  // Handler para mudança na seleção de projetos
-  const handleProjectSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const options = event.target.options;
     const selected: string[] = [];
     for (let i = 0; i < options.length; i++) {
@@ -58,8 +56,7 @@ const ForecastFilters: React.FC<ForecastFiltersProps> = ({ onFilterChange, initi
     });
   };
 
-  // Handler para mudança na seleção do ano
-  const handleYearSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const year = parseInt(event.target.value);
     setSelectedYear(year);
     onFilterChange({
@@ -68,51 +65,56 @@ const ForecastFilters: React.FC<ForecastFiltersProps> = ({ onFilterChange, initi
     });
   };
 
+  // Gera anos para seleção (ano atual - 2 até ano atual + 1)
+  const years = () => {
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: 4 }, (_, i) => currentYear - 2 + i);
+  };
+
   return (
-    <Card className="shadow-sm mb-4">
-      <Card.Header className="bg-primary text-white">
-        <h5 className="mb-0">Filtros</h5>
-      </Card.Header>
-      <Card.Body>
-        <Row className="g-3">
-          <Col md={6}>
+    <Row className="g-3 mb-4">
+      <Col md={8}>
+        <Card>
+          <Card.Body>
             <Form.Group>
               <Form.Label>Projetos</Form.Label>
               <Form.Select 
                 multiple 
                 value={selectedProjects}
-                onChange={handleProjectSelection}
-                className="form-select"
-                style={{ height: '200px' }}
+                onChange={handleProjectChange}
+                style={{ height: '100px' }}
               >
-                {projects.map((project) => (
+                {availableProjects.map(project => (
                   <option key={project} value={project}>
                     {project}
                   </option>
                 ))}
               </Form.Select>
             </Form.Group>
-          </Col>
-
-          <Col md={6}>
+          </Card.Body>
+        </Card>
+      </Col>
+      
+      <Col md={4}>
+        <Card>
+          <Card.Body>
             <Form.Group>
               <Form.Label>Ano</Form.Label>
               <Form.Select
                 value={selectedYear}
-                onChange={handleYearSelection}
-                className="form-select"
+                onChange={handleYearChange}
               >
-                {years.map((year) => (
+                {years().map(year => (
                   <option key={year} value={year}>
                     {year}
                   </option>
                 ))}
               </Form.Select>
             </Form.Group>
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
