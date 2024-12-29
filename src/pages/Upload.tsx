@@ -38,12 +38,12 @@ const Upload = () => {
 
           // Log para debug
           console.log('Primeira linha do Excel:', data[0])
-          console.log('Campos disponíveis:', Object.keys(data[0]))
+          console.log('Campos disponíveis:', data[0] ? Object.keys(data[0] as object) : [])
 
           // Mostrar apenas as 5 primeiras linhas no preview
           const previewData = data.slice(0, 5)
 
-          setFiles(prev => [{
+          setFiles(() => [{
             name: file.name,
             size: file.size,
             type: file.type,

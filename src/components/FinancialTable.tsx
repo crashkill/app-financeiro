@@ -16,7 +16,7 @@ const FinancialTable: React.FC<FinancialTableProps> = React.memo(({ data }) => {
   );
 
   const calculations = useMemo(() => {
-    const cachedCalculations = cacheService.getCalculations(data, months);
+    const cachedCalculations = cacheService.getCalculations(months);
     if (cachedCalculations) {
       return cachedCalculations;
     }
@@ -52,7 +52,7 @@ const FinancialTable: React.FC<FinancialTableProps> = React.memo(({ data }) => {
       };
     });
 
-    cacheService.setCalculations(data, months, result);
+    cacheService.setCalculations(months, result);
     return result;
   }, [data, months]);
 

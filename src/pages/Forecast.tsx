@@ -1,184 +1,172 @@
-import { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button } from 'react-bootstrap'
-import * as XLSX from 'xlsx'
-import '../styles/Forecast.css'
-
-interface ForecastData {
-  mercado: string
-  receita: number
-  custoTotal: number
-  margemBruta: number
-  margemPercentual: number
-  hrRealizado: number
-  mes: string
-}
+import { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { db } from '../db/database';
+import type { Transacao } from '../db/database';
+import ForecastFilters, { Filters } from '../components/ForecastFilters';
+import ForecastTable from '../components/ForecastTable';
+import '../styles/Forecast.css';
 
 const Forecast = () => {
-  const [data, setData] = useState<ForecastData[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [data, setData] = useState<Transacao[]>([]);
+  const [filteredData, setFilteredData] = useState<Transacao[]>([]);
+  const [filters, setFilters] = useState<Filters>({
+    year: new Date().getFullYear()
+  });
 
+  // Carregar dados iniciais
   useEffect(() => {
-    const loadForecastData = async () => {
+    const loadInitialData = async () => {
       try {
-        const filePath = 'modelos/forecast.xlsx'
-        const response = await fetch(filePath)
-        const arrayBuffer = await response.arrayBuffer()
-        const workbook = XLSX.read(arrayBuffer)
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-        const jsonData = XLSX.utils.sheet_to_json(worksheet)
-        setData(jsonData as ForecastData[])
-        setLoading(false)
+        const transacoes = await db.transacoes.toArray();
+        
+        // Garantir que todos os registros tenham os campos necessários
+        const processedData = transacoes.map(t => ({
+          ...t,
+          projeto: t.projeto || t.descricao || 'Sem Projeto',
+          natureza: t.natureza || (t.tipo === 'receita' ? 'RECEITA' : 'CUSTO')
+        }));
+
+        setData(processedData);
+        applyFilters(processedData, filters);
       } catch (error) {
-        console.error('Erro ao carregar dados do forecast:', error)
-        setError('Erro ao carregar os dados. Por favor, verifique se o arquivo está no formato correto.')
-        setLoading(false)
+        console.error('Erro ao carregar dados:', error);
       }
+    };
+
+    loadInitialData();
+  }, []);
+
+  const applyFilters = (transactions: Transacao[], currentFilters: Filters) => {
+    let filtered = [...transactions];
+
+    // Filtrar por grupo (MERCADO/GRUPO)
+    if (currentFilters.group) {
+      filtered = filtered.filter(item => {
+        const projectName = item.projeto || item.descricao || '';
+        const isMarket = projectName.includes('MKT') || projectName.includes('MERCADO');
+        return currentFilters.group === 'MERCADO' ? isMarket : !isMarket;
+      });
     }
 
-    loadForecastData()
-  }, [])
+    // Filtrar por natureza (RECEITA/CUSTO)
+    if (currentFilters.natureza) {
+      filtered = filtered.filter(item => {
+        const natureza = item.natureza || (item.tipo === 'receita' ? 'RECEITA' : 'CUSTO');
+        return natureza === currentFilters.natureza;
+      });
+    }
 
-  const handleCellChange = (rowIndex: number, field: keyof ForecastData, value: string) => {
-    const newData = [...data]
-    const numericValue = field === 'mercado' || field === 'mes' ? value : Number(value)
-    newData[rowIndex] = { ...newData[rowIndex], [field]: numericValue }
-    setData(newData)
-  }
+    // Filtrar por projetos específicos
+    if (currentFilters.projects && currentFilters.projects.length > 0) {
+      filtered = filtered.filter(item => {
+        const projectName = item.projeto || item.descricao || '';
+        return currentFilters.projects?.includes(projectName);
+      });
+    }
 
-  const handleSave = () => {
-    // Criar novo workbook
-    const wb = XLSX.utils.book_new()
-    const ws = XLSX.utils.json_to_sheet(data)
-    XLSX.utils.book_append_sheet(wb, ws, 'Forecast')
-    XLSX.writeFile(wb, 'forecast_atualizado.xlsx')
-  }
+    // Filtrar por ano
+    if (currentFilters.year) {
+      filtered = filtered.filter(item => {
+        const [, ano] = (item.periodo || '').split('/');
+        return parseInt(ano) === currentFilters.year;
+      });
+    }
 
-  if (loading) {
-    return (
-      <Container fluid className="py-4">
-        <Card>
-          <Card.Body>
-            <p>Carregando dados...</p>
-          </Card.Body>
-        </Card>
-      </Container>
-    )
-  }
+    setFilteredData(filtered);
+  };
 
-  if (error) {
-    return (
-      <Container fluid className="py-4">
-        <Card>
-          <Card.Body className="text-danger">
-            <p>{error}</p>
-          </Card.Body>
-        </Card>
-      </Container>
-    )
-  }
+  const handleFilterChange = (newFilters: Filters) => {
+    setFilters(newFilters);
+    applyFilters(data, newFilters);
+  };
+
+  const handleCellChange = async (rowIndex: number, field: string, value: string) => {
+    const newData = [...filteredData];
+    const numericValue = field === 'valor' ? parseFloat(value) || 0 : value;
+    newData[rowIndex] = { ...newData[rowIndex], [field]: numericValue };
+    setFilteredData(newData);
+    
+    // Atualizar também o conjunto de dados original
+    const originalIndex = data.findIndex(item => 
+      (item.projeto === filteredData[rowIndex].projeto || 
+       item.descricao === filteredData[rowIndex].descricao) && 
+      item.periodo === filteredData[rowIndex].periodo
+    );
+
+    if (originalIndex !== -1) {
+      const newOriginalData = [...data];
+      const updatedItem = { 
+        ...newOriginalData[originalIndex], 
+        [field]: numericValue 
+      };
+      newOriginalData[originalIndex] = updatedItem;
+      setData(newOriginalData);
+
+      // Atualizar no banco de dados
+      try {
+        if (updatedItem.id) {
+          await db.transacoes.update(updatedItem.id, { [field]: numericValue });
+        } else {
+          console.error('Erro: Item sem ID não pode ser atualizado');
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar transação:', error);
+      }
+    }
+  };
+
+  // Agrupar dados por tipo
+  const receitaData = filteredData.filter(item => 
+    item.natureza === 'RECEITA' || item.tipo === 'receita'
+  );
+  const custoData = filteredData.filter(item => 
+    item.natureza === 'CUSTO' || item.tipo === 'despesa'
+  );
 
   return (
     <Container fluid className="py-4">
       <Row className="mb-4">
         <Col>
-          <h1 className="mb-2">Forecast</h1>
-          <p className="text-muted">Previsão de receitas e custos</p>
-        </Col>
-        <Col xs="auto">
-          <Button 
-            variant="primary" 
-            onClick={handleSave}
-            style={{ backgroundColor: '#4CAF50', border: 'none' }}
-          >
-            Salvar Alterações
-          </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <div className="forecast-table-wrapper">
-            <table className="forecast-table">
-              <thead>
-                <tr>
-                  <th>Mercado</th>
-                  <th>Mês</th>
-                  <th>Receita</th>
-                  <th>Custo Total</th>
-                  <th>Margem Bruta</th>
-                  <th>Margem %</th>
-                  <th>HR Realizado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.mercado || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'mercado', e.target.value)}
-                        className="cell-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        value={row.mes || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'mes', e.target.value)}
-                        className="cell-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={row.receita || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'receita', e.target.value)}
-                        className="cell-input number-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={row.custoTotal || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'custoTotal', e.target.value)}
-                        className="cell-input number-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={row.margemBruta || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'margemBruta', e.target.value)}
-                        className="cell-input number-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={row.margemPercentual || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'margemPercentual', e.target.value)}
-                        className="cell-input number-input"
-                        step="0.01"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        value={row.hrRealizado || ''}
-                        onChange={(e) => handleCellChange(rowIndex, 'hrRealizado', e.target.value)}
-                        className="cell-input number-input"
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mb-4">
+            <h1 className="mb-2">Forecast</h1>
+            <p className="text-muted">Previsão de receitas e custos</p>
           </div>
+
+          <ForecastFilters 
+            onFilterChange={handleFilterChange} 
+            initialFilters={filters}
+          />
         </Col>
       </Row>
-    </Container>
-  )
-}
 
-export default Forecast
+      {receitaData.length > 0 && (
+        <ForecastTable
+          data={receitaData}
+          tipo="Receitas"
+          onCellChange={handleCellChange}
+        />
+      )}
+
+      {custoData.length > 0 && (
+        <ForecastTable
+          data={custoData}
+          tipo="Custos"
+          onCellChange={handleCellChange}
+        />
+      )}
+
+      {filteredData.length === 0 && (
+        <Row>
+          <Col>
+            <div className="text-center text-muted py-5">
+              <h4>Nenhum dado encontrado</h4>
+              <p>Tente ajustar os filtros para ver mais resultados</p>
+            </div>
+          </Col>
+        </Row>
+      )}
+    </Container>
+  );
+};
+
+export default Forecast;
