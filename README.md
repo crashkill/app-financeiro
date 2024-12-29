@@ -68,6 +68,14 @@ O sistema utiliza dados de:
 
 ## Atualizações Recentes
 
+### 29/12/2023
+- Melhorada visualização do gráfico:
+  - Simplificada interface removendo linhas de margem
+  - Ajustadas cores das barras para tons mais suaves
+  - Adicionados valores dentro das barras em branco
+  - Rotação vertical dos valores para melhor legibilidade
+- Corrigido bug de duplicação de dados na importação
+
 ### 26/12/2023
 - Adicionado gráfico de barras empilhadas com linha de margem
 - Implementado filtro de ano
