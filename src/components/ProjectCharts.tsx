@@ -8,7 +8,8 @@ import {
   Tooltip,
   Legend,
   LineElement,
-  PointElement
+  PointElement,
+  BarController
 } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { Chart } from 'react-chartjs-2'
@@ -18,6 +19,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  BarController,
   LineElement,
   PointElement,
   Title,
