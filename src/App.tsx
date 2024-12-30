@@ -5,8 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Receitas from './pages/Receitas'
 import Despesas from './pages/Despesas'
 import Upload from './pages/Upload'
-import Relatorios from './pages/Relatorios'
-import Configuracoes from './pages/Configuracoes'
+import Config from './pages/Config'
 import Forecast from './pages/Forecast'
 import Layout from './components/Layout'
 
@@ -66,31 +65,14 @@ function App() {
         }
       />
       <Route
-        path="/relatorios"
+        path="/config"
         element={
           <PrivateRoute>
-            <Relatorios />
+            <Config />
           </PrivateRoute>
         }
       />
-      <Route
-        path="/configuracoes"
-        element={
-          <PrivateRoute>
-            <Configuracoes />
-          </PrivateRoute>
-        }
-      />
-      {/* Redireciona / para /dashboard */}
-      <Route
-        path="/"
-        element={<Navigate to="/dashboard" replace />}
-      />
-      {/* Redireciona qualquer outra rota para /dashboard */}
-      <Route
-        path="*"
-        element={<Navigate to="/dashboard" replace />}
-      />
+      <Route path="/" element={<Navigate to="/dashboard" />} />
     </Routes>
   )
 }
