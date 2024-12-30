@@ -2,8 +2,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import Receitas from './pages/Receitas'
-import Despesas from './pages/Despesas'
 import Upload from './pages/Upload'
 import Config from './pages/Config'
 import Forecast from './pages/Forecast'
@@ -33,22 +31,6 @@ function App() {
         }
       />
       <Route
-        path="/receitas"
-        element={
-          <PrivateRoute>
-            <Receitas />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/despesas"
-        element={
-          <PrivateRoute>
-            <Despesas />
-          </PrivateRoute>
-        }
-      />
-      <Route
         path="/forecast"
         element={
           <PrivateRoute>
@@ -72,7 +54,8 @@ function App() {
           </PrivateRoute>
         }
       />
-      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   )
 }

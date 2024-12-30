@@ -4,8 +4,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { Squash as Hamburger } from 'hamburger-react'
 import {
   UilAnalytics,
-  UilMoneyInsert,
-  UilMoneyWithdraw,
   UilChartGrowth,
   UilCloudUpload,
   UilSetting
@@ -103,50 +101,6 @@ const Sidebar = () => {
                 isActive={isActive('/dashboard')}
               />
               <span className={textClass}>Dashboard</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/receitas"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/receitas') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<UilMoneyInsert />}
-                color="#4caf50"
-                isActive={isActive('/receitas')}
-              />
-              <span className={textClass}>Receitas</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/despesas"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/despesas') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<UilMoneyWithdraw />}
-                color="#f44336"
-                isActive={isActive('/despesas')}
-              />
-              <span className={textClass}>Despesas</span>
             </Link>
           </Nav.Item>
           <Nav.Item>
