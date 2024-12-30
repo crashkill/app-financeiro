@@ -152,7 +152,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
         padding: 20,
       },
       legend: {
-        position: 'bottom' as const,
+        position: 'top' as const,
       },
       tooltip: {
         mode: 'index' as const,
@@ -162,10 +162,19 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     scales: {
       x: {
         stacked: true,
+        grid: {
+          display: false
+        }
       },
       y: {
         stacked: true,
-      },
+        grid: {
+          display: false
+        },
+        ticks: {
+          callback: (value: any) => `R$ ${value}`
+        }
+      }
     },
   };
 
