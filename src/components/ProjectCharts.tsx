@@ -133,8 +133,8 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     plugins: {
       datalabels: {
         display: true,
-        align: 'center',
-        anchor: 'center',
+        align: 'center' as const,
+        anchor: 'center' as const,
         rotation: 270,
         formatter: (value: number) => formatCurrency(value),
         color: '#fff',
@@ -174,6 +174,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     datasets: datasets.map(ds => ({
       ...ds,
       datalabels: {
+        display: true,
         align: 'center' as const,
         anchor: 'center' as const,
         rotation: 270,
