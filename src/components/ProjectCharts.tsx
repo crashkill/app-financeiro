@@ -79,8 +79,9 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
-    }).format(value)
+      currency: 'BRL',
+      signDisplay: 'never'
+    }).format(Math.abs(value))
   }
 
   // Formatar valor em milhões
@@ -129,11 +130,19 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     },
     plugins: {
       datalabels: {
-        display: false,
+        display: true,
+        align: 'center',
+        anchor: 'center',
+        rotation: 270,
+        formatter: (value: number) => formatCurrency(value),
+        color: '#fff',
+        font: {
+          weight: 'bold' as const,
+        },
       },
       title: {
         display: true,
-        text: 'Análise Financeira por Projeto',
+        text: 'Análise Financeira por Mês',
         font: {
           size: 16,
           weight: 'bold' as const,
@@ -165,7 +174,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       datalabels: {
         align: 'center' as const,
         anchor: 'center' as const,
-        rotation: 0,
+        rotation: 270,
         formatter: (value: number) => formatCurrency(value),
         color: '#fff',
         font: {
