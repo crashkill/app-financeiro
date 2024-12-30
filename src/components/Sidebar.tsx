@@ -1,9 +1,39 @@
 import { useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
-import { FaChartLine, FaMoneyBillWave, FaChartBar, FaUpload, FaCog, FaBars, FaTimes } from 'react-icons/fa'
-import { RiMoneyDollarCircleLine } from 'react-icons/ri'
+import { Squash as Hamburger } from 'hamburger-react'
+import {
+  UilAnalytics,
+  UilMoneyInsert,
+  UilMoneyWithdraw,
+  UilChartGrowth,
+  UilCloudUpload,
+  UilSetting
+} from '@iconscout/react-unicons'
 import { useConfig } from '../contexts/ConfigContext'
+
+interface MenuIconProps {
+  icon: React.ReactNode
+  color: string
+  isActive?: boolean
+  size?: number
+}
+
+const MenuIcon: React.FC<MenuIconProps> = ({ icon, color, isActive, size = 24 }) => {
+  return (
+    <div 
+      style={{ 
+        color: isActive ? '#0d6efd' : color,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'color 0.3s ease'
+      }}
+    >
+      {icon}
+    </div>
+  )
+}
 
 const Sidebar = () => {
   const location = useLocation()
@@ -14,11 +44,7 @@ const Sidebar = () => {
     return location.pathname === path
   }
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const sidebarWidth = isOpen ? '250px' : '60px'
+  const sidebarWidth = isOpen ? '250px' : '80px'
   const menuItemClass = isOpen ? 'd-flex align-items-center' : 'd-flex justify-content-center'
   const textClass = isOpen ? 'ms-2' : 'd-none'
 
@@ -29,19 +55,32 @@ const Sidebar = () => {
         width: sidebarWidth, 
         minHeight: '100vh', 
         position: 'fixed',
-        transition: 'width 0.3s ease'
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        overflow: 'hidden'
       }}
     >
       <div className="p-3">
         <div className="d-flex align-items-center justify-content-between mb-4">
           {isOpen && <h5 className="mb-0 text-dark">Menu</h5>}
-          <button 
-            className="btn btn-link text-dark p-0" 
-            onClick={toggleSidebar}
-            style={{ fontSize: '1.2rem' }}
-          >
-            {isOpen ? <FaTimes /> : <FaBars />}
-          </button>
+          <div style={{ 
+            color: '#6c757d',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '32px',
+            height: '32px'
+          }}>
+            <Hamburger 
+              toggled={isOpen} 
+              toggle={setIsOpen}
+              size={22}
+              duration={0.5}
+              easing="ease-in-out"
+              distance="lg"
+              color="currentColor"
+              rounded
+            />
+          </div>
         </div>
         <Nav className="flex-column">
           <Nav.Item>
@@ -52,8 +91,17 @@ const Sidebar = () => {
                   ? 'active bg-primary bg-opacity-10 text-primary' 
                   : 'text-dark'
               }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <FaChartLine />
+              <MenuIcon 
+                icon={<UilAnalytics />}
+                color="#2196f3"
+                isActive={isActive('/dashboard')}
+              />
               <span className={textClass}>Dashboard</span>
             </Link>
           </Nav.Item>
@@ -65,8 +113,17 @@ const Sidebar = () => {
                   ? 'active bg-primary bg-opacity-10 text-primary' 
                   : 'text-dark'
               }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <RiMoneyDollarCircleLine />
+              <MenuIcon 
+                icon={<UilMoneyInsert />}
+                color="#4caf50"
+                isActive={isActive('/receitas')}
+              />
               <span className={textClass}>Receitas</span>
             </Link>
           </Nav.Item>
@@ -78,8 +135,17 @@ const Sidebar = () => {
                   ? 'active bg-primary bg-opacity-10 text-primary' 
                   : 'text-dark'
               }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <FaMoneyBillWave />
+              <MenuIcon 
+                icon={<UilMoneyWithdraw />}
+                color="#f44336"
+                isActive={isActive('/despesas')}
+              />
               <span className={textClass}>Despesas</span>
             </Link>
           </Nav.Item>
@@ -91,8 +157,17 @@ const Sidebar = () => {
                   ? 'active bg-primary bg-opacity-10 text-primary' 
                   : 'text-dark'
               }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <FaChartBar />
+              <MenuIcon 
+                icon={<UilChartGrowth />}
+                color="#9c27b0"
+                isActive={isActive('/forecast')}
+              />
               <span className={textClass}>Forecast</span>
             </Link>
           </Nav.Item>
@@ -104,8 +179,17 @@ const Sidebar = () => {
                   ? 'active bg-primary bg-opacity-10 text-primary' 
                   : 'text-dark'
               }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <FaUpload />
+              <MenuIcon 
+                icon={<UilCloudUpload />}
+                color="#ff9800"
+                isActive={isActive('/upload')}
+              />
               <span className={textClass}>Upload</span>
             </Link>
           </Nav.Item>
@@ -117,8 +201,17 @@ const Sidebar = () => {
                   ? 'active bg-primary bg-opacity-10 text-primary' 
                   : 'text-dark'
               }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <FaCog />
+              <MenuIcon 
+                icon={<UilSetting />}
+                color="#607d8b"
+                isActive={isActive('/config')}
+              />
               <span className={textClass}>Configurações</span>
             </Link>
           </Nav.Item>
