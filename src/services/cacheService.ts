@@ -1,11 +1,6 @@
 import { LRUCache } from 'lru-cache';
 import { FinancialData } from './storageService';
 
-interface CacheOptions {
-  max: number;
-  ttl: number;
-}
-
 class CacheService {
   private static instance: CacheService;
   private cache: LRUCache<string, any>;
@@ -52,6 +47,14 @@ class CacheService {
   ): void {
     const cacheKey = `filtered_data_${project}_${period.join('_')}`;
     this.set(cacheKey, data);
+  }
+
+  public getCalculations(key: string): any {
+    return this.get(`calculations_${key}`);
+  }
+
+  public setCalculations(key: string, value: any): void {
+    this.set(`calculations_${key}`, value);
   }
 }
 

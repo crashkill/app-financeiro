@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ForecastTable from '../components/ForecastTable';
+import FilterPanel from '../components/FilterPanel';
 import { db } from '../db/database';
 import type { Transacao } from '../db/database';
-import FilterPanel from '../components/FilterPanel';
-
-interface ForecastData {
-  projeto: string;
-  dados: {
-    [mes: string]: {
-      receita: number;
-      custoTotal: number;
-      margemBruta: number;
-      margemPercentual: number;
-    };
-  };
-  totais: {
-    receita: number;
-    custoTotal: number;
-    margemBruta: number;
-    margemPercentual: number;
-  };
-}
+import { ForecastData } from '../types/forecast';
 
 const Forecast: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);

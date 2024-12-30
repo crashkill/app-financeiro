@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   Select,
   SelectContent,
@@ -10,12 +10,16 @@ import { Label } from './ui/label';
 import { storageService } from '../services/storageService';
 
 interface FinancialFiltersProps {
+  filters: {
+    project: string;
+    period: string[];
+  };
   onFilterChange: (filters: { project: string; period: string[] }) => void;
 }
 
-export const FinancialFilters = React.memo(({ onFilterChange }: FinancialFiltersProps) => {
-  const [selectedProject, setSelectedProject] = useState<string>('all');
-  const [selectedPeriod, setSelectedPeriod] = useState<string[]>([]);
+export const FinancialFilters = React.memo(({ filters, onFilterChange }: FinancialFiltersProps) => {
+  const [selectedProject, setSelectedProject] = useState<string>(filters.project);
+  const [selectedPeriod, setSelectedPeriod] = useState<string[]>(filters.period);
 
   const projects = useMemo(() => {
     const financialData = storageService.getFinancialData();

@@ -26,3 +26,6 @@ dist-ssr
 # Arquivos de modelo
 /modelos/
 *.xlsx
+
+# Local Netlify folder
+.netlify

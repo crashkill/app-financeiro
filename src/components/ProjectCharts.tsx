@@ -99,49 +99,26 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     return new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(data)
   }
 
-  const chartData = {
-    labels: Array.from(monthlyData.keys()).map(formatMonth),
-    datasets: [
-      {
-        label: 'Custo',
-        data: Array.from(monthlyData.values()).map(d => d.custo),
-        backgroundColor: 'rgba(255, 99, 132, 0.7)', // Rosa suave
-        stack: 'Stack 0',
-        type: 'bar' as const,
-        order: 2,
-        datalabels: {
-          align: 'center',
-          anchor: 'center',
-          rotation: -90,
-          formatter: (value: number) => formatCurrency(Math.abs(value)),
-          color: 'rgba(255, 255, 255, 0.9)', // Branco suave
-          font: {
-            weight: 'bold',
-            size: 11
-          }
-        }
-      },
-      {
-        label: 'Receita',
-        data: Array.from(monthlyData.values()).map(d => d.receita),
-        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Verde água suave
-        stack: 'Stack 0',
-        type: 'bar' as const,
-        order: 3,
-        datalabels: {
-          align: 'center',
-          anchor: 'center',
-          rotation: -90,
-          formatter: (value: number) => formatCurrency(value),
-          color: 'rgba(255, 255, 255, 0.9)', // Branco suave
-          font: {
-            weight: 'bold',
-            size: 11
-          }
-        }
-      }
-    ]
-  }
+  const labels = Array.from(monthlyData.keys()).map(formatMonth)
+
+  const datasets = [
+    {
+      label: 'Custo',
+      data: Array.from(monthlyData.values()).map(d => d.custo),
+      backgroundColor: 'rgba(255, 99, 132, 0.7)', // Rosa suave
+      stack: 'Stack 0',
+      type: 'bar' as const,
+      order: 2,
+    },
+    {
+      label: 'Receita',
+      data: Array.from(monthlyData.values()).map(d => d.receita),
+      backgroundColor: 'rgba(75, 192, 192, 0.7)', // Verde água suave
+      stack: 'Stack 0',
+      type: 'bar' as const,
+      order: 3,
+    }
+  ]
 
   const options = {
     responsive: true,
@@ -152,65 +129,51 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     },
     plugins: {
       datalabels: {
-        display: true
+        display: false,
       },
       title: {
         display: true,
-        text: 'Receita e Custo por Mês',
+        text: 'Análise Financeira por Projeto',
         font: {
           size: 16,
-          weight: 'bold'
+          weight: 'bold' as const,
         },
-        padding: 20
+        padding: 20,
       },
       legend: {
-        position: 'top' as const,
-        labels: {
-          font: {
-            size: 12
-          },
-          usePointStyle: true
-        }
+        position: 'bottom' as const,
       },
       tooltip: {
-        callbacks: {
-          label: function(context: any) {
-            const value = context.raw
-            const label = context.dataset.label
-            const dataIndex = context.dataIndex
-            const data = Array.from(monthlyData.values())[dataIndex]
-            
-            if (label === 'Receita') {
-              return `${label}: ${formatCurrency(value)}`
-            } else {
-              return [
-                `${label}: ${formatCurrency(Math.abs(value))}`,
-                `Margem: ${formatPercent(data.margem)}`
-              ]
-            }
-          }
-        }
-      }
+        mode: 'index' as const,
+        intersect: false,
+      },
     },
     scales: {
       x: {
         stacked: true,
-        grid: {
-          display: false
-        }
       },
       y: {
         stacked: true,
-        beginAtZero: true,
-        position: 'left',
-        ticks: {
-          callback: function(value: any) {
-            return formatCurrency(Math.abs(value))
-          }
-        }
-      }
-    }
-  }
+      },
+    },
+  };
+
+  const chartData = {
+    labels,
+    datasets: datasets.map(ds => ({
+      ...ds,
+      datalabels: {
+        align: 'center' as const,
+        anchor: 'center' as const,
+        rotation: 0,
+        formatter: (value: number) => formatCurrency(value),
+        color: '#fff',
+        font: {
+          weight: 'bold' as const,
+        },
+      },
+    })),
+  };
 
   return (
     <div style={{ height: '600px', width: '100%' }}>

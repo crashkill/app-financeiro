@@ -44,7 +44,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <Form.Label><strong>Filtrar Projetos</strong></Form.Label>
               <Form.Select 
                 multiple 
-                size={5}
+                size={5 as any}
                 onChange={handleProjectSelection}
                 value={selectedProjects}
                 className="form-control"

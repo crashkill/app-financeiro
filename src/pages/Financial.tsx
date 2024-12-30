@@ -4,10 +4,15 @@ import FinancialTable from '../components/FinancialTable';
 import { FinancialFilters } from '../components/FinancialFilters';
 import { storageService, FinancialData } from '../services/storageService';
 
+interface Filters {
+  project: string;
+  period: string[];
+}
+
 const Financial = () => {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     project: 'all',
-    period: [] as string[],
+    period: [],
   });
 
   const financialData = useMemo(() => storageService.getFinancialData(), []);
@@ -48,7 +53,7 @@ const Financial = () => {
     return filteredByProject;
   }, [financialData, filters]);
 
-  const handleFilterChange = useCallback((newFilters: typeof filters) => {
+  const handleFilterChange = useCallback((newFilters: Filters) => {
     setFilters(newFilters);
   }, []);
 

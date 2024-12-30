@@ -31,7 +31,7 @@ const Receitas = () => {
 
   const handleShow = (transacao?: Transacao) => {
     if (transacao) {
-      setEditingId(transacao.id)
+      setEditingId(transacao.id ?? null)
       setFormData({
         descricao: transacao.descricao,
         valor: transacao.valor.toString(),
@@ -45,16 +45,20 @@ const Receitas = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const transacao = {
-      tipo: 'receita' as const,
+    const valor = parseFloat(formData.valor)
+    const transacao: Omit<Transacao, 'id'> = {
+      tipo: 'receita',
+      natureza: 'RECEITA',
       descricao: formData.descricao,
-      valor: parseFloat(formData.valor),
+      valor: valor,
       data: formData.data,
       categoria: formData.categoria,
-      observacao: formData.observacao
+      observacao: formData.observacao,
+      lancamento: valor,
+      periodo: new Date(formData.data).toLocaleDateString('pt-BR', { month: 'numeric', year: 'numeric' })
     }
 
-    if (editingId) {
+    if (editingId !== null) {
       await editarTransacao(editingId, transacao)
     } else {
       await adicionarTransacao(transacao)
@@ -86,7 +90,7 @@ const Receitas = () => {
   }
 
   return (
-    <Container>
+    <Container fluid className="py-3">
       <Row className="mb-4">
         <Col>
           <h1>Receitas</h1>
