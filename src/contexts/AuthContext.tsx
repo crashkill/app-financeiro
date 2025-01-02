@@ -1,7 +1,14 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+interface User {
+  email: string;
+  name: string;
+  isAdmin: boolean;
+}
 
 interface AuthContextType {
-  user: any;
+  user: User | null;
+  isAdmin: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -9,11 +16,24 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Verificar se há um usuário no localStorage ao iniciar
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = async (email: string, password: string) => {
-    if (email === 'admin' && password === 'admin') {
-      const userData = { email, name: 'Administrador' };
+    // Aceita tanto 'admin' quanto 'Administrador'
+    if ((email === 'admin' || email === 'Administrador') && password === 'admin') {
+      const userData: User = { 
+        email, 
+        name: 'Administrador',
+        isAdmin: true
+      };
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
     } else {
@@ -27,7 +47,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      isAdmin: user?.isAdmin || false,
+      login, 
+      logout 
+    }}>
       {children}
     </AuthContext.Provider>
   );

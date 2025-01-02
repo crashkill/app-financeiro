@@ -36,18 +36,19 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   };
 
   return (
-    <Row className="mb-4">
+    <Row className="mb-4 g-3">
       <Col md={9}>
-        <Card className="shadow">
+        <Card className="shadow h-100">
           <Card.Body>
             <Form.Group>
               <Form.Label><strong>Filtrar Projetos</strong></Form.Label>
               <Form.Select 
                 multiple 
-                size={5 as any}
+                size={6}
                 onChange={handleProjectSelection}
                 value={selectedProjects}
                 className="form-control"
+                style={{ minHeight: '200px' }}
               >
                 {projects.map((project) => (
                   <option key={project} value={project}>

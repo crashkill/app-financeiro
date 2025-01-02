@@ -12,6 +12,8 @@ export interface Transacao {
   lancamento: number
   projeto?: string
   periodo: string // Formato: "M/YYYY"
+  denominacaoConta?: string
+  contaResumo?: string // Adicionado para identificar Desoneração da Folha
 }
 
 export class AppDatabase extends Dexie {
@@ -19,8 +21,8 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super('FinanceiroDB')
-    this.version(3).stores({
-      transacoes: '++id, tipo, natureza, descricao, valor, data, categoria, lancamento, projeto, periodo'
+    this.version(5).stores({
+      transacoes: '++id, tipo, natureza, descricao, valor, data, categoria, lancamento, projeto, periodo, denominacaoConta, contaResumo'
     })
   }
 }
@@ -50,6 +52,12 @@ const converterParaNumero = (valor: any): number => {
 // Função para importar dados
 export const importarDados = async (dados: any[]) => {
   try {
+    // Log dos campos disponíveis no primeiro registro
+    if (dados.length > 0) {
+      console.log('Campos disponíveis no Excel:', Object.keys(dados[0]));
+      console.log('Exemplo de registro completo:', dados[0]);
+    }
+
     // Filtrar apenas os registros "Realizado"
     const dadosFiltrados = dados.filter(item => {
       const isRealizado = item.Relatorio === 'Realizado'
@@ -57,13 +65,11 @@ export const importarDados = async (dados: any[]) => {
       return isRealizado && temLancamento
     })
 
-    console.log(`Total de registros: ${dados.length}, Registros Realizados válidos: ${dadosFiltrados.length}`)
-
-    // Agrupar por natureza para análise
-    const analise = {
-      RECEITA: { count: 0, total: 0, exemplos: [] as any[] },
-      CUSTO: { count: 0, total: 0, exemplos: [] as any[] }
-    }
+    // Log para verificar registros de desoneração
+    const registrosDesoneracao = dadosFiltrados.filter(item => 
+      String(item.ContaResumo || '').includes('Desoneração da Folha')
+    );
+    console.log('Registros com Desoneração (valores originais):', registrosDesoneracao);
 
     // Mapear os dados do Excel para o formato da transação
     const transacoes: Transacao[] = dadosFiltrados.map(item => {
@@ -73,44 +79,36 @@ export const importarDados = async (dados: any[]) => {
       // Converter o valor do lançamento para número
       const valorFinal = converterParaNumero(item.Lancamento)
 
-      // Análise por natureza
-      const grupo = analise[natureza]
-      grupo.count++
-      grupo.total += valorFinal
-      if (grupo.exemplos.length < 5) {
-        grupo.exemplos.push({
-          lancamentoOriginal: item.Lancamento,
-          valorProcessado: valorFinal,
-          projeto: item.Projeto,
-          cliente: item.Cliente,
-          periodo: item.Periodo
-        })
-      }
+      // Log detalhado de cada item
+      console.log('Processando item:', {
+        projeto: item.Projeto,
+        denominacaoConta: item.DenominacaoConta,
+        contaResumo: item.ContaResumo,
+        categoria: item.LinhaNegocio,
+        natureza,
+        valorOriginal: item.Lancamento,
+        valorConvertido: valorFinal
+      })
 
-      return {
+      const transacao: Transacao = {
         tipo: natureza === 'RECEITA' ? 'receita' : 'despesa',
         natureza,
         descricao: String(item.Projeto || ''),
-        valor: valorFinal,
+        valor: valorFinal, // Mantendo o valor original com sinal
         data: item.Periodo || new Date().toISOString().split('T')[0],
         categoria: String(item.LinhaNegocio || 'Outros'),
-        lancamento: valorFinal, // Mantém o sinal original
-        periodo: String(item.Periodo || '')
-      }
-    })
+        lancamento: valorFinal, // Mantendo o valor original com sinal
+        periodo: String(item.Periodo || ''),
+        denominacaoConta: String(item.DenominacaoConta || ''),
+        contaResumo: String(item.ContaResumo || '')
+      };
 
-    // Log de análise
-    console.log('Análise dos dados:', {
-      RECEITA: {
-        count: analise.RECEITA.count,
-        total: analise.RECEITA.total,
-        exemplos: analise.RECEITA.exemplos
-      },
-      CUSTO: {
-        count: analise.CUSTO.count,
-        total: analise.CUSTO.total,
-        exemplos: analise.CUSTO.exemplos
+      // Log da transação final
+      if (transacao.contaResumo.includes('Desoneração da Folha')) {
+        console.log('Transação de Desoneração (valor mantido com sinal):', transacao);
       }
+
+      return transacao;
     })
 
     // Limpar tabela existente

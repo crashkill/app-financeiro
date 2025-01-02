@@ -6,7 +6,9 @@ import {
   UilAnalytics,
   UilChartGrowth,
   UilCloudUpload,
-  UilSetting
+  UilSetting,
+  UilFileAlt,
+  UilBook
 } from '@iconscout/react-unicons'
 import { useConfig } from '../contexts/ConfigContext'
 
@@ -105,6 +107,28 @@ const Sidebar = () => {
           </Nav.Item>
           <Nav.Item>
             <Link
+              to="/planilhas"
+              className={`nav-link py-2 ${menuItemClass} ${
+                isActive('/planilhas') 
+                  ? 'active bg-primary bg-opacity-10 text-primary' 
+                  : 'text-dark'
+              }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <MenuIcon 
+                icon={<UilFileAlt />}
+                color="#4caf50"
+                isActive={isActive('/planilhas')}
+              />
+              <span className={textClass}>Planilhas Financeiras</span>
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link
               to="/forecast"
               className={`nav-link py-2 ${menuItemClass} ${
                 isActive('/forecast') 
@@ -145,6 +169,28 @@ const Sidebar = () => {
                 isActive={isActive('/upload')}
               />
               <span className={textClass}>Upload</span>
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link
+              to="/documentacao"
+              className={`nav-link py-2 ${menuItemClass} ${
+                isActive('/documentacao') 
+                  ? 'active bg-primary bg-opacity-10 text-primary' 
+                  : 'text-dark'
+              }`}
+              style={{
+                borderRadius: '8px',
+                margin: '2px 0',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <MenuIcon 
+                icon={<UilBook />}
+                color="#673ab7"
+                isActive={isActive('/documentacao')}
+              />
+              <span className={textClass}>Documentação</span>
             </Link>
           </Nav.Item>
           <Nav.Item>

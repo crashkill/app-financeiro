@@ -1,65 +1,80 @@
 const XLSX = require('xlsx');
+const path = require('path');
 
-// Ler o arquivo Excel
-const workbook = XLSX.readFile('Realatorio.xlsx');
-const sheet = workbook.Sheets[workbook.SheetNames[0]];
-const data = XLSX.utils.sheet_to_json(sheet);
+// Função para analisar o arquivo Excel
+function analisarDados() {
+    // Ler o arquivo Excel
+    const workbook = XLSX.readFile(path.join(__dirname, 'src/modelos/Relatorio.xlsx'));
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const dados = XLSX.utils.sheet_to_json(sheet);
 
-// Análise dos dados
-const analise = {
-    total: data.length,
-    realizados: 0,
-    natureza: {
-        RECEITA: { count: 0, total: 0 },
-        CUSTO: { count: 0, total: 0 }
-    },
-    periodos: new Set(),
-    exemplos: []
-};
+    // Filtrar apenas registros realizados
+    const dadosFiltrados = dados.filter(item => 
+        item.Relatorio === 'Realizado' && 
+        item.Lancamento != null && 
+        item.Lancamento !== ''
+    );
 
-// Processar cada linha
-data.forEach((row, index) => {
-    if (row.Relatorio === 'Realizado') {
-        analise.realizados++;
-        
-        const natureza = String(row.Natureza || '').toUpperCase();
-        if (natureza === 'RECEITA' || natureza === 'CUSTO') {
-            const valor = typeof row.Lancamento === 'number' ? row.Lancamento : 
-                         parseFloat(String(row.Lancamento).replace(/[^\d.-]/g, '')) || 0;
-            
-            analise.natureza[natureza].count++;
-            analise.natureza[natureza].total += Math.abs(valor);
+    // Analisar desoneração para NSPCLA1211
+    const desoneracao = dadosFiltrados.filter(item => 
+        item.Projeto?.includes('NSPCLA1211') && 
+        item.ContaResumo === 'Desoneração da Folha'
+    );
+
+    console.log('\n=== Análise de Desoneração para NSPCLA1211 ===');
+    desoneracao.forEach(item => {
+        console.log({
+            projeto: item.Projeto,
+            periodo: item.Periodo,
+            contaResumo: item.ContaResumo,
+            lancamento: item.Lancamento,
+            natureza: item.Natureza
+        });
+    });
+
+    // Agrupar por período
+    const porPeriodo = desoneracao.reduce((acc, item) => {
+        const periodo = item.Periodo;
+        if (!acc[periodo]) {
+            acc[periodo] = {
+                total: 0,
+                items: []
+            };
         }
+        acc[periodo].total += Number(item.Lancamento);
+        acc[periodo].items.push(item);
+        return acc;
+    }, {});
 
-        if (row.Periodo) {
-            analise.periodos.add(row.Periodo);
-        }
+    console.log('\n=== Totais por Período ===');
+    Object.entries(porPeriodo).forEach(([periodo, dados]) => {
+        console.log(`${periodo}:`, {
+            total: dados.total,
+            quantidade: dados.items.length,
+            items: dados.items.map(i => i.Lancamento)
+        });
+    });
 
-        // Guardar alguns exemplos
-        if (index < 5) {
-            analise.exemplos.push({
-                relatorio: row.Relatorio,
-                natureza: row.Natureza,
-                lancamento: row.Lancamento,
-                periodo: row.Periodo,
-                projeto: row.Projeto
-            });
-        }
-    }
-});
+    // Verificar agosto/2024 especificamente
+    const agosto2024 = dadosFiltrados.filter(item => 
+        item.Projeto?.includes('NSPCLA1211') && 
+        item.Periodo === '8/2024'
+    );
 
-// Resultados
-console.log('=== Análise do arquivo Excel ===');
-console.log(`Total de registros: ${analise.total}`);
-console.log(`Registros Realizados: ${analise.realizados}`);
-console.log('\nTotais por natureza:');
-console.log('RECEITA:', {
-    quantidade: analise.natureza.RECEITA.count,
-    total: analise.natureza.RECEITA.total.toFixed(2)
-});
-console.log('CUSTO:', {
-    quantidade: analise.natureza.CUSTO.count,
-    total: analise.natureza.CUSTO.total.toFixed(2)
-});
-console.log('\nPeríodos encontrados:', Array.from(analise.periodos));
-console.log('\nExemplos de registros:', analise.exemplos);
+    console.log('\n=== Todas as Transações de Agosto/2024 para NSPCLA1211 ===');
+    agosto2024.forEach(item => {
+        console.log({
+            projeto: item.Projeto,
+            contaResumo: item.ContaResumo,
+            lancamento: item.Lancamento,
+            natureza: item.Natureza
+        });
+    });
+}
+
+// Executar análise
+try {
+    analisarDados();
+} catch (error) {
+    console.error('Erro ao analisar dados:', error);
+}
