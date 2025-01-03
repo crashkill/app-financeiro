@@ -32,6 +32,11 @@ const ForecastTable: React.FC<ForecastTableProps> = ({ data, onValueChange }) =>
   const anoAtual = hoje.getFullYear();
   const mesAtual = hoje.getMonth(); // 0-11
 
+  // Obtém o ano do primeiro item de dados (assumindo que todos os itens são do mesmo ano)
+  const anoSelecionado = data[0]?.dados ? 
+    parseInt(Object.keys(data[0].dados)[0]?.split('/')[1] || String(anoAtual)) + 2000 
+    : anoAtual;
+
   const isEditable = (mes: string, ano: number) => {
     const mesIndex = meses.indexOf(mes);
     return ano === anoAtual && mesIndex >= mesAtual;
@@ -115,7 +120,7 @@ const ForecastTable: React.FC<ForecastTableProps> = ({ data, onValueChange }) =>
                 backgroundColor: '#4A90E2',
                 padding: '10px'
               }}>
-                {mes}/{anoAtual}
+                {mes}/{String(anoSelecionado).slice(-2)}
               </th>
             ))}
             <th className="text-center text-white" style={{ 
@@ -128,6 +133,7 @@ const ForecastTable: React.FC<ForecastTableProps> = ({ data, onValueChange }) =>
             </th>
           </tr>
         </thead>
+
         {data.map((projeto, index) => (
           <tbody key={index} className="border-bottom">
             <tr>
@@ -138,108 +144,101 @@ const ForecastTable: React.FC<ForecastTableProps> = ({ data, onValueChange }) =>
             <tr>
               <td className="bg-white position-sticky start-0">Receita</td>
               {meses.map(mes => {
-                const mesAno = `${mes.charAt(0).toUpperCase() + mes.slice(1).toLowerCase()}/${anoAtual}`;
+                const mesAno = `${mes}/${String(anoSelecionado).slice(-2)}`;
                 const valor = projeto.dados[mesAno]?.receita || 0;
-                const editavel = isEditable(mes, anoAtual);
+                const editavel = isEditable(mes, anoSelecionado);
                 const editingKey = getEditingKey(projeto.projeto, mesAno, 'receita');
 
                 return (
-                  <td key={mes} className="text-end position-relative p-0" style={{ height: '41px' }}>
+                  <td key={mes} className="position-relative p-0" style={{ height: '41px' }}>
                     {editavel ? (
                       <input
                         type="text"
-                        value={editingValues[editingKey] || formatCurrency(valor)}
+                        className="form-control border-0 text-center h-100"
+                        style={{ color: '#28a745' }}
+                        value={editingValues[editingKey] || formatCurrency(Math.abs(valor))}
+                        onChange={(e) => handleChange(projeto.projeto, mesAno, 'receita', e)}
                         onFocus={() => handleFocus(projeto.projeto, mesAno, 'receita', valor)}
                         onBlur={() => handleBlur(projeto.projeto, mesAno, 'receita', valor)}
-                        onChange={(e) => handleChange(projeto.projeto, mesAno, 'receita', e)}
-                        className="form-control border-0 h-100 text-end text-success"
-                        style={{
-                          width: '100%',
-                          padding: '0.5rem',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          background: 'transparent'
-                        }}
                       />
                     ) : (
-                      <span className="d-block w-100 h-100 text-success px-2 py-2">
+                      <div className="px-2 py-2 text-center" style={{ color: '#28a745' }}>
                         {formatCurrency(valor)}
-                      </span>
+                      </div>
                     )}
                   </td>
                 );
               })}
-              <td className="text-end bg-light fw-bold text-success">
+              <td className="text-center bg-light fw-bold" style={{ color: '#28a745' }}>
                 {formatCurrency(projeto.totais.receita)}
               </td>
             </tr>
             <tr>
               <td className="bg-white position-sticky start-0">Custo Total</td>
               {meses.map(mes => {
-                const mesAno = `${mes.charAt(0).toUpperCase() + mes.slice(1).toLowerCase()}/${anoAtual}`;
+                const mesAno = `${mes}/${String(anoSelecionado).slice(-2)}`;
                 const valor = projeto.dados[mesAno]?.custoTotal || 0;
-                const editavel = isEditable(mes, anoAtual);
+                const editavel = isEditable(mes, anoSelecionado);
                 const editingKey = getEditingKey(projeto.projeto, mesAno, 'custoTotal');
 
                 return (
-                  <td key={mes} className="text-end position-relative p-0" style={{ height: '41px' }}>
+                  <td key={mes} className="position-relative p-0" style={{ height: '41px' }}>
                     {editavel ? (
                       <input
                         type="text"
-                        value={editingValues[editingKey] || formatCurrency(valor)}
+                        className="form-control border-0 text-center h-100"
+                        style={{ color: '#dc3545' }}
+                        value={editingValues[editingKey] || formatCurrency(Math.abs(valor))}
+                        onChange={(e) => handleChange(projeto.projeto, mesAno, 'custoTotal', e)}
                         onFocus={() => handleFocus(projeto.projeto, mesAno, 'custoTotal', valor)}
                         onBlur={() => handleBlur(projeto.projeto, mesAno, 'custoTotal', valor)}
-                        onChange={(e) => handleChange(projeto.projeto, mesAno, 'custoTotal', e)}
-                        className="form-control border-0 h-100 text-end text-danger"
-                        style={{
-                          width: '100%',
-                          padding: '0.5rem',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          background: 'transparent'
-                        }}
                       />
                     ) : (
-                      <span className="d-block w-100 h-100 text-danger px-2 py-2">
+                      <div className="px-2 py-2 text-center" style={{ color: '#dc3545' }}>
                         {formatCurrency(valor)}
-                      </span>
+                      </div>
                     )}
                   </td>
                 );
               })}
-              <td className="text-end bg-light fw-bold text-danger">
+              <td className="text-center bg-light fw-bold" style={{ color: '#dc3545' }}>
                 {formatCurrency(projeto.totais.custoTotal)}
               </td>
             </tr>
             <tr>
               <td className="bg-white position-sticky start-0">Margem Bruta</td>
               {meses.map(mes => {
-                const mesAno = `${mes.charAt(0).toUpperCase() + mes.slice(1).toLowerCase()}/${anoAtual}`;
+                const mesAno = `${mes}/${String(anoSelecionado).slice(-2)}`;
                 const valor = projeto.dados[mesAno]?.margemBruta || 0;
                 return (
-                  <td key={mes} className="text-end px-2 py-2">
+                  <td key={mes} className="text-center px-2 py-2" style={{ color: '#4A90E2' }}>
                     {formatCurrency(valor)}
                   </td>
                 );
               })}
-              <td className="text-end bg-light fw-bold">
+              <td className="text-center bg-light fw-bold" style={{ color: '#4A90E2' }}>
                 {formatCurrency(projeto.totais.margemBruta)}
               </td>
             </tr>
             <tr>
               <td className="bg-white position-sticky start-0">Margem %</td>
               {meses.map(mes => {
-                const mesAno = `${mes.charAt(0).toUpperCase() + mes.slice(1).toLowerCase()}/${anoAtual}`;
+                const mesAno = `${mes}/${String(anoSelecionado).slice(-2)}`;
                 const valor = projeto.dados[mesAno]?.margemPercentual || 0;
+                const isGoodMargin = valor >= 7;
                 return (
-                  <td key={mes} className="text-end px-2 py-2">
+                  <td key={mes} className="text-center px-2 py-2" style={{
+                    color: isGoodMargin ? '#28a745' : '#dc3545',
+                    fontWeight: 'bold'
+                  }}>
                     {formatPercent(valor)}
                   </td>
                 );
               })}
-              <td className="text-end bg-light fw-bold">
+              <td className="text-center px-2 py-2" style={{
+                color: projeto.totais.margemPercentual >= 7 ? '#28a745' : '#dc3545',
+                fontWeight: 'bold'
+              }}>
                 {formatPercent(projeto.totais.margemPercentual)}
               </td>
             </tr>

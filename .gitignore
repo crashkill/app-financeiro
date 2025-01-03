@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
@@ -23,9 +24,26 @@ dist-ssr
 *.sln
 *.sw?
 
-# Arquivos de modelo
-/modelos/
-*.xlsx
+# Environment files
+.env
+.env.*
+!.env.example
 
-# Local Netlify folder
-.netlify
+# Build files
+dist/
+build/
+out/
+
+# Test files
+analyze*.js
+*test.js
+*test.ts
+*test.tsx
+__tests__/
+coverage/
+
+# Project specific
+src/modelos/
+*.bak
+*.tmp
+*.temp

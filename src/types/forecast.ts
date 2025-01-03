@@ -22,3 +22,29 @@ export interface ForecastData {
     margemPercentual: number;
   };
 }
+
+export interface ForecastOptions {
+  mesesProjecao?: number;
+  taxaCrescimentoReceita?: number;
+  taxaCrescimentoCusto?: number;
+  considerarSazonalidade?: boolean;
+}
+
+export interface TendenciaAnalise {
+  crescimentoReceita: number;
+  crescimentoCusto: number;
+  tendenciaMargemBruta: 'alta' | 'estavel' | 'baixa';
+  previsaoProximosMeses: {
+    receitas: Previsao[];
+    custos: Previsao[];
+    margens: Previsao[];
+  };
+}
+
+export interface ForecastFiltros {
+  projeto: string;
+  ano: number;
+  mesesHistoricos?: number;
+  mesesProjecao?: number;
+  tipoProjecao?: 'linear' | 'exponencial' | 'sazonal';
+}

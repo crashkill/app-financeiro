@@ -4,6 +4,11 @@ import { Description as DescriptionIcon } from "@mui/icons-material";
 import { useState } from "react";
 import Visao from "./components/Visao";
 import Calculos from "./components/Calculos";
+import Arquitetura from "./components/Arquitetura";
+import Componentes from "./components/Componentes";
+import API from "./components/API";
+import Banco from "./components/Banco";
+import Deploy from "./components/Deploy";
 import Swagger from "./components/Swagger";
 import { useAuth } from '../../contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -35,17 +40,27 @@ const Documentacao: React.FC = () => {
             value={activeTab}
             onChange={handleChange}
             aria-label="documentação tabs"
+            variant="scrollable"
+            scrollButtons="auto"
           >
             <Tab label="Visão Geral" value="visao" />
+            <Tab label="Arquitetura" value="arquitetura" />
+            <Tab label="Componentes" value="componentes" />
             <Tab label="Cálculos" value="calculos" />
-            <Tab label="API" value="swagger" />
+            <Tab label="Banco de Dados" value="banco" />
+            <Tab label="API" value="api" />
+            <Tab label="Deploy" value="deploy" />
           </Tabs>
         </Box>
 
         <Box sx={{ mt: 2 }}>
           {activeTab === "visao" && <Visao />}
+          {activeTab === "arquitetura" && <Arquitetura />}
+          {activeTab === "componentes" && <Componentes />}
           {activeTab === "calculos" && <Calculos />}
-          {activeTab === "swagger" && <Swagger />}
+          {activeTab === "banco" && <Banco />}
+          {activeTab === "api" && <API />}
+          {activeTab === "deploy" && <Deploy />}
         </Box>
       </Box>
     </Container>

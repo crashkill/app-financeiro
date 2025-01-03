@@ -279,14 +279,18 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Receita</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
+                            const chave = `${mes}/${selectedYear}`;
+                            const dadosMes = dadosProjeto.dados[chave] || {
+                              mensal: { receita: 0, desoneracao: 0, custo: 0, margem: 0 },
+                              acumulado: { receita: 0, desoneracao: 0, custo: 0, margem: 0 }
+                            };
                             return (
                               <React.Fragment key={mes}>
                                 <td className="text-center" style={{ color: '#198754' }}>
-                                  {formatCurrency(dados.mensal.receita)}
+                                  {formatCurrency(dadosMes.mensal.receita)}
                                 </td>
                                 <td className="text-center" style={{ color: '#198754' }}>
-                                  {formatCurrency(dados.acumulado.receita)}
+                                  {formatCurrency(dadosMes.acumulado.receita)}
                                 </td>
                               </React.Fragment>
                             );
@@ -296,14 +300,18 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Desoneração</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
+                            const chave = `${mes}/${selectedYear}`;
+                            const dadosMes = dadosProjeto.dados[chave] || {
+                              mensal: { receita: 0, desoneracao: 0, custo: 0, margem: 0 },
+                              acumulado: { receita: 0, desoneracao: 0, custo: 0, margem: 0 }
+                            };
                             return (
                               <React.Fragment key={mes}>
                                 <td className="text-center" style={{ color: '#0dcaf0' }}>
-                                  {formatCurrency(dados.mensal.desoneracao)}
+                                  {formatCurrency(dadosMes.mensal.desoneracao)}
                                 </td>
                                 <td className="text-center" style={{ color: '#0dcaf0' }}>
-                                  {formatCurrency(dados.acumulado.desoneracao)}
+                                  {formatCurrency(dadosMes.acumulado.desoneracao)}
                                 </td>
                               </React.Fragment>
                             );
@@ -313,14 +321,18 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Custo</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
+                            const chave = `${mes}/${selectedYear}`;
+                            const dadosMes = dadosProjeto.dados[chave] || {
+                              mensal: { receita: 0, desoneracao: 0, custo: 0, margem: 0 },
+                              acumulado: { receita: 0, desoneracao: 0, custo: 0, margem: 0 }
+                            };
                             return (
                               <React.Fragment key={mes}>
                                 <td className="text-center" style={{ color: '#dc3545' }}>
-                                  {formatCurrency(Math.abs(dados.mensal.custo))}
+                                  {formatCurrency(dadosMes.mensal.custo)}
                                 </td>
                                 <td className="text-center" style={{ color: '#dc3545' }}>
-                                  {formatCurrency(Math.abs(dados.acumulado.custo))}
+                                  {formatCurrency(dadosMes.acumulado.custo)}
                                 </td>
                               </React.Fragment>
                             );
@@ -330,19 +342,26 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Margem</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
-                            const getMargemStyle = (margem: number) => ({
-                              color: margem >= 7 ? '#198754' : '#dc3545',
-                              fontWeight: 'bold'
-                            });
-
+                            const chave = `${mes}/${selectedYear}`;
+                            const dadosMes = dadosProjeto.dados[chave] || {
+                              mensal: { receita: 0, desoneracao: 0, custo: 0, margem: 0 },
+                              acumulado: { receita: 0, desoneracao: 0, custo: 0, margem: 0 }
+                            };
+                            const margemMensal = dadosMes.mensal.margem;
+                            const margemAcumulada = dadosMes.acumulado.margem;
                             return (
                               <React.Fragment key={mes}>
-                                <td className="text-center" style={getMargemStyle(dados.mensal.margem)}>
-                                  {formatPercent(dados.mensal.margem)}
+                                <td className="text-center" style={{ 
+                                  color: margemMensal >= 7 ? '#28a745' : '#dc3545',
+                                  fontWeight: 'bold'
+                                }}>
+                                  {formatPercent(margemMensal)}
                                 </td>
-                                <td className="text-center" style={getMargemStyle(dados.acumulado.margem)}>
-                                  {formatPercent(dados.acumulado.margem)}
+                                <td className="text-center" style={{ 
+                                  color: margemAcumulada >= 7 ? '#28a745' : '#dc3545',
+                                  fontWeight: 'bold'
+                                }}>
+                                  {formatPercent(margemAcumulada)}
                                 </td>
                               </React.Fragment>
                             );

@@ -1,96 +1,133 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Box, Typography, Paper } from "@mui/material";
 
-const Visao: React.FC = () => {
+const Visao = () => {
   return (
-    <div>
-      <h2 className="mb-4">Visão Geral do Sistema</h2>
+    <Box>
+      <Typography variant="h4" gutterBottom>
+        Visão Geral do Sistema
+      </Typography>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Objetivo</h3>
-        </Card.Header>
-        <Card.Body>
-          <p>O App Financeiro é uma aplicação web desenvolvida para gerenciar e visualizar dados financeiros de projetos, 
-          com foco em análise de receitas, custos e margens.</p>
-          
-          <h4 className="h6 mt-4">Principais Funcionalidades</h4>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          1. Objetivo
+        </Typography>
+        <Typography variant="body1" paragraph>
+          O App Financeiro é uma aplicação web desenvolvida para gerenciar e analisar dados financeiros de projetos.
+          Oferece funcionalidades para visualização, análise e projeção de dados financeiros, com foco em receitas,
+          custos e margens de projetos.
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          2. Principais Funcionalidades
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          2.1. Dashboard
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
-            <li>Visualização de dados financeiros por projeto</li>
-            <li>Análise de margens e desempenho</li>
-            <li>Projeções financeiras</li>
-            <li>Gestão de custos e receitas</li>
+            <li>Visão consolidada dos indicadores financeiros</li>
+            <li>Gráficos de receitas, custos e margens</li>
+            <li>Filtros por projeto e período</li>
+            <li>Indicadores de performance visual</li>
           </ul>
-        </Card.Body>
-      </Card>
+        </Typography>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Módulos Principais</h3>
-        </Card.Header>
-        <Card.Body>
-          <h4 className="h6">1. Dashboard</h4>
-          <ul>
-            <li>Visão geral do desempenho financeiro</li>
-            <li>Gráficos interativos</li>
-            <li>Indicadores principais</li>
-            <li>Filtros dinâmicos</li>
-          </ul>
-
-          <h4 className="h6 mt-3">2. Planilhas Financeiras</h4>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          2.2. Planilhas Financeiras
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
             <li>Visualização detalhada por projeto</li>
-            <li>Edição de valores futuros</li>
-            <li>Cálculos automáticos de margens</li>
-            <li>Análise mensal e acumulada</li>
-          </ul>
-
-          <h4 className="h6 mt-3">3. Relatórios</h4>
-          <ul>
+            <li>Dados mensais e acumulados</li>
+            <li>Cálculo automático de margens</li>
             <li>Exportação de dados</li>
-            <li>Análises comparativas</li>
-            <li>Histórico de desempenho</li>
           </ul>
-        </Card.Body>
-      </Card>
+        </Typography>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Usuários e Permissões</h3>
-        </Card.Header>
-        <Card.Body>
-          <h4 className="h6">Administrador</h4>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          2.3. Forecast
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
-            <li>Acesso completo ao sistema</li>
-            <li>Gerenciamento de usuários</li>
-            <li>Acesso à documentação técnica</li>
-            <li>Configurações do sistema</li>
+            <li>Projeções financeiras</li>
+            <li>Análise de tendências</li>
+            <li>Comparativo com dados realizados</li>
           </ul>
+        </Typography>
 
-          <h4 className="h6 mt-3">Usuário Padrão</h4>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          2.4. Upload de Dados
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
-            <li>Visualização de dados financeiros</li>
-            <li>Edição de projeções futuras</li>
-            <li>Acesso aos relatórios básicos</li>
+            <li>Importação de planilhas Excel</li>
+            <li>Validação automática de dados</li>
+            <li>Processamento em lote</li>
           </ul>
-        </Card.Body>
-      </Card>
+        </Typography>
+      </Paper>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Fluxo de Trabalho</h3>
-        </Card.Header>
-        <Card.Body>
-          <ol>
-            <li>Importação/cadastro de dados financeiros</li>
-            <li>Processamento e cálculos automáticos</li>
-            <li>Visualização em dashboard e planilhas</li>
-            <li>Análise e ajustes de projeções</li>
-            <li>Geração de relatórios e exportações</li>
-          </ol>
-        </Card.Body>
-      </Card>
-    </div>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          3. Tecnologias Utilizadas
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Frontend: React, TypeScript, Material-UI, React Bootstrap</li>
+            <li>Banco de Dados: DexieJS (IndexedDB)</li>
+            <li>Gráficos: Chart.js</li>
+            <li>Bundler: Vite</li>
+            <li>Controle de Versão: Git</li>
+          </ul>
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          4. Requisitos do Sistema
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          4.1. Requisitos de Hardware
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Processador: 2GHz ou superior</li>
+            <li>Memória RAM: 4GB ou superior</li>
+            <li>Espaço em Disco: 1GB disponível</li>
+          </ul>
+        </Typography>
+
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          4.2. Requisitos de Software
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Navegador moderno (Chrome, Firefox, Edge)</li>
+            <li>JavaScript habilitado</li>
+            <li>Cookies habilitados</li>
+          </ul>
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          5. Suporte e Contato
+        </Typography>
+        <Typography variant="body1" paragraph>
+          Para suporte técnico ou dúvidas sobre o sistema, entre em contato com a equipe de desenvolvimento
+          através dos canais:
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Email: suporte@appfinanceiro.com</li>
+            <li>Telefone: (11) 1234-5678</li>
+            <li>Portal de Suporte: https://suporte.appfinanceiro.com</li>
+          </ul>
+        </Typography>
+      </Paper>
+    </Box>
   );
 };
 

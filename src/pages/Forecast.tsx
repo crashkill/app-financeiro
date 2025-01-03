@@ -7,81 +7,130 @@ import type { Transacao } from '../db/database';
 import { ForecastData } from '../types/forecast';
 
 const Forecast: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(2024);
   const [projects, setProjects] = useState<string[]>([]);
   const [years, setYears] = useState<number[]>([]);
 
+  // Função para validar receita
+  const isReceitaValida = (contaResumo: string) => {
+    const normalizado = contaResumo.toLowerCase().trim();
+    return normalizado.includes('receita devengada');
+  };
+
   const processarDadosProjeto = async (projeto: string, ano: number, todasTransacoes: Transacao[]) => {
     const dados: ForecastData['dados'] = {};
-    let totaisReceita = 0;
-    let totaisCusto = 0;
-
     const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
     const mesesNumericos = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
     
     // Filtra as transações do projeto e ano específicos
     const transacoesProjeto = todasTransacoes.filter(t => {
-      const projetoMatch = (t.projeto || '') === projeto || (t.descricao || '') === projeto;
+      const projetoMatch = t.projeto === projeto || t.descricao === projeto;
       const [, anoTransacao] = (t.periodo || '').split('/');
-      return projetoMatch && parseInt(anoTransacao) === ano;
+      const anoMatch = parseInt(anoTransacao) === ano;
+      return projetoMatch && anoMatch;
     });
 
-    // Inicializa dados para todos os meses
-    meses.forEach((mes, index) => {
-      dados[`${mes}/${String(ano).slice(-2)}`] = {
-        receita: 0,
-        custoTotal: 0,
-        margemBruta: 0,
-        margemPercentual: 0
-      };
-    });
+    console.log(`[${projeto}] Total de transações:`, transacoesProjeto.length);
 
-    // Processa transações por mês
-    transacoesProjeto.forEach((transacao) => {
-      if (!transacao.periodo) return;
-      
-      const [mesNumerico] = transacao.periodo.split('/');
-      const mesIndex = mesesNumericos.indexOf(mesNumerico);
-      if (mesIndex === -1) return;
-
+    // Processa cada mês
+    mesesNumericos.forEach((mesNumerico, mesIndex) => {
       const mesAno = `${meses[mesIndex]}/${String(ano).slice(-2)}`;
-      const valor = transacao.valor || 0;
-
-      if (transacao.natureza === 'RECEITA') {
-        dados[mesAno].receita += valor;
-        totaisReceita += valor;
-      } else if (transacao.natureza === 'CUSTO') {
-        dados[mesAno].custoTotal += valor;
-        totaisCusto += valor;
+      
+      // Inicializa dados do mês se não existirem
+      if (!dados[mesAno]) {
+        dados[mesAno] = {
+          receita: 0,
+          custoTotal: 0,
+          margemBruta: 0,
+          margemPercentual: 0
+        };
       }
+      
+      // Filtra transações do mês atual
+      const transacoesMes = transacoesProjeto.filter(t => {
+        const [mesTransacao] = (t.periodo || '').split('/');
+        return mesTransacao === mesNumerico;
+      });
+
+      // Processa receitas válidas - mantém o sinal original
+      const receitasValidas = transacoesMes.filter(t => isReceitaValida(t.contaResumo || ''));
+      const receitasMes = receitasValidas.reduce((sum, t) => sum + (t.valor || 0), 0);
+
+      // Processa custos do mês - mantém o sinal original (negativo)
+      const custosMes = transacoesMes
+        .filter(t => t.natureza === 'CUSTO')
+        .reduce((sum, t) => sum + (t.valor || 0), 0);
+
+      // Atualiza dados do mês
+      dados[mesAno].receita = receitasMes;
+      dados[mesAno].custoTotal = custosMes;
+      dados[mesAno].margemBruta = receitasMes + custosMes; // Soma com o custo negativo
+      dados[mesAno].margemPercentual = receitasMes !== 0 
+        ? (dados[mesAno].margemBruta / Math.abs(receitasMes)) * 100 
+        : 0;
+
+      console.log(`[${projeto}] Dados do mês ${mesAno}:`, dados[mesAno]);
     });
 
-    // Calcula margens para cada mês
-    Object.keys(dados).forEach(mesAno => {
+    // Se não houver dados em algum mês, usa o último valor válido
+    let ultimaReceitaValida = 0;
+    let ultimoCustoValido = 0;
+
+    meses.forEach((mes, index) => {
+      const mesAno = `${mes}/${String(ano).slice(-2)}`;
       const dadosMes = dados[mesAno];
+
+      if (dadosMes.receita !== 0) {
+        ultimaReceitaValida = dadosMes.receita;
+      }
+      if (dadosMes.custoTotal !== 0) {
+        ultimoCustoValido = dadosMes.custoTotal;
+      }
+
+      if (dadosMes.receita === 0 && index > 0) {
+        dadosMes.receita = ultimaReceitaValida;
+      }
+      if (dadosMes.custoTotal === 0 && index > 0) {
+        dadosMes.custoTotal = ultimoCustoValido;
+      }
+
+      // Recalcula margens
       dadosMes.margemBruta = dadosMes.receita + dadosMes.custoTotal;
-      dadosMes.margemPercentual = dadosMes.receita > 0 
-        ? (dadosMes.margemBruta / dadosMes.receita) * 100 
+      dadosMes.margemPercentual = dadosMes.receita !== 0 
+        ? (dadosMes.margemBruta / Math.abs(dadosMes.receita)) * 100 
         : 0;
     });
 
-    // Calcula totais
-    const totaisMargemBruta = totaisReceita + totaisCusto;
-    const totaisMargemPercentual = totaisReceita > 0 
-      ? (totaisMargemBruta / totaisReceita) * 100 
+    // Calcula os totais a partir dos dados mensais
+    const totais = Object.values(dados).reduce((acc, mes) => {
+      acc.receita += mes.receita;
+      acc.custoTotal += mes.custoTotal;
+      return acc;
+    }, { receita: 0, custoTotal: 0 });
+
+    // Calcula margem bruta e percentual dos totais
+    const margemBrutaTotal = totais.receita + totais.custoTotal;
+    const margemPercentualTotal = totais.receita !== 0 
+      ? (margemBrutaTotal / Math.abs(totais.receita)) * 100 
       : 0;
+
+    console.log(`[${projeto}] Totais finais:`, {
+      receita: totais.receita,
+      custoTotal: totais.custoTotal,
+      margemBruta: margemBrutaTotal,
+      margemPercentual: margemPercentualTotal
+    });
 
     return {
       projeto,
       dados,
       totais: {
-        receita: totaisReceita,
-        custoTotal: totaisCusto,
-        margemBruta: totaisMargemBruta,
-        margemPercentual: totaisMargemPercentual
+        receita: totais.receita,
+        custoTotal: totais.custoTotal,
+        margemBruta: margemBrutaTotal,
+        margemPercentual: margemPercentualTotal
       }
     };
   };
@@ -90,8 +139,6 @@ const Forecast: React.FC = () => {
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        setIsLoading(true);
-        
         // Busca todos os projetos únicos e transações em uma única consulta
         const transacoes = await db.transacoes.toArray();
         const uniqueProjects = Array.from(new Set(transacoes.map(t => t.projeto || t.descricao || 'Sem Projeto'))).sort();
@@ -119,10 +166,8 @@ const Forecast: React.FC = () => {
         );
 
         setForecastData(dadosProcessados);
-        setIsLoading(false);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
-        setIsLoading(false);
       }
     };
 
@@ -149,8 +194,8 @@ const Forecast: React.FC = () => {
               ? valor + (novosDados[mes]?.custoTotal || 0)
               : (novosDados[mes]?.receita || 0) + valor,
             margemPercentual: tipo === 'receita'
-              ? ((valor + (novosDados[mes]?.custoTotal || 0)) / valor) * 100
-              : (((novosDados[mes]?.receita || 0) + valor) / (novosDados[mes]?.receita || 1)) * 100
+              ? ((valor + (novosDados[mes]?.custoTotal || 0)) / Math.abs(valor)) * 100
+              : (((novosDados[mes]?.receita || 0) + valor) / Math.abs(novosDados[mes]?.receita || 1)) * 100
           };
 
           // Recalcula totais
@@ -158,7 +203,7 @@ const Forecast: React.FC = () => {
           const totaisCusto = Object.values(novosDados).reduce((sum, d) => sum + (d.custoTotal || 0), 0);
           const totaisMargemBruta = totaisReceita + totaisCusto;
           const totaisMargemPercentual = totaisReceita !== 0 
-            ? (totaisMargemBruta / totaisReceita) * 100 
+            ? (totaisMargemBruta / Math.abs(totaisReceita)) * 100 
             : 0;
 
           return {
@@ -174,16 +219,24 @@ const Forecast: React.FC = () => {
         });
       });
 
+      console.log('Salvando transação:', {
+        projeto,
+        mes: `${mesNumerico}/${ano}`,
+        tipo,
+        valor,
+        contaResumo: tipo === 'receita' ? 'RECEITA DEVENGADA' : 'CUSTO'
+      });
+
       // Salva no banco de dados
       await db.transacoes.add({
+        projeto: projeto, 
         descricao: projeto,
         periodo: `${mesNumerico}/${ano}`,
         natureza: tipo === 'receita' ? 'RECEITA' : 'CUSTO',
-        tipo: tipo === 'receita' ? 'receita' : 'despesa',
+        contaResumo: tipo === 'receita' ? 'RECEITA DEVENGADA' : 'CUSTO',
         valor: valor,
-        data: new Date().toISOString(),
-        categoria: tipo === 'receita' ? 'Receita' : 'Custo',
-        lancamento: valor
+        created_at: new Date(),
+        updated_at: new Date()
       });
 
     } catch (error) {
@@ -209,19 +262,10 @@ const Forecast: React.FC = () => {
         onYearChange={setSelectedYear}
       />
 
-      {isLoading ? (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Carregando...</span>
-          </div>
-          <p className="mt-2 text-muted">Carregando dados...</p>
-        </div>
-      ) : (
-        <ForecastTable 
-          data={forecastData} 
-          onValueChange={handleValueChange}
-        />
-      )}
+      <ForecastTable 
+        data={forecastData} 
+        onValueChange={handleValueChange}
+      />
     </Container>
   );
 };

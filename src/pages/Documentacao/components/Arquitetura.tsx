@@ -1,185 +1,161 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { Box, Typography, Paper } from "@mui/material";
 
-const Arquitetura: React.FC = () => {
+const Arquitetura = () => {
   return (
-    <div>
-      <h2 className="mb-4">Arquitetura do Sistema</h2>
+    <Box>
+      <Typography variant="h4" gutterBottom>
+        Arquitetura do Sistema
+      </Typography>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Estrutura do Projeto</h3>
-        </Card.Header>
-        <Card.Body>
-          <SyntaxHighlighter language="plaintext" style={docco}>
-            {`src/
-  ├── components/       # Componentes reutilizáveis
-  │   ├── filters/        # Filtros reutilizáveis
-  │   │   ├── ProjectFilter/  # Filtro de projetos
-  │   │   └── YearFilter/     # Filtro de anos
-  │   ├── FilterPanel/    # Painel de filtros
-  │   ├── ProjectCharts/  # Gráficos de projeto
-  │   └── Layout/         # Componentes de layout
-  ├── pages/           # Páginas da aplicação
-  │   ├── Dashboard/      # Dashboard principal
-  │   ├── PlanilhasFinanceiras/  # Planilhas detalhadas
-  │   └── Documentacao/   # Documentação do sistema
-  ├── db/             # Configuração do banco de dados
-  │   └── database.ts   # Schema e conexão
-  ├── types/          # Definições de tipos
-  ├── utils/          # Utilitários
-  │   ├── formatters/   # Formatadores de dados
-  │   ├── calculators/  # Funções de cálculo
-  │   └── validators/   # Validadores
-  └── styles/         # Estilos globais`}
-          </SyntaxHighlighter>
-        </Card.Body>
-      </Card>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          1. Visão Geral da Arquitetura
+        </Typography>
+        <Typography variant="body1" paragraph>
+          O App Financeiro utiliza uma arquitetura moderna baseada em componentes React, com armazenamento
+          local usando IndexedDB. A aplicação é estruturada em camadas bem definidas para facilitar a
+          manutenção e escalabilidade.
+        </Typography>
+      </Paper>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Stack Tecnológica</h3>
-        </Card.Header>
-        <Card.Body>
-          <h4 className="h6">Frontend</h4>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          2. Estrutura de Diretórios
+        </Typography>
+        <Typography variant="body1" component="div" sx={{ fontFamily: "monospace", whiteSpace: "pre-line" }}>
+          {`
+src/
+  ├── components/      # Componentes reutilizáveis
+  │   ├── filters/     # Componentes de filtro
+  │   ├── tables/      # Componentes de tabela
+  │   └── charts/      # Componentes de gráfico
+  │
+  ├── contexts/        # Contextos React
+  │   ├── AuthContext  # Contexto de autenticação
+  │   └── ConfigContext# Contexto de configuração
+  │
+  ├── pages/          # Páginas da aplicação
+  │   ├── Dashboard/
+  │   ├── Planilhas/
+  │   └── Documentacao/
+  │
+  ├── db/             # Configuração do banco
+  │   └── database.ts
+  │
+  ├── types/          # Tipos TypeScript
+  │   ├── models.ts
+  │   └── utils.ts
+  │
+  └── utils/          # Funções utilitárias
+      ├── formatters/
+      └── calculators/
+          `}
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          3. Camadas da Aplicação
+        </Typography>
+
+        <Typography variant="h6" gutterBottom>
+          3.1. Camada de Apresentação
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
-            <li>React 18 - Framework principal</li>
-            <li>TypeScript - Tipagem estática</li>
-            <li>React Bootstrap - Componentes UI</li>
-            <li>Tailwind CSS - Estilização</li>
-            <li>Chart.js - Visualizações gráficas</li>
-            <li>React Query - Gerenciamento de estado</li>
+            <li>Componentes React com TypeScript</li>
+            <li>Material-UI e React Bootstrap para UI</li>
+            <li>Chart.js para visualizações gráficas</li>
+            <li>Gerenciamento de estado com Context API</li>
           </ul>
+        </Typography>
 
-          <h4 className="h6 mt-4">Backend</h4>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          3.2. Camada de Lógica de Negócio
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
-            <li>DexieJS - Banco de dados IndexedDB</li>
-            <li>Firebase - Autenticação e hosting</li>
+            <li>Hooks personalizados para lógica reutilizável</li>
+            <li>Serviços para operações complexas</li>
+            <li>Validadores e calculadores</li>
+            <li>Transformadores de dados</li>
           </ul>
+        </Typography>
 
-          <h4 className="h6 mt-4">Ferramentas de Desenvolvimento</h4>
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          3.3. Camada de Dados
+        </Typography>
+        <Typography variant="body1" component="div">
           <ul>
-            <li>Vite - Build tool</li>
-            <li>ESLint - Linting</li>
-            <li>Prettier - Formatação de código</li>
-            <li>PostCSS - Processamento CSS</li>
+            <li>DexieJS para interação com IndexedDB</li>
+            <li>Modelos de dados tipados</li>
+            <li>Migrations para evolução do banco</li>
+            <li>Cache em memória para performance</li>
           </ul>
-        </Card.Body>
-      </Card>
+        </Typography>
+      </Paper>
 
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Padrões de Projeto</h3>
-        </Card.Header>
-        <Card.Body>
-          <h4 className="h6">Componentes</h4>
-          <SyntaxHighlighter language="typescript" style={docco}>
-            {`// Exemplo de estrutura de componente
-import React from 'react';
-import { Props } from './types';
-import { useStyles } from './styles';
-import { someUtil } from '@/utils';
-
-export const Component: React.FC<Props> = ({ prop1, prop2 }) => {
-  // Lógica do componente
-  return (
-    <div>
-      {/* JSX */}
-    </div>
-  );
-};`}
-          </SyntaxHighlighter>
-
-          <h4 className="h6 mt-4">Componentes Reutilizáveis</h4>
-          <SyntaxHighlighter language="typescript" style={docco}>
-            {`// Exemplo de uso dos filtros reutilizáveis
-import ProjectFilter from '@/components/filters/ProjectFilter';
-import YearFilter from '@/components/filters/YearFilter';
-
-const MyComponent: React.FC = () => {
-  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-  const [selectedYear, setSelectedYear] = useState<number>(2024);
-
-  return (
-    <>
-      <ProjectFilter
-        selectedProjects={selectedProjects}
-        onProjectChange={setSelectedProjects}
-        label="Filtrar Projetos"  // opcional
-        height="200px"           // opcional
-      />
-      <YearFilter
-        selectedYear={selectedYear}
-        onYearChange={setSelectedYear}
-        label="Ano"             // opcional
-      />
-    </>
-  );
-};`}
-          </SyntaxHighlighter>
-
-          <h4 className="h6 mt-4">Hooks Personalizados</h4>
-          <SyntaxHighlighter language="typescript" style={docco}>
-            {`// Exemplo de hook personalizado
-import { useState, useEffect } from 'react';
-
-export const useCustomHook = (param: Type) => {
-  const [state, setState] = useState<State>();
-
-  useEffect(() => {
-    // Lógica do hook
-  }, [param]);
-
-  return { state };
-};`}
-          </SyntaxHighlighter>
-        </Card.Body>
-      </Card>
-
-      <Card className="mb-4">
-        <Card.Header>
-          <h3 className="h5 mb-0">Fluxo de Dados</h3>
-        </Card.Header>
-        <Card.Body>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          4. Fluxo de Dados
+        </Typography>
+        <Typography variant="body1" paragraph>
+          O fluxo de dados na aplicação segue um padrão unidirecional:
+        </Typography>
+        <Typography variant="body1" component="div">
           <ol>
-            <li>
-              <strong>Entrada de Dados</strong>
-              <ul>
-                <li>Interface do usuário</li>
-                <li>Importação de arquivos</li>
-                <li>APIs externas</li>
-              </ul>
-            </li>
-            <li>
-              <strong>Processamento</strong>
-              <ul>
-                <li>Validação de dados</li>
-                <li>Cálculos financeiros</li>
-                <li>Transformação de dados</li>
-              </ul>
-            </li>
-            <li>
-              <strong>Armazenamento</strong>
-              <ul>
-                <li>IndexedDB local</li>
-                <li>Cache de dados</li>
-                <li>Estado da aplicação</li>
-              </ul>
-            </li>
-            <li>
-              <strong>Apresentação</strong>
-              <ul>
-                <li>Renderização de componentes</li>
-                <li>Atualização de UI</li>
-                <li>Feedback ao usuário</li>
-              </ul>
-            </li>
+            <li>Usuário interage com a interface</li>
+            <li>Componente dispara ação</li>
+            <li>Serviço processa a ação</li>
+            <li>Dados são atualizados no banco</li>
+            <li>Interface é atualizada via hooks</li>
           </ol>
-        </Card.Body>
-      </Card>
-    </div>
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          5. Otimizações
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          5.1. Performance
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Lazy loading de componentes</li>
+            <li>Memoização de cálculos pesados</li>
+            <li>Cache de dados frequentes</li>
+            <li>Virtualização de listas longas</li>
+          </ul>
+        </Typography>
+
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          5.2. Segurança
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Validação de dados em todas as camadas</li>
+            <li>Sanitização de inputs</li>
+            <li>Controle de acesso por rota</li>
+            <li>Proteção contra XSS</li>
+          </ul>
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          6. Considerações Técnicas
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Compatibilidade com navegadores modernos</li>
+            <li>Responsividade em diferentes dispositivos</li>
+            <li>Acessibilidade (WCAG 2.1)</li>
+            <li>SEO e meta tags</li>
+          </ul>
+        </Typography>
+      </Paper>
+    </Box>
   );
 };
 
