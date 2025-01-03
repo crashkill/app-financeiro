@@ -10,6 +10,112 @@ const Calculos: React.FC = () => {
 
       <Card className="mb-4">
         <Card.Header>
+          <h3 className="h5 mb-0">Regras de Receita e Custos</h3>
+        </Card.Header>
+        <Card.Body>
+          <div className="alert alert-info mb-4">
+            <i className="bi bi-info-circle me-2"></i>
+            <strong>Valores Mensais Fixos:</strong> O sistema utiliza valores fixos mensais para garantir consistência nos cálculos.
+          </div>
+
+          <h4 className="h6">Regras para Receita</h4>
+          <ul>
+            <li>Receitas são sempre mantidas como valores positivos</li>
+            <li>Apenas receitas do tipo "Receita Devengada" são consideradas</li>
+            <li>Valor fixo mensal: R$ 79.372,04</li>
+            <li>Acumulado preserva a soma dos valores mensais</li>
+          </ul>
+
+          <h4 className="h6 mt-4">Regras para Custos</h4>
+          <ul>
+            <li>Custos são sempre mantidos como valores negativos no sistema</li>
+            <li>Apenas custos do tipo CLT, Outros e Subcontratados são considerados</li>
+            <li>Valor fixo mensal: R$ -71.578,23</li>
+            <li>O valor absoluto do custo só é utilizado no momento do cálculo da margem</li>
+          </ul>
+
+          <h4 className="h6 mt-4">Regras para Desoneração</h4>
+          <ul>
+            <li>Valor fixo mensal: R$ 3.785,63</li>
+            <li>Aplicada como redução no cálculo do custo ajustado</li>
+            <li>Sempre mantida como valor positivo</li>
+          </ul>
+
+          <h4 className="h6 mt-4">Processamento de Valores</h4>
+          <SyntaxHighlighter language="typescript" style={docco}>
+            {`// Exemplo de processamento mensal
+const processarTransacoesMes = (mes: number, ano: number): DadosMes => {
+  const dadosMes: DadosMes = {
+    receita: 79372.04,    // Valor fixo da receita mensal
+    desoneracao: 3785.63, // Valor fixo da desoneração
+    custo: -71578.23,     // Valor fixo do custo (negativo)
+    margem: 0
+  };
+
+  // Cálculo da margem
+  const custoAjustado = Math.abs(dadosMes.custo) - dadosMes.desoneracao;
+  dadosMes.margem = (1 - (custoAjustado / dadosMes.receita)) * 100;
+
+  return dadosMes;
+};
+
+// Exemplo de cálculo acumulado
+const calcularAcumulado = (dadosMes: DadosMes, acumulado: DadosMes) => {
+  acumulado.receita += dadosMes.receita;
+  acumulado.desoneracao += dadosMes.desoneracao;
+  acumulado.custo += dadosMes.custo;
+
+  const custoAjustadoAcumulado = Math.abs(acumulado.custo) - acumulado.desoneracao;
+  acumulado.margem = (1 - (custoAjustadoAcumulado / acumulado.receita)) * 100;
+};`}
+          </SyntaxHighlighter>
+
+          <h4 className="h6 mt-4">Validação de Valores</h4>
+          <div className="alert alert-warning">
+            <i className="bi bi-exclamation-triangle me-2"></i>
+            <p className="mb-2">Importante verificar mensalmente:</p>
+            <ul className="mb-0">
+              <li>Receita mensal = R$ 79.372,04</li>
+              <li>Desoneração mensal = R$ 3.785,63</li>
+              <li>Custo mensal = R$ -71.578,23</li>
+              <li>Acumulados = Soma dos valores mensais até o mês atual</li>
+            </ul>
+          </div>
+        </Card.Body>
+      </Card>
+
+      <Card className="mb-4">
+        <Card.Header>
+          <h3 className="h5 mb-0">Regras de Exibição</h3>
+        </Card.Header>
+        <Card.Body>
+          <h4 className="h6">Regras de Exibição</h4>
+          <ul>
+            <li>Receitas: Verde (#008000)</li>
+            <li>Custos: Vermelho (#FF0000)</li>
+            <li>Desoneração: Azul (#0000FF)</li>
+            <li>Margem Positiva: Verde (#008000)</li>
+            <li>Margem Negativa: Vermelho (#FF0000)</li>
+          </ul>
+
+          <h4 className="h6 mt-4">Formatação de Valores</h4>
+          <ul>
+            <li>Valores monetários: R$ #.###,## (duas casas decimais)</li>
+            <li>Percentuais: ##,##% (duas casas decimais)</li>
+            <li>Sinais: Mantidos conforme regra de cada tipo</li>
+          </ul>
+
+          <h4 className="h6 mt-4">Totalizadores</h4>
+          <ul>
+            <li>Mensal: Soma dos valores do mês</li>
+            <li>Acumulado: Soma progressiva até o mês atual</li>
+            <li>Média: Total acumulado dividido pelo número de meses</li>
+          </ul>
+        </Card.Body>
+      </Card>
+
+      <Card className="mb-4">
+        <Card.Header>
           <h3 className="h5 mb-0">Cálculo de Margem e Tratamento de Custos</h3>
         </Card.Header>
         <Card.Body>
@@ -113,7 +219,7 @@ const processarAcumulados = (meses) => {
     const margemAcumulada = receitaAcumulada > 0
       ? (1 - (custoAjustadoAcum / receitaAcumulada)) * 100
       : 0;
-  });
+  };
 };`}
           </SyntaxHighlighter>
 

@@ -4,21 +4,25 @@ import { Link, useLocation } from 'react-router-dom'
 import { Squash as Hamburger } from 'hamburger-react'
 import {
   UilAnalytics,
+  UilFileAlt,
   UilChartGrowth,
   UilCloudUpload,
   UilSetting,
-  UilFileAlt,
-  UilBook
+  UilBook,
+  UilBars,
+  UilAngleRight
 } from '@iconscout/react-unicons'
 import { useConfig } from '../contexts/ConfigContext'
 
 // Wrappers para os ícones com parâmetros padrão
 const Analytics = (props: any = {}) => <UilAnalytics {...props} />
+const FileAlt = (props: any = {}) => <UilFileAlt {...props} />
 const ChartGrowth = (props: any = {}) => <UilChartGrowth {...props} />
 const CloudUpload = (props: any = {}) => <UilCloudUpload {...props} />
 const Setting = (props: any = {}) => <UilSetting {...props} />
-const FileAlt = (props: any = {}) => <UilFileAlt {...props} />
 const Book = (props: any = {}) => <UilBook {...props} />
+const Bars = (props: any = {}) => <UilBars {...props} />
+const AngleRight = (props: any = {}) => <UilAngleRight {...props} />
 
 interface MenuIconProps {
   icon: React.ReactNode;
@@ -61,6 +65,45 @@ const Sidebar = () => {
   const menuItemClass = isOpen ? 'd-flex align-items-center' : 'd-flex justify-content-center'
   const textClass = isOpen ? 'ms-2' : 'd-none'
 
+  const menuItems = [
+    {
+      text: 'Dashboard',
+      icon: <Analytics />,
+      path: '/dashboard',
+      color: '#2196f3'
+    },
+    {
+      text: 'Planilhas Financeiras',
+      icon: <FileAlt />,
+      path: '/planilhas',
+      color: '#4caf50'
+    },
+    {
+      text: 'Forecast',
+      icon: <ChartGrowth />,
+      path: '/forecast',
+      color: '#9c27b0'
+    },
+    {
+      text: 'Upload',
+      icon: <CloudUpload />,
+      path: '/upload',
+      color: '#ff9800'
+    },
+    {
+      text: 'Documentação',
+      icon: <Book />,
+      path: '/documentacao',
+      color: '#607d8b'
+    },
+    {
+      text: 'Configurações',
+      icon: <Setting />,
+      path: '/config',
+      color: '#607d8b'
+    }
+  ];
+
   return (
     <div 
       className="bg-white shadow-sm" 
@@ -96,138 +139,30 @@ const Sidebar = () => {
           </div>
         </div>
         <Nav className="flex-column">
-          <Nav.Item>
-            <Link
-              to="/dashboard"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/dashboard') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<Analytics />}
-                color="#2196f3"
-                isActive={isActive('/dashboard')}
-              />
-              <span className={textClass}>Dashboard</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/planilhas"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/planilhas') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<FileAlt />}
-                color="#4caf50"
-                isActive={isActive('/planilhas')}
-              />
-              <span className={textClass}>Planilhas Financeiras</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/forecast"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/forecast') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<ChartGrowth />}
-                color="#9c27b0"
-                isActive={isActive('/forecast')}
-              />
-              <span className={textClass}>Forecast</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/upload"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/upload') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<CloudUpload />}
-                color="#ff9800"
-                isActive={isActive('/upload')}
-              />
-              <span className={textClass}>Upload</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/documentacao"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/documentacao') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<Book />}
-                color="#673ab7"
-                isActive={isActive('/documentacao')}
-              />
-              <span className={textClass}>Documentação</span>
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              to="/config"
-              className={`nav-link py-2 ${menuItemClass} ${
-                isActive('/config') 
-                  ? 'active bg-primary bg-opacity-10 text-primary' 
-                  : 'text-dark'
-              }`}
-              style={{
-                borderRadius: '8px',
-                margin: '2px 0',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <MenuIcon 
-                icon={<Setting />}
-                color="#607d8b"
-                isActive={isActive('/config')}
-              />
-              <span className={textClass}>Configurações</span>
-            </Link>
-          </Nav.Item>
+          {menuItems.map((menuItem, index) => (
+            <Nav.Item key={index}>
+              <Link
+                to={menuItem.path}
+                className={`nav-link py-2 ${menuItemClass} ${
+                  isActive(menuItem.path) 
+                    ? 'active bg-primary bg-opacity-10 text-primary' 
+                    : 'text-dark'
+                }`}
+                style={{
+                  borderRadius: '8px',
+                  margin: '2px 0',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <MenuIcon 
+                  icon={menuItem.icon}
+                  color={menuItem.color}
+                  isActive={isActive(menuItem.path)}
+                />
+                <span className={textClass}>{menuItem.text}</span>
+              </Link>
+            </Nav.Item>
+          ))}
         </Nav>
         
         {isOpen && config.userImage && (

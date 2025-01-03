@@ -54,6 +54,67 @@ const PlanilhasFinanceiras: React.FC = () => {
     carregarDados();
   }, []);
 
+  // Função para validar receita
+  const isReceitaValida = (contaResumo: string) => {
+    const normalizado = contaResumo.toLowerCase().trim();
+    return normalizado.includes('receita devengada');
+  };
+
+  // Função para validar tipos de custo
+  const isCustoValido = (contaResumo: string): boolean => {
+    const custoNormalizado = contaResumo.toUpperCase().trim();
+    return ['CLT', 'OUTROS', 'SUBCONTRATADOS'].includes(custoNormalizado);
+  };
+
+  // Função para processar transações do mês
+  const processarTransacoesMes = (transacoes: Transacao[]): DadosMes => {
+    const dadosMes: DadosMes = {
+      receita: 0,
+      desoneracao: 0,
+      custo: 0,
+      margem: 0
+    };
+
+    transacoes.forEach(transacao => {
+      const valor = Number(transacao.valor) || 0;
+      const contaResumo = (transacao.contaResumo || '').trim();
+
+      // Processamento de Receita
+      if (contaResumo.toUpperCase() === 'RECEITA DEVENGADA') {
+        // Receita deve ser positiva
+        dadosMes.receita += valor;
+      }
+      // Processamento de Desoneração
+      else if (contaResumo.toUpperCase() === 'DESONERAÇÃO DA FOLHA') {
+        // Desoneração deve ser positiva
+        dadosMes.desoneracao += valor;
+      } 
+      // Processamento de Custos
+      else if (isCustoValido(contaResumo)) {
+        // Custos devem ser mantidos como estão no banco
+        dadosMes.custo += valor;
+        console.log(`Processando custo para ${contaResumo}:`, {
+          valorOriginal: valor,
+          custoAcumulado: dadosMes.custo
+        });
+      }
+    });
+
+    // Log para debug
+    console.log('Dados processados do mês:', {
+      receita: dadosMes.receita,
+      desoneracao: dadosMes.desoneracao,
+      custo: dadosMes.custo,
+      custoAbsoluto: Math.abs(dadosMes.custo)
+    });
+
+    // Cálculo da margem usando o valor absoluto do custo
+    const custoAjustado = Math.abs(dadosMes.custo) - dadosMes.desoneracao;
+    dadosMes.margem = dadosMes.receita > 0 ? (1 - (custoAjustado / dadosMes.receita)) * 100 : 0;
+
+    return dadosMes;
+  };
+
   // Carregar dados financeiros
   useEffect(() => {
     const carregarDadosFinanceiros = async () => {
@@ -64,104 +125,74 @@ const PlanilhasFinanceiras: React.FC = () => {
         const projetosParaCarregar = selectedProjects.length > 0 ? selectedProjects : projects;
         const dadosProjetos: DadosProjeto[] = [];
 
-        // Buscar todas as transações de uma vez
-        const transacoes = await db.transacoes
-          .where('periodo')
-          .between(`1/${selectedYear}`, `12/${selectedYear}`)
-          .toArray();
+        // Buscar todas as transações do ano
+        const transacoes = await db.transacoes.toArray();
 
-        console.log('Todas as transações:', transacoes);
-
-        // Agrupar transações por projeto
-        const transacoesPorProjeto = transacoes.reduce((acc, transacao) => {
-          const projeto = transacao.projeto || transacao.descricao || 'Sem Projeto';
-          if (!acc[projeto]) {
-            acc[projeto] = [];
-          }
-          acc[projeto].push(transacao);
-          return acc;
-        }, {} as { [key: string]: Transacao[] });
-
-        // Processar apenas os projetos selecionados
+        // Processar transações por projeto
         for (const projeto of projetosParaCarregar) {
-          console.log(`\nProcessando projeto: ${projeto}`);
-          if (!transacoesPorProjeto[projeto]) continue;
+          const transacoesProjeto = transacoes.filter(t => 
+            (t.projeto || t.descricao || 'Sem Projeto') === projeto
+          );
 
           const dadosProjeto: DadosProjeto = {
             projeto,
             dados: {}
           };
 
-          // Inicializar dados mensais
+          // Processar dados mensais e acumulados
+          let acumulado: DadosMes = {
+            receita: 0,
+            desoneracao: 0,
+            custo: 0,
+            margem: 0
+          };
+
+          // Processar cada mês
           for (let mes = 1; mes <= 12; mes++) {
-            dadosProjeto.dados[mes] = {
-              mensal: { receita: 0, desoneracao: 0, custo: 0, margem: 0 },
-              acumulado: { receita: 0, desoneracao: 0, custo: 0, margem: 0 }
-            };
-          }
+            // Filtrar transações do mês atual
+            const transacoesMes = transacoesProjeto.filter(t => {
+              const [mesTransacao, anoTransacao] = (t.periodo || '').split('/');
+              return parseInt(mesTransacao) === mes && parseInt(anoTransacao) === selectedYear;
+            });
 
-          // Processar transações do projeto
-          for (const transacao of transacoesPorProjeto[projeto]) {
-            if (!transacao.periodo) continue;
-            
-            const [mes] = transacao.periodo.split('/').map(Number);
-            if (!dadosProjeto.dados[mes]) continue;
+            // Processar dados do mês
+            const dadosMes = processarTransacoesMes(transacoesMes);
 
-            const valor = transacao.valor || 0;
-            const contaResumo = (transacao.contaResumo || '').toLowerCase().trim()
-              .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-            
-            console.log(`Mês: ${mes}, ContaResumo: ${contaResumo}, Valor: ${valor}`);
-
-            // Receita Devengada
-            if (contaResumo === 'receita devengada') {
-              dadosProjeto.dados[mes].mensal.receita += valor;
-              console.log(`Adicionando receita: ${valor} ao mês ${mes}`);
+            // Se não houver dados para o mês, verificar se há dados em meses anteriores
+            if (dadosMes.receita === 0 && mes > 1) {
+              // Buscar último mês com dados
+              for (let mesAnterior = mes - 1; mesAnterior >= 1; mesAnterior--) {
+                const dadosMesAnterior = dadosProjeto.dados[`${mesAnterior}/${selectedYear}`]?.mensal;
+                if (dadosMesAnterior && dadosMesAnterior.receita > 0) {
+                  // Usar os mesmos valores do último mês com dados
+                  dadosMes.receita = dadosMesAnterior.receita;
+                  dadosMes.desoneracao = dadosMesAnterior.desoneracao;
+                  dadosMes.custo = dadosMesAnterior.custo;
+                  break;
+                }
+              }
             }
-            // Desoneração da Folha
-            else if (contaResumo === 'desoneracao da folha') {
-              dadosProjeto.dados[mes].mensal.desoneracao += valor;
-              console.log(`Adicionando desoneração: ${valor} ao mês ${mes}`);
-            }
-            // CLT, Outros e Subcontratados
-            else if (['clt', 'outros', 'subcontratados'].includes(contaResumo)) {
-              dadosProjeto.dados[mes].mensal.custo += valor;
-              console.log(`Adicionando custo: ${valor} ao mês ${mes}`);
-            }
-          }
-
-          // Log dos dados mensais
-          for (let mes = 1; mes <= 12; mes++) {
-            console.log(`\nMês ${mes}:`, dadosProjeto.dados[mes].mensal);
-          }
-
-          // Calcular margens e acumulados
-          let receitaAcum = 0;
-          let custoAcum = 0;
-          let desoneracaoAcum = 0;
-
-          for (let mes = 1; mes <= 12; mes++) {
-            const dadosMes = dadosProjeto.dados[mes].mensal;
             
-            // Calcular margem mensal
+            // Acumular valores
+            acumulado.receita += dadosMes.receita;
+            acumulado.desoneracao += dadosMes.desoneracao;
+            acumulado.custo += dadosMes.custo;
+
+            // Recalcular margem acumulada
+            const custoAjustadoAcumulado = Math.abs(acumulado.custo) - acumulado.desoneracao;
+            acumulado.margem = acumulado.receita > 0 
+              ? (1 - (custoAjustadoAcumulado / acumulado.receita)) * 100 
+              : 0;
+
+            // Recalcular margem mensal
             const custoAjustado = Math.abs(dadosMes.custo) - dadosMes.desoneracao;
-            dadosMes.margem = dadosMes.receita !== 0 
+            dadosMes.margem = dadosMes.receita > 0 
               ? (1 - (custoAjustado / dadosMes.receita)) * 100 
               : 0;
 
-            // Calcular acumulados
-            receitaAcum += dadosMes.receita;
-            custoAcum += dadosMes.custo;
-            desoneracaoAcum += dadosMes.desoneracao;
-
-            const custoAjustadoAcum = Math.abs(custoAcum) - desoneracaoAcum;
-            dadosProjeto.dados[mes].acumulado = {
-              receita: receitaAcum,
-              custo: custoAcum,
-              desoneracao: desoneracaoAcum,
-              margem: receitaAcum !== 0 
-                ? (1 - (custoAjustadoAcum / receitaAcum)) * 100 
-                : 0
+            dadosProjeto.dados[`${mes}/${selectedYear}`] = {
+              mensal: { ...dadosMes },
+              acumulado: { ...acumulado }
             };
           }
 
@@ -177,7 +208,7 @@ const PlanilhasFinanceiras: React.FC = () => {
     };
 
     carregarDadosFinanceiros();
-  }, [selectedProjects, selectedYear, projects]);
+  }, [selectedYear, selectedProjects, projects]);
 
   return (
     <Container fluid>
@@ -248,7 +279,7 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Receita</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[mes];
+                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
                             return (
                               <React.Fragment key={mes}>
                                 <td className="text-center" style={{ color: '#198754' }}>
@@ -265,7 +296,7 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Desoneração</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[mes];
+                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
                             return (
                               <React.Fragment key={mes}>
                                 <td className="text-center" style={{ color: '#0dcaf0' }}>
@@ -282,7 +313,7 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Custo</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[mes];
+                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
                             return (
                               <React.Fragment key={mes}>
                                 <td className="text-center" style={{ color: '#dc3545' }}>
@@ -299,7 +330,7 @@ const PlanilhasFinanceiras: React.FC = () => {
                           <td>Margem</td>
                           {meses.map((_, index) => {
                             const mes = index + 1;
-                            const dados = dadosProjeto.dados[mes];
+                            const dados = dadosProjeto.dados[`${mes}/${selectedYear}`];
                             const getMargemStyle = (margem: number) => ({
                               color: margem >= 7 ? '#198754' : '#dc3545',
                               fontWeight: 'bold'

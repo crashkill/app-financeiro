@@ -1,71 +1,53 @@
 import React from 'react';
-import { Container, Row, Col, Nav, Tab } from 'react-bootstrap';
+import { Container, Box, Typography, Tabs, Tab } from "@mui/material";
+import { Description as DescriptionIcon } from "@mui/icons-material";
+import { useState } from "react";
+import Visao from "./components/Visao";
+import Calculos from "./components/Calculos";
+import Swagger from "./components/Swagger";
 import { useAuth } from '../../contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
-import SwaggerUI from 'swagger-ui-react';
-import 'swagger-ui-react/swagger-ui.css';
-
-// Componentes da documentação
-import Visao from './components/Visao';
-import Arquitetura from './components/Arquitetura';
-import Calculos from './components/Calculos';
-import API from './components/API';
-import Otimizacoes from './components/Otimizacoes';
 
 const Documentacao: React.FC = () => {
   const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState("visao");
 
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setActiveTab(newValue);
+  };
+
   return (
-    <Container fluid className="py-4">
-      <h1 className="mb-4">Documentação do Sistema</h1>
-      
-      <Tab.Container id="documentacao-tabs" defaultActiveKey="visao">
-        <Row>
-          <Col md={3}>
-            <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link eventKey="visao">Visão Geral</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="arquitetura">Arquitetura</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="calculos">Cálculos e Regras</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="otimizacoes">Otimizações</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="api">API</Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
-          
-          <Col md={9}>
-            <Tab.Content>
-              <Tab.Pane eventKey="visao">
-                <Visao />
-              </Tab.Pane>
-              <Tab.Pane eventKey="arquitetura">
-                <Arquitetura />
-              </Tab.Pane>
-              <Tab.Pane eventKey="calculos">
-                <Calculos />
-              </Tab.Pane>
-              <Tab.Pane eventKey="otimizacoes">
-                <Otimizacoes />
-              </Tab.Pane>
-              <Tab.Pane eventKey="api">
-                <API />
-              </Tab.Pane>
-            </Tab.Content>
-          </Col>
-        </Row>
-      </Tab.Container>
+    <Container maxWidth="lg">
+      <Box sx={{ mt: 4, mb: 4 }}>
+        <Box display="flex" alignItems="center" mb={4}>
+          <DescriptionIcon sx={{ fontSize: 40, mr: 2, color: "primary.main" }} />
+          <Typography variant="h4" component="h1" color="primary">
+            Documentação do Sistema
+          </Typography>
+        </Box>
+
+        <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}>
+          <Tabs
+            value={activeTab}
+            onChange={handleChange}
+            aria-label="documentação tabs"
+          >
+            <Tab label="Visão Geral" value="visao" />
+            <Tab label="Cálculos" value="calculos" />
+            <Tab label="API" value="swagger" />
+          </Tabs>
+        </Box>
+
+        <Box sx={{ mt: 2 }}>
+          {activeTab === "visao" && <Visao />}
+          {activeTab === "calculos" && <Calculos />}
+          {activeTab === "swagger" && <Swagger />}
+        </Box>
+      </Box>
     </Container>
   );
 };
