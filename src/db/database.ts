@@ -21,8 +21,34 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super('FinanceiroDB')
-    this.version(5).stores({
-      transacoes: '++id, tipo, natureza, descricao, valor, data, categoria, lancamento, projeto, periodo, denominacaoConta, contaResumo'
+    this.version(6).stores({
+      transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo'
+    })
+
+    // Adiciona hooks para normalização de dados
+    this.transacoes.hook('creating', (primKey, obj) => {
+      // Normaliza o valor para número
+      obj.valor = converterParaNumero(obj.valor)
+      
+      // Garante que projeto e descricao não sejam undefined
+      obj.projeto = obj.projeto || obj.descricao || 'Sem Projeto'
+      obj.descricao = obj.descricao || obj.projeto || 'Sem Descrição'
+      
+      // Normaliza o período para o formato correto (M/YYYY)
+      if (obj.periodo) {
+        const [mes, ano] = obj.periodo.split('/')
+        obj.periodo = `${parseInt(mes)}/${ano}`
+      }
+    })
+
+    this.transacoes.hook('updating', (modifications, primKey, obj) => {
+      if (modifications.valor !== undefined) {
+        modifications.valor = converterParaNumero(modifications.valor)
+      }
+      if (modifications.periodo) {
+        const [mes, ano] = modifications.periodo.split('/')
+        modifications.periodo = `${parseInt(mes)}/${ano}`
+      }
     })
   }
 }

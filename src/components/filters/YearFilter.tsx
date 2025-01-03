@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Form } from 'react-bootstrap';
-import { db } from '../../db/database';
+import { useTransacoes } from '../../hooks/useTransacoes';
 
 interface YearFilterProps {
   selectedYear: number;
@@ -13,42 +13,50 @@ const YearFilter: React.FC<YearFilterProps> = ({
   onYearChange,
   label = 'Ano'
 }) => {
-  const [years, setYears] = useState<number[]>([]);
+  // Usa o hook otimizado para buscar transações
+  const { transacoes, isLoading } = useTransacoes(undefined, undefined, undefined, true);
 
-  useEffect(() => {
-    const loadYears = async () => {
-      try {
-        const transacoes = await db.transacoes.toArray();
-        const uniqueYears = Array.from(new Set(transacoes.map(t => {
-          const [, ano] = (t.periodo || '').split('/');
-          return parseInt(ano);
-        }))).filter(year => !isNaN(year)).sort((a, b) => b - a);
-
-        setYears(uniqueYears);
-      } catch (error) {
-        console.error('Erro ao carregar anos:', error);
+  // Processa a lista de anos de forma otimizada
+  const anos = useMemo(() => {
+    const uniqueYears = new Set<number>();
+    const currentYear = new Date().getFullYear();
+    
+    // Adiciona o ano atual por padrão
+    uniqueYears.add(currentYear);
+    
+    // Adiciona anos das transações
+    transacoes.forEach(t => {
+      if (t.periodo) {
+        const [, ano] = t.periodo.split('/');
+        const yearNum = parseInt(ano);
+        if (yearNum >= 2000 && yearNum <= 2100) {
+          uniqueYears.add(yearNum);
+        }
       }
-    };
+    });
 
-    loadYears();
-  }, []);
+    return Array.from(uniqueYears).sort((a, b) => b - a);
+  }, [transacoes]);
 
+  // Handler otimizado para mudanças
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const year = parseInt(event.target.value);
-    onYearChange(year);
+    if (!isNaN(year)) {
+      onYearChange(year);
+    }
   };
 
   return (
-    <Form.Group>
+    <Form.Group className="mb-3">
       <Form.Label>{label}</Form.Label>
       <Form.Select
         value={selectedYear}
         onChange={handleYearChange}
-        className="form-select"
+        disabled={isLoading}
       >
-        {years.map((year) => (
-          <option key={year} value={year}>
-            {year}
+        {anos.map((ano) => (
+          <option key={ano} value={ano}>
+            {ano}
           </option>
         ))}
       </Form.Select>
@@ -56,4 +64,4 @@ const YearFilter: React.FC<YearFilterProps> = ({
   );
 };
 
-export default YearFilter;
+export default React.memo(YearFilter);

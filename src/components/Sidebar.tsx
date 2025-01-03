@@ -12,14 +12,27 @@ import {
 } from '@iconscout/react-unicons'
 import { useConfig } from '../contexts/ConfigContext'
 
+// Wrappers para os ícones com parâmetros padrão
+const Analytics = (props: any = {}) => <UilAnalytics {...props} />
+const ChartGrowth = (props: any = {}) => <UilChartGrowth {...props} />
+const CloudUpload = (props: any = {}) => <UilCloudUpload {...props} />
+const Setting = (props: any = {}) => <UilSetting {...props} />
+const FileAlt = (props: any = {}) => <UilFileAlt {...props} />
+const Book = (props: any = {}) => <UilBook {...props} />
+
 interface MenuIconProps {
-  icon: React.ReactNode
-  color: string
-  isActive?: boolean
-  size?: number
+  icon: React.ReactNode;
+  color: string;
+  isActive?: boolean;
+  size?: number;
 }
 
-const MenuIcon: React.FC<MenuIconProps> = ({ icon, color, isActive, size = 24 }) => {
+const MenuIcon = ({ 
+  icon, 
+  color, 
+  isActive = false, 
+  size = 24 
+}: MenuIconProps): JSX.Element => {
   return (
     <div 
       style={{ 
@@ -98,7 +111,7 @@ const Sidebar = () => {
               }}
             >
               <MenuIcon 
-                icon={<UilAnalytics />}
+                icon={<Analytics />}
                 color="#2196f3"
                 isActive={isActive('/dashboard')}
               />
@@ -120,7 +133,7 @@ const Sidebar = () => {
               }}
             >
               <MenuIcon 
-                icon={<UilFileAlt />}
+                icon={<FileAlt />}
                 color="#4caf50"
                 isActive={isActive('/planilhas')}
               />
@@ -142,7 +155,7 @@ const Sidebar = () => {
               }}
             >
               <MenuIcon 
-                icon={<UilChartGrowth />}
+                icon={<ChartGrowth />}
                 color="#9c27b0"
                 isActive={isActive('/forecast')}
               />
@@ -164,7 +177,7 @@ const Sidebar = () => {
               }}
             >
               <MenuIcon 
-                icon={<UilCloudUpload />}
+                icon={<CloudUpload />}
                 color="#ff9800"
                 isActive={isActive('/upload')}
               />
@@ -186,7 +199,7 @@ const Sidebar = () => {
               }}
             >
               <MenuIcon 
-                icon={<UilBook />}
+                icon={<Book />}
                 color="#673ab7"
                 isActive={isActive('/documentacao')}
               />
@@ -208,7 +221,7 @@ const Sidebar = () => {
               }}
             >
               <MenuIcon 
-                icon={<UilSetting />}
+                icon={<Setting />}
                 color="#607d8b"
                 isActive={isActive('/config')}
               />

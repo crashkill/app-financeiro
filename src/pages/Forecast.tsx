@@ -14,7 +14,7 @@ const Forecast: React.FC = () => {
   const [projects, setProjects] = useState<string[]>([]);
   const [years, setYears] = useState<number[]>([]);
 
-  const processarDadosProjeto = async (projeto: string, ano: number) => {
+  const processarDadosProjeto = async (projeto: string, ano: number, todasTransacoes: Transacao[]) => {
     const dados: ForecastData['dados'] = {};
     let totaisReceita = 0;
     let totaisCusto = 0;
@@ -22,19 +22,16 @@ const Forecast: React.FC = () => {
     const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
     const mesesNumericos = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
     
-    // Busca todas as transações do projeto no ano
-    const transacoesProjeto = await db.transacoes
-      .where('descricao')
-      .equals(projeto)
-      .filter(t => {
-        const [, anoTransacao] = t.periodo.split('/');
-        return parseInt(anoTransacao) === ano;
-      })
-      .toArray();
+    // Filtra as transações do projeto e ano específicos
+    const transacoesProjeto = todasTransacoes.filter(t => {
+      const projetoMatch = (t.projeto || '') === projeto || (t.descricao || '') === projeto;
+      const [, anoTransacao] = (t.periodo || '').split('/');
+      return projetoMatch && parseInt(anoTransacao) === ano;
+    });
 
     // Inicializa dados para todos os meses
     meses.forEach((mes, index) => {
-      dados[`${mes}/${ano}`] = {
+      dados[`${mes}/${String(ano).slice(-2)}`] = {
         receita: 0,
         custoTotal: 0,
         margemBruta: 0,
@@ -50,8 +47,8 @@ const Forecast: React.FC = () => {
       const mesIndex = mesesNumericos.indexOf(mesNumerico);
       if (mesIndex === -1) return;
 
-      const mesAno = `${meses[mesIndex]}/${ano}`;
-      const valor = transacao.lancamento || 0;
+      const mesAno = `${meses[mesIndex]}/${String(ano).slice(-2)}`;
+      const valor = transacao.valor || 0;
 
       if (transacao.natureza === 'RECEITA') {
         dados[mesAno].receita += valor;
@@ -95,63 +92,42 @@ const Forecast: React.FC = () => {
       try {
         setIsLoading(true);
         
-        // Busca todos os projetos únicos
+        // Busca todos os projetos únicos e transações em uma única consulta
         const transacoes = await db.transacoes.toArray();
-        const uniqueProjects = [...new Set(transacoes.map(t => t.descricao || 'Sem Projeto'))].sort();
+        const uniqueProjects = Array.from(new Set(transacoes.map(t => t.projeto || t.descricao || 'Sem Projeto'))).sort();
         setProjects(uniqueProjects);
 
-        // Extrair lista única de anos
+        // Busca todos os anos únicos
         const uniqueYears = Array.from(new Set(transacoes.map(t => {
           const [, ano] = (t.periodo || '').split('/');
           return parseInt(ano);
-        }))).filter(year => !isNaN(year)).sort((a, b) => b - a); // Ordenar decrescente
-
+        }))).filter(year => !isNaN(year)).sort((a, b) => b - a);
         setYears(uniqueYears);
 
-        // Processa dados de cada projeto
-        const dadosIniciais = await Promise.all(
-          uniqueProjects.map(projeto => processarDadosProjeto(projeto, selectedYear))
+        // Se não houver ano selecionado, seleciona o mais recente
+        if (!selectedYear && uniqueYears.length > 0) {
+          setSelectedYear(uniqueYears[0]);
+        }
+
+        // Processa os dados de todos os projetos selecionados de uma vez
+        const projetosParaProcessar = selectedProjects.length > 0 ? selectedProjects : uniqueProjects;
+        const dadosProcessados = await Promise.all(
+          projetosParaProcessar.map(async (projeto) => {
+            const dadosProjeto = await processarDadosProjeto(projeto, selectedYear, transacoes);
+            return dadosProjeto;
+          })
         );
 
-        setForecastData(dadosIniciais);
+        setForecastData(dadosProcessados);
+        setIsLoading(false);
       } catch (error) {
-        console.error('Erro ao carregar dados iniciais:', error);
-      } finally {
+        console.error('Erro ao carregar dados:', error);
         setIsLoading(false);
       }
     };
 
     loadInitialData();
-  }, []);
-
-  // Atualiza quando os filtros mudam
-  useEffect(() => {
-    const loadForecastData = async () => {
-      try {
-        setIsLoading(true);
-        
-        // Define projetos a serem processados
-        const projetosParaProcessar = selectedProjects.length > 0 
-          ? selectedProjects 
-          : projects;
-        
-        // Processa dados dos projetos filtrados
-        const dadosProjetos = await Promise.all(
-          projetosParaProcessar.map(projeto => processarDadosProjeto(projeto, selectedYear))
-        );
-
-        setForecastData(dadosProjetos);
-      } catch (error) {
-        console.error('Erro ao carregar dados do forecast:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (projects.length > 0) {
-      loadForecastData();
-    }
-  }, [selectedProjects, selectedYear, projects]);
+  }, [selectedYear, selectedProjects]);
 
   const handleValueChange = async (projeto: string, mes: string, tipo: 'receita' | 'custoTotal', valor: number) => {
     try {

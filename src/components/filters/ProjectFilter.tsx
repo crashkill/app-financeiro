@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Form } from 'react-bootstrap';
-import { db } from '../../db/database';
+import { useTransacoes } from '../../hooks/useTransacoes';
 
 interface ProjectFilterProps {
   selectedProjects: string[];
-  onProjectChange: (selected: string[]) => void;
+  onProjectChange: (projects: string[]) => void;
   label?: string;
   height?: string;
 }
@@ -15,46 +15,48 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({
   label = 'Projetos',
   height = '200px'
 }) => {
-  const [projects, setProjects] = useState<string[]>([]);
+  // Usa o hook otimizado para buscar transações
+  const { transacoes, isLoading } = useTransacoes(undefined, undefined, undefined, true);
 
-  useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const transacoes = await db.transacoes.toArray();
-        const uniqueProjects = Array.from(new Set(transacoes.map(t => t.descricao || 'Sem Projeto')));
-        setProjects(uniqueProjects);
-      } catch (error) {
-        console.error('Erro ao carregar projetos:', error);
-      }
-    };
+  // Processa a lista de projetos de forma otimizada
+  const projetos = useMemo(() => {
+    const uniqueProjects = new Set<string>();
+    
+    transacoes.forEach(t => {
+      if (t.projeto) uniqueProjects.add(t.projeto);
+      if (t.descricao) uniqueProjects.add(t.descricao);
+    });
 
-    loadProjects();
-  }, []);
+    return Array.from(uniqueProjects).sort((a, b) => a.localeCompare(b));
+  }, [transacoes]);
 
-  const handleProjectSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  // Handler otimizado para mudanças
+  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const options = event.target.options;
-    const selected: string[] = [];
+    const selectedValues: string[] = [];
+    
     for (let i = 0; i < options.length; i++) {
       if (options[i].selected) {
-        selected.push(options[i].value);
+        selectedValues.push(options[i].value);
       }
     }
-    onProjectChange(selected);
+    
+    onProjectChange(selectedValues);
   };
 
   return (
-    <Form.Group>
+    <Form.Group className="mb-3">
       <Form.Label>{label}</Form.Label>
       <Form.Select
         multiple
         value={selectedProjects}
-        onChange={handleProjectSelection}
-        className="form-select"
+        onChange={handleProjectChange}
         style={{ height }}
+        disabled={isLoading}
       >
-        {projects.map((project) => (
-          <option key={project} value={project}>
-            {project}
+        {projetos.map((projeto) => (
+          <option key={projeto} value={projeto}>
+            {projeto}
           </option>
         ))}
       </Form.Select>
@@ -62,4 +64,4 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({
   );
 };
 
-export default ProjectFilter;
+export default React.memo(ProjectFilter);

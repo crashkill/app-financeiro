@@ -4,6 +4,17 @@ Aplicação para gerenciamento e visualização de dados financeiros de projetos
 
 ## Funcionalidades
 
+### Componentes Reutilizáveis
+- **Filtros**
+  - `ProjectFilter`: Componente para seleção múltipla de projetos
+    - Carrega projetos automaticamente do banco
+    - Suporta personalização de label e altura
+    - Mantém estado de seleção
+  - `YearFilter`: Componente para seleção de ano
+    - Carrega anos automaticamente do banco
+    - Adiciona ano atual se necessário
+    - Suporta personalização de label
+
 ### Dashboard
 - Visualização de receitas e custos por projeto
 - Gráfico de barras empilhadas mostrando:
@@ -18,18 +29,27 @@ Aplicação para gerenciamento e visualização de dados financeiros de projetos
   - Custo total do período
 
 ### Planilhas Financeiras
-- Visualização detalhada de dados financeiros por projeto
-- Cálculos de:
-  - Receita mensal e acumulada
-  - Custo mensal e acumulado
-  - Desoneração mensal e acumulada
-  - Margem mensal e acumulada (1 - (|Custo| - Desoneração)/Receita)
-- Indicadores visuais:
-  - Margem ≥ 7%: Verde
-  - Margem < 7%: Vermelho
-- Edição de valores futuros
-- Filtros por projeto e ano
-- Valores centralizados para melhor visualização
+
+A página de Planilhas Financeiras apresenta uma análise detalhada das finanças por projeto, incluindo:
+
+- **Receita**: Valores obtidos da coluna ContaResumo onde o valor é "Receita Devengada"
+- **Custos**: Valores obtidos da coluna ContaResumo onde o valor é "CLT", "Outros" ou "Subcontratados"
+- **Desoneração da Folha**: Valores obtidos da coluna ContaResumo onde o valor é "Desoneração da Folha"
+- **Margem**: Calculada como (1 - (|Custo| - Desoneração) / Receita) * 100
+
+### Funcionalidades
+
+- Filtragem por projeto e ano
+- Visualização de valores mensais e acumulados
+- Cálculo automático de margens
+- Indicadores visuais de performance (verde para margens >= 7%, vermelho para < 7%)
+
+### Otimizações
+
+- Busca otimizada de transações usando índices compostos
+- Processamento em lote para melhor performance
+- Normalização de strings para comparação consistente
+- Tratamento adequado de valores positivos/negativos
 
 ### Gráficos
 - Barras empilhadas por mês
@@ -58,7 +78,27 @@ Aplicação para gerenciamento e visualização de dados financeiros de projetos
 
 ### Backend
 - DexieJS (IndexedDB)
+  - Índices otimizados
+  - Cache em memória
+  - Normalização automática
 - Firebase (autenticação)
+
+### Otimizações
+- **Cache de Dados**
+  - Sistema de cache em memória com TTL de 5 minutos
+  - Invalidação seletiva por tipo/projeto/período
+  - Cache de componentes com React.memo
+
+- **Banco de Dados**
+  - Índices compostos para consultas frequentes
+  - Hooks de normalização de dados
+  - Validação automática de campos
+
+- **Componentes React**
+  - Hooks personalizados otimizados
+  - Memoização de listas e cálculos
+  - Lazy loading de dados
+  - Handlers otimizados
 
 ### Ferramentas de Desenvolvimento
 - Vite
@@ -87,7 +127,10 @@ npm run preview
 ```
 src/
   ├── components/       # Componentes reutilizáveis
-  │   ├── FilterPanel/    # Filtros globais
+  │   ├── filters/        # Filtros reutilizáveis
+  │   │   ├── ProjectFilter/  # Filtro de projetos
+  │   │   └── YearFilter/     # Filtro de anos
+  │   ├── FilterPanel/    # Painel de filtros
   │   ├── ProjectCharts/  # Gráficos de projeto
   │   └── Layout/         # Componentes de layout
   ├── pages/           # Páginas da aplicação
@@ -102,6 +145,36 @@ src/
   │   ├── calculators/  # Funções de cálculo
   │   └── validators/   # Validadores
   └── styles/         # Estilos globais
+```
+
+## Exemplos de Uso
+
+### Filtros Reutilizáveis
+
+```typescript
+import ProjectFilter from '@/components/filters/ProjectFilter';
+import YearFilter from '@/components/filters/YearFilter';
+
+const MyComponent: React.FC = () => {
+  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>(2024);
+
+  return (
+    <>
+      <ProjectFilter
+        selectedProjects={selectedProjects}
+        onProjectChange={setSelectedProjects}
+        label="Filtrar Projetos"  // opcional
+        height="200px"           // opcional
+      />
+      <YearFilter
+        selectedYear={selectedYear}
+        onYearChange={setSelectedYear}
+        label="Ano"             // opcional
+      />
+    </>
+  );
+};
 ```
 
 ## Regras de Negócio

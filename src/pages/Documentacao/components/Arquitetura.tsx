@@ -16,7 +16,10 @@ const Arquitetura: React.FC = () => {
           <SyntaxHighlighter language="plaintext" style={docco}>
             {`src/
   ├── components/       # Componentes reutilizáveis
-  │   ├── FilterPanel/    # Filtros globais
+  │   ├── filters/        # Filtros reutilizáveis
+  │   │   ├── ProjectFilter/  # Filtro de projetos
+  │   │   └── YearFilter/     # Filtro de anos
+  │   ├── FilterPanel/    # Painel de filtros
   │   ├── ProjectCharts/  # Gráficos de projeto
   │   └── Layout/         # Componentes de layout
   ├── pages/           # Páginas da aplicação
@@ -85,6 +88,34 @@ export const Component: React.FC<Props> = ({ prop1, prop2 }) => {
     <div>
       {/* JSX */}
     </div>
+  );
+};`}
+          </SyntaxHighlighter>
+
+          <h4 className="h6 mt-4">Componentes Reutilizáveis</h4>
+          <SyntaxHighlighter language="typescript" style={docco}>
+            {`// Exemplo de uso dos filtros reutilizáveis
+import ProjectFilter from '@/components/filters/ProjectFilter';
+import YearFilter from '@/components/filters/YearFilter';
+
+const MyComponent: React.FC = () => {
+  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>(2024);
+
+  return (
+    <>
+      <ProjectFilter
+        selectedProjects={selectedProjects}
+        onProjectChange={setSelectedProjects}
+        label="Filtrar Projetos"  // opcional
+        height="200px"           // opcional
+      />
+      <YearFilter
+        selectedYear={selectedYear}
+        onYearChange={setSelectedYear}
+        label="Ano"             // opcional
+      />
+    </>
   );
 };`}
           </SyntaxHighlighter>

@@ -10,6 +10,7 @@ import Visao from './components/Visao';
 import Arquitetura from './components/Arquitetura';
 import Calculos from './components/Calculos';
 import API from './components/API';
+import Otimizacoes from './components/Otimizacoes';
 
 const Documentacao: React.FC = () => {
   const { user } = useAuth();
@@ -36,6 +37,9 @@ const Documentacao: React.FC = () => {
                 <Nav.Link eventKey="calculos">Cálculos e Regras</Nav.Link>
               </Nav.Item>
               <Nav.Item>
+                <Nav.Link eventKey="otimizacoes">Otimizações</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
                 <Nav.Link eventKey="api">API</Nav.Link>
               </Nav.Item>
             </Nav>
@@ -51,6 +55,9 @@ const Documentacao: React.FC = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="calculos">
                 <Calculos />
+              </Tab.Pane>
+              <Tab.Pane eventKey="otimizacoes">
+                <Otimizacoes />
               </Tab.Pane>
               <Tab.Pane eventKey="api">
                 <API />
