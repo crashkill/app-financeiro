@@ -395,6 +395,62 @@ const Documentacao: React.FC = () => {
         </Card.Body>
       </Card>
 
+      {/* Segurança */}
+      <Card className="mb-4">
+        <Card.Header>
+          <h2>Segurança</h2>
+        </Card.Header>
+        <Card.Body>
+          <h3>Medidas de Segurança Implementadas</h3>
+          
+          <h4>Proteção da Aplicação</h4>
+          <ul>
+            <li><strong>Headers de Segurança</strong>
+              <ul>
+                <li>X-Frame-Options: Proteção contra clickjacking</li>
+                <li>Content Security Policy (CSP): Controle de recursos</li>
+                <li>HSTS: Força conexões HTTPS</li>
+                <li>X-Content-Type-Options: Previne MIME-type sniffing</li>
+              </ul>
+            </li>
+            <li><strong>Autenticação</strong>
+              <ul>
+                <li>JWT com refresh tokens</li>
+                <li>Cookies httpOnly para tokens</li>
+                <li>Timeout por inatividade</li>
+                <li>Proteção contra força bruta</li>
+              </ul>
+            </li>
+          </ul>
+
+          <h4>Proteção de Dados</h4>
+          <ul>
+            <li><strong>Conformidade LGPD</strong>
+              <ul>
+                <li>Criptografia de dados sensíveis</li>
+                <li>Política de retenção de dados</li>
+                <li>Processo de exclusão de dados</li>
+              </ul>
+            </li>
+            <li><strong>Auditoria</strong>
+              <ul>
+                <li>Log de ações sensíveis</li>
+                <li>Monitoramento de tentativas de acesso</li>
+                <li>Backup regular dos dados</li>
+              </ul>
+            </li>
+          </ul>
+
+          <h4>Boas Práticas</h4>
+          <ul>
+            <li>Validação de entrada em todos os formulários</li>
+            <li>Sanitização de dados antes da renderização</li>
+            <li>Proteção contra injeção de código</li>
+            <li>Atualizações regulares de dependências</li>
+          </ul>
+        </Card.Body>
+      </Card>
+
     </Container>
   );
 };

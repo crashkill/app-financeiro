@@ -46,6 +46,27 @@ Aplicação para gerenciamento financeiro de projetos, permitindo o controle de 
 - Fórmula: (1 - (|Custo| - Desoneração) / Receita) * 100
 - Onde |Custo| representa o valor absoluto do custo
 
+## Segurança
+### Configurações de Segurança
+- Headers de segurança configurados via Netlify
+- Proteção contra ataques XSS, CSRF e clickjacking
+- HSTS habilitado
+- Content Security Policy (CSP) implementada
+- Cookies seguros e httpOnly
+
+### Autenticação e Autorização
+- Sistema de login com JWT
+- Refresh tokens para maior segurança
+- Rotas protegidas
+- Timeout por inatividade
+- Validação de entrada em todos os formulários
+
+### Conformidade
+- LGPD compliant
+- Política de privacidade implementada
+- Logs de auditoria para ações sensíveis
+- Backup regular dos dados
+
 ## Tecnologias Utilizadas
 - React com TypeScript
 - DexieJS para banco de dados local
@@ -77,10 +98,12 @@ src/
 ```
 
 ## Últimas Atualizações
+- Implementação de medidas de segurança avançadas
+- Configuração de headers de segurança no Netlify
+- Atualização da documentação com informações de segurança
+- Melhorias na interface do usuário
 - Correção no processamento de valores financeiros
 - Atualização da documentação com regras detalhadas
-- Melhorias na interface do usuário
-- Correção nos ícones do menu lateral
 
 ## Contribuição
 1. Faça um fork do projeto
