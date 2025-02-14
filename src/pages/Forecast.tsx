@@ -222,21 +222,22 @@ const Forecast: React.FC = () => {
       console.log('Salvando transação:', {
         projeto,
         mes: `${mesNumerico}/${ano}`,
-        tipo,
+        tipo: tipo === 'receita' ? 'receita' : 'despesa',
         valor,
         contaResumo: tipo === 'receita' ? 'RECEITA DEVENGADA' : 'CUSTO'
       });
 
       // Salva no banco de dados
       await db.transacoes.add({
-        projeto: projeto, 
+        tipo: tipo === 'receita' ? 'receita' : 'despesa',
+        projeto: projeto,
         descricao: projeto,
         periodo: `${mesNumerico}/${ano}`,
         natureza: tipo === 'receita' ? 'RECEITA' : 'CUSTO',
-        contaResumo: tipo === 'receita' ? 'RECEITA DEVENGADA' : 'CUSTO',
         valor: valor,
-        created_at: new Date(),
-        updated_at: new Date()
+        data: new Date().toISOString(),
+        categoria: tipo === 'receita' ? 'RECEITA DEVENGADA' : 'CUSTO',
+        lancamento: Date.now()
       });
 
     } catch (error) {

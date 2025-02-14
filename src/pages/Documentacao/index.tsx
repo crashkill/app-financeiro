@@ -9,7 +9,6 @@ import Componentes from "./components/Componentes";
 import API from "./components/API";
 import Banco from "./components/Banco";
 import Deploy from "./components/Deploy";
-import Swagger from "./components/Swagger";
 import { useAuth } from '../../contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
