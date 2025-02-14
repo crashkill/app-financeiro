@@ -29,9 +29,15 @@ const Calculos: React.FC = () => {
           <h4 className="h6 mt-4">Regras para Custos</h4>
           <ul>
             <li>Custos são sempre mantidos como valores negativos no sistema</li>
-            <li>Apenas custos do tipo CLT, Outros e Subcontratados são considerados</li>
-            <li>Valor fixo mensal: R$ -71.578,23</li>
+            <li>São considerados três tipos principais de custos:
+              <ul>
+                <li><span style={{ color: 'rgb(54, 162, 235)' }}>CLT</span> - Custos com funcionários CLT</li>
+                <li><span style={{ color: 'rgb(255, 159, 64)' }}>Subcontratados</span> - Custos com profissionais terceirizados</li>
+                <li><span style={{ color: 'rgb(75, 192, 192)' }}>Outros</span> - Demais custos relacionados</li>
+              </ul>
+            </li>
             <li>O valor absoluto do custo só é utilizado no momento do cálculo da margem</li>
+            <li>Custos acumulados preservam o sinal negativo na soma</li>
           </ul>
 
           <h4 className="h6 mt-4">Regras para Desoneração</h4>
@@ -128,7 +134,13 @@ const calcularAcumulado = (dadosMes: DadosMes, acumulado: DadosMes) => {
           <h4 className="h6">Regras para Custos</h4>
           <ul>
             <li>Custos são sempre mantidos como valores negativos no sistema</li>
-            <li>Apenas custos do tipo CLT, Outros e Subcontratados são considerados</li>
+            <li>São considerados três tipos principais de custos:
+              <ul>
+                <li><span style={{ color: 'rgb(54, 162, 235)' }}>CLT</span> - Custos com funcionários CLT</li>
+                <li><span style={{ color: 'rgb(255, 159, 64)' }}>Subcontratados</span> - Custos com profissionais terceirizados</li>
+                <li><span style={{ color: 'rgb(75, 192, 192)' }}>Outros</span> - Demais custos relacionados</li>
+              </ul>
+            </li>
             <li>O valor absoluto do custo só é utilizado no momento do cálculo da margem</li>
             <li>Custos acumulados preservam o sinal negativo na soma</li>
           </ul>
@@ -222,6 +234,15 @@ const processarAcumulados = (meses) => {
   };
 };`}
           </SyntaxHighlighter>
+
+          <h4 className="h6 mt-4">Exibição de Custos no Gráfico</h4>
+          <p>Os custos são exibidos no gráfico de pizza com cores distintas para facilitar a identificação:</p>
+          <ul>
+            <li><span style={{ color: 'rgb(54, 162, 235)' }}>CLT</span> - Azul</li>
+            <li><span style={{ color: 'rgb(255, 159, 64)' }}>Subcontratados</span> - Laranja</li>
+            <li><span style={{ color: 'rgb(75, 192, 192)' }}>Outros</span> - Verde água</li>
+          </ul>
+          <p>A ordem de exibição no gráfico e na legenda é sempre mantida como: CLT, Subcontratados, Outros.</p>
 
           <h4 className="h6 mt-4">Checklist de Validação</h4>
           <div className="alert alert-secondary">

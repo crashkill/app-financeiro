@@ -1,13 +1,16 @@
 import React from 'react';
 import { Row, Col, Card, Form } from 'react-bootstrap';
+import MonthFilter from './filters/MonthFilter';
 
 interface FilterPanelProps {
   projects: string[];
   selectedProjects: string[];
   years: number[];
   selectedYear: number;
+  selectedMonth?: string;
   onProjectChange: (projects: string[]) => void;
   onYearChange: (year: number) => void;
+  onMonthChange?: (month: string) => void;
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
@@ -15,8 +18,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   selectedProjects,
   years,
   selectedYear,
+  selectedMonth = '',
   onProjectChange,
-  onYearChange
+  onYearChange,
+  onMonthChange
 }) => {
   // Handler para mudança na seleção de projetos
   const handleProjectSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -37,14 +42,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
   return (
     <Row className="mb-4 g-3">
-      <Col md={9}>
+      <Col md={8}>
         <Card className="shadow h-100">
           <Card.Body>
             <Form.Group>
               <Form.Label><strong>Filtrar Projetos</strong></Form.Label>
               <Form.Select 
                 multiple 
-                size={6}
+                size="lg"
                 onChange={handleProjectSelection}
                 value={selectedProjects}
                 className="form-control"
@@ -63,10 +68,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </Card.Body>
         </Card>
       </Col>
-      <Col md={3}>
+      <Col md={4}>
         <Card className="shadow h-100">
           <Card.Body>
-            <Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label><strong>Filtrar Ano</strong></Form.Label>
               <Form.Select
                 onChange={handleYearSelection}
@@ -80,6 +85,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 ))}
               </Form.Select>
             </Form.Group>
+            
+            {onMonthChange && (
+              <MonthFilter
+                selectedMonth={selectedMonth}
+                onMonthChange={onMonthChange}
+                label="Filtrar Mês"
+              />
+            )}
           </Card.Body>
         </Card>
       </Col>

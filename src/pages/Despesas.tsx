@@ -6,7 +6,7 @@ import { useConfig } from '../contexts/ConfigContext'
 
 const Despesas = () => {
   const { config } = useConfig()
-  const { transacoes, total, adicionarTransacao, editarTransacao, excluirTransacao, isLoading } = useTransacoes('despesa')
+  const { transacoes, total, adicionarTransacao, editarTransacao, excluirTransacao, isLoading } = useTransacoes({ tipo: 'despesa' })
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [formData, setFormData] = useState({

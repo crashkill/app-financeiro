@@ -16,6 +16,8 @@ export interface Transacao {
   contaResumo?: string // Adicionado para identificar Desoneração da Folha
 }
 
+type TransacaoModifications = Partial<Transacao>;
+
 export class AppDatabase extends Dexie {
   transacoes!: Table<Transacao>
 
@@ -41,7 +43,7 @@ export class AppDatabase extends Dexie {
       }
     })
 
-    this.transacoes.hook('updating', (modifications, primKey, obj) => {
+    this.transacoes.hook('updating', (modifications: TransacaoModifications, primKey, obj) => {
       if (modifications.valor !== undefined) {
         modifications.valor = converterParaNumero(modifications.valor)
       }
@@ -105,6 +107,17 @@ export const importarDados = async (dados: any[]) => {
       // Converter o valor do lançamento para número
       const valorFinal = converterParaNumero(item.Lancamento)
 
+      // Normalizar contaResumo
+      let contaResumo = String(item.ContaResumo || '').toUpperCase().trim()
+      // Mapear variações conhecidas para os tipos padrão
+      if (contaResumo.includes('CLT')) {
+        contaResumo = 'CLT'
+      } else if (contaResumo.includes('SUBCONTRATADO') || contaResumo.includes('SUB-CONTRATADO')) {
+        contaResumo = 'SUBCONTRATADOS'
+      } else if (contaResumo !== 'OUTROS') {
+        contaResumo = 'OUTROS'
+      }
+
       // Log detalhado de cada item
       console.log('Processando item:', {
         projeto: item.Projeto,
@@ -126,7 +139,7 @@ export const importarDados = async (dados: any[]) => {
         lancamento: valorFinal, // Mantendo o valor original com sinal
         periodo: String(item.Periodo || ''),
         denominacaoConta: String(item.DenominacaoConta || ''),
-        contaResumo: String(item.ContaResumo || '')
+        contaResumo: contaResumo
       };
 
       // Log da transação final

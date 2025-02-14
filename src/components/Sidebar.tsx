@@ -10,19 +10,21 @@ import {
   UilSetting,
   UilBook,
   UilBars,
-  UilAngleRight
+  UilAngleRight,
+  UilUser
 } from '@iconscout/react-unicons'
 import { useConfig } from '../contexts/ConfigContext'
 
-// Wrappers para os ícones com parâmetros padrão
-const Analytics = (props: any = {}) => <UilAnalytics {...props} />
-const FileAlt = (props: any = {}) => <UilFileAlt {...props} />
-const ChartGrowth = (props: any = {}) => <UilChartGrowth {...props} />
-const CloudUpload = (props: any = {}) => <UilCloudUpload {...props} />
-const Setting = (props: any = {}) => <UilSetting {...props} />
-const Book = (props: any = {}) => <UilBook {...props} />
-const Bars = (props: any = {}) => <UilBars {...props} />
-const AngleRight = (props: any = {}) => <UilAngleRight {...props} />
+// Wrappers para os ícones usando parâmetros padrão via desestruturação
+const Analytics = ({ ...props }) => <UilAnalytics {...props} />
+const FileAlt = ({ ...props }) => <UilFileAlt {...props} />
+const ChartGrowth = ({ ...props }) => <UilChartGrowth {...props} />
+const CloudUpload = ({ ...props }) => <UilCloudUpload {...props} />
+const Setting = ({ ...props }) => <UilSetting {...props} />
+const Book = ({ ...props }) => <UilBook {...props} />
+const Bars = ({ ...props }) => <UilBars {...props} />
+const AngleRight = ({ ...props }) => <UilAngleRight {...props} />
+const User = ({ ...props }) => <UilUser {...props} />
 
 interface MenuIconProps {
   icon: React.ReactNode;
@@ -85,6 +87,12 @@ const Sidebar = () => {
       color: '#9c27b0'
     },
     {
+      text: 'Gestão Profissionais',
+      icon: <User />,
+      path: '/gestao-profissionais',
+      color: '#ff5722'
+    },
+    {
       text: 'Upload',
       icon: <CloudUpload />,
       path: '/upload',
@@ -94,12 +102,6 @@ const Sidebar = () => {
       text: 'Documentação',
       icon: <Book />,
       path: '/documentacao',
-      color: '#607d8b'
-    },
-    {
-      text: 'Configurações',
-      icon: <Setting />,
-      path: '/config',
       color: '#607d8b'
     }
   ];

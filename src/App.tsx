@@ -8,6 +8,7 @@ import Forecast from './pages/Forecast'
 import PlanilhasFinanceiras from './pages/PlanilhasFinanceiras'
 import Documentacao from './pages/Documentacao'
 import Layout from './components/Layout'
+import GestaoProfissionais from './pages/GestaoProfissionais'
 
 // Componente para rotas protegidas
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
@@ -49,6 +50,14 @@ function App() {
         }
       />
       <Route
+        path="/gestao-profissionais"
+        element={
+          <PrivateRoute>
+            <GestaoProfissionais />
+          </PrivateRoute>
+        }
+      />
+      <Route
         path="/upload"
         element={
           <PrivateRoute>
@@ -74,7 +83,7 @@ function App() {
       />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
     </Routes>
-  );
+  )
 }
 
 export default App
