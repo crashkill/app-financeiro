@@ -1,3 +1,119 @@
+# Documentação do Projeto - App Financeiro
+
+## Introdução
+
+Este projeto é uma aplicação financeira desenvolvida com React, TypeScript, Vite e diversas bibliotecas modernas, como React-Bootstrap, TailwindCSS, Chart.js, entre outras. O sistema permite a gestão de operações financeiras, incluindo dashboards, uploads, previsões (forecast), gestão de profissionais e relatórios.
+
+## Funcionalidades Principais
+
+- **Dashboard:** Visão geral dos indicadores financeiros.
+- **Planilhas Financeiras:** Visualização e manipulação de planilhas de receitas e despesas.
+- **Forecast:** Previsões financeiras com gráficos interativos.
+- **Upload:** Importação de dados via arquivos Excel.
+- **Gestão de Profissionais:** Módulo para gerenciamento de custos e alocação de profissionais, com gráficos e tabelas detalhadas.
+- **Documentação:** Seção dedicada a explicar a arquitetura, componentes e fluxos do sistema.
+
+## Estrutura do Projeto
+
+- **src/**: Código-fonte principal, organizado em:
+  - **components/**: Componentes reutilizáveis (ex.: CustosGrafico em gestao-profissionais, Header, Layout, Sidebar, etc.)
+  - **contexts/**: Gerenciamento de estados globais (autenticação, configurações).
+  - **db/**: Configuração do banco de dados local, usando IndexedDB.
+  - **pages/**: Páginas da aplicação, como Dashboard, Login, Upload, Forecast, Gestão de Profissionais, etc.
+  - **routes/**: Configuração de rotas com proteção para acessos não autenticados.
+  - **utils/**: Funções auxiliares para formatação, cálculos, e manipulação de dados.
+
+## Tecnologias Utilizadas
+
+- **Front-end:** React, TypeScript, Vite
+- **Estilização:** React-Bootstrap, TailwindCSS
+- **Gráficos:** Chart.js e react-chartjs-2
+- **Testes:** Jest, Testing Library
+
+## Instalação e Execução
+
+1. Clone o repositório:
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   ```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Execute a aplicação:
+   ```bash
+   npm run dev
+   ```
+
+4. Execute os testes:
+   ```bash
+   npm test
+   ```
+
+## Desenvolvimento com TDD (Test-Driven Development)
+
+### Princípios do TDD
+1. **Red:** Escrever o teste primeiro (que deve falhar)
+2. **Green:** Implementar o código mínimo para fazer o teste passar
+3. **Refactor:** Melhorar o código mantendo os testes passando
+
+### Estrutura de Testes
+- **Localização:** `src/__tests__/`
+- **Nomenclatura:** `[ComponentName].test.tsx`
+- **Frameworks:** Jest + Testing Library
+- **Cobertura Mínima:** 80%
+
+### Padrões de Teste
+```typescript
+// Exemplo de estrutura de teste
+import { describe, test, expect } from '@jest/globals';
+import { render, screen } from '@testing-library/react';
+
+describe('Component', () => {
+  test('comportamento esperado', () => {
+    // Arrange
+    render(<Component />);
+    
+    // Act
+    const element = screen.getByText('texto');
+    
+    // Assert
+    expect(element).toBeInTheDocument();
+  });
+});
+```
+
+### Mocks e Dados de Teste
+- Usar dados mock realistas
+- Definir interfaces claras
+- Testar casos de borda
+- Simular erros e exceções
+
+### Comandos de Teste
+```bash
+# Executar todos os testes
+npm test
+
+# Modo watch
+npm run test:watch
+
+# Verificar cobertura
+npm run test:coverage
+```
+
+### Fluxo de Desenvolvimento
+1. Criar arquivo de teste (*.test.tsx)
+2. Escrever teste(s) para o comportamento desejado
+3. Implementar o código mínimo
+4. Refatorar e melhorar
+5. Repetir para cada nova funcionalidade
+
+## Futuras Melhorias
+
+A documentação será atualizada continuamente com novas funcionalidades e melhorias na arquitetura. Recomendamos que a mesma seja revisada periodicamente para acompanhar as evoluções do sistema.
+
+*Esta documentação foi criada para auxiliar na manutenção e evolução do sistema.*
+
 # Documentação do Sistema Financeiro
 
 ## Índice

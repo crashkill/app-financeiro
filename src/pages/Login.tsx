@@ -9,10 +9,22 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [validationErrors, setValidationErrors] = useState<{email?: string; password?: string}>({})
   const [isLoading, setIsLoading] = useState(false)
+
+  const validateForm = () => {
+    const errors: {email?: string; password?: string} = {}
+    if (!email) errors.email = 'E-mail é obrigatório'
+    else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'E-mail inválido'
+    if (!password) errors.password = 'Senha é obrigatória'
+    setValidationErrors(errors)
+    return Object.keys(errors).length === 0
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validateForm()) return
+    
     setIsLoading(true)
     setError('')
 
@@ -46,37 +58,43 @@ const Login = () => {
 
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label htmlFor="email">E-mail</Form.Label>
                   <Form.Control
+                    id="email"
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Digite seu email"
-                    required
+                    aria-label="E-mail"
+                    isInvalid={!!validationErrors.email}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {validationErrors.email}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-4">
-                  <Form.Label>Senha</Form.Label>
+                  <Form.Label htmlFor="password">Senha</Form.Label>
                   <Form.Control
+                    id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Digite sua senha"
-                    required
+                    aria-label="Senha"
+                    isInvalid={!!validationErrors.password}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {validationErrors.password}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
-                <div className="d-grid">
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={isLoading}
-                    className="py-2"
-                  >
-                    {isLoading ? 'Entrando...' : 'Entrar'}
-                  </Button>
-                </div>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-100"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Entrando...' : 'Entrar'}
+                </Button>
               </Form>
             </Card.Body>
           </Card>

@@ -38,7 +38,54 @@ const Deploy = () => {
 
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Typography variant="h5" gutterBottom>
-          2. Processo de Build
+          2. Requisitos de Qualidade e CI/CD
+        </Typography>
+        
+        <Typography variant="h6" gutterBottom>
+          2.1. Cobertura de Testes
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Cobertura mínima exigida: 80%</li>
+            <li>Testes unitários obrigatórios para novos componentes</li>
+            <li>Testes de integração para fluxos críticos</li>
+            <li>Execução automática via GitHub Actions</li>
+          </ul>
+        </Typography>
+
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          2.2. Pipeline de CI/CD
+        </Typography>
+        <Typography variant="body1" component="div">
+          <ul>
+            <li>Execução automática em pull requests e push para master</li>
+            <li>Validação de lint e tipos TypeScript</li>
+            <li>Execução da suite de testes completa</li>
+            <li>Verificação de cobertura mínima de 80%</li>
+            <li>Build do projeto</li>
+            <li>Deploy automático após aprovação dos testes</li>
+          </ul>
+        </Typography>
+
+        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          2.3. Comandos de Teste
+        </Typography>
+        <Typography variant="body1" component="div" sx={{ fontFamily: "monospace", whiteSpace: "pre-line" }}>
+          {`
+  # Executar todos os testes
+  npm test
+
+  # Verificar cobertura
+  npm test -- --coverage
+
+  # Executar testes em modo watch
+  npm test -- --watch`}
+        </Typography>
+      </Paper>
+
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          3. Processo de Build
         </Typography>
         <Typography variant="body1" paragraph>
           O processo de build é gerenciado pelo Vite e consiste nos seguintes passos:
@@ -58,11 +105,11 @@ const Deploy = () => {
 
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Typography variant="h5" gutterBottom>
-          3. Processo de Deploy
+          4. Processo de Deploy
         </Typography>
 
         <Typography variant="h6" gutterBottom>
-          3.1. Deploy Manual
+          4.1. Deploy Manual
         </Typography>
         <Typography variant="body1" component="div">
           <ol>
@@ -74,7 +121,7 @@ const Deploy = () => {
         </Typography>
 
         <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          3.2. Deploy Automático
+          4.2. Deploy Automático
         </Typography>
         <Typography variant="body1" component="div">
           <ol>
@@ -89,11 +136,11 @@ const Deploy = () => {
 
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Typography variant="h5" gutterBottom>
-          4. Monitoramento
+          5. Monitoramento
         </Typography>
 
         <Typography variant="h6" gutterBottom>
-          4.1. Performance
+          5.1. Performance
         </Typography>
         <Typography variant="body1" component="div">
           <ul>
@@ -105,7 +152,7 @@ const Deploy = () => {
         </Typography>
 
         <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          4.2. Logs
+          5.2. Logs
         </Typography>
         <Typography variant="body1" component="div">
           <ul>
@@ -119,11 +166,11 @@ const Deploy = () => {
 
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Typography variant="h5" gutterBottom>
-          5. Manutenção
+          6. Manutenção
         </Typography>
 
         <Typography variant="h6" gutterBottom>
-          5.1. Atualizações
+          6.1. Atualizações
         </Typography>
         <Typography variant="body1" component="div">
           <ul>
@@ -135,7 +182,7 @@ const Deploy = () => {
         </Typography>
 
         <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          5.2. Backup
+          6.2. Backup
         </Typography>
         <Typography variant="body1" component="div">
           <ul>
@@ -148,7 +195,7 @@ const Deploy = () => {
 
       <Paper elevation={2} sx={{ p: 3 }}>
         <Typography variant="h5" gutterBottom>
-          6. Segurança
+          7. Segurança
         </Typography>
         <Typography variant="body1" component="div">
           <ul>

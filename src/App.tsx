@@ -7,8 +7,8 @@ import Config from './pages/Config'
 import Forecast from './pages/Forecast'
 import PlanilhasFinanceiras from './pages/PlanilhasFinanceiras'
 import Documentacao from './pages/Documentacao'
-import Layout from './components/Layout'
 import GestaoProfissionais from './pages/GestaoProfissionais'
+import Layout from './components/Layout'
 
 // Componente para rotas protegidas
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
@@ -20,69 +20,79 @@ function App() {
   const { user } = useAuth()
 
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={user ? <Navigate to="/dashboard" /> : <Login />}
-      />
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/planilhas"
-        element={
-          <PrivateRoute>
-            <PlanilhasFinanceiras />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/forecast"
-        element={
-          <PrivateRoute>
-            <Forecast />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/gestao-profissionais"
-        element={
-          <PrivateRoute>
-            <GestaoProfissionais />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/upload"
-        element={
-          <PrivateRoute>
-            <Upload />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/documentacao"
-        element={
-          <PrivateRoute>
-            <Documentacao />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/config"
-        element={
-          <PrivateRoute>
-            <Config />
-          </PrivateRoute>
-        }
-      />
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-    </Routes>
+    <div data-testid="app-container">
+      <Routes>
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" /> : <Login />}
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/planilhas"
+          element={
+            <PrivateRoute>
+              <PlanilhasFinanceiras />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/forecast"
+          element={
+            <PrivateRoute>
+              <Forecast />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/gestao-profissionais"
+          element={
+            <PrivateRoute>
+              <GestaoProfissionais />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            <PrivateRoute>
+              <Upload />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/documentacao"
+          element={
+            <PrivateRoute>
+              <Documentacao />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/config"
+          element={
+            <PrivateRoute>
+              <Config />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/gestao-profissionais"
+          element={
+            <PrivateRoute>
+              <GestaoProfissionais />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </div>
   )
 }
 

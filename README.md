@@ -1,116 +1,129 @@
 # App Financeiro
 
-## Descrição
-Aplicação para gerenciamento financeiro de projetos, permitindo o controle de receitas, custos e margens.
+Este é um sistema de gestão financeira que oferece funcionalidades robustas para visualização de indicadores, upload de dados, previsões financeiras (forecast), e gerenciamento de profissionais.
 
 ## Funcionalidades Principais
 
-### 1. Planilhas Financeiras
-- Visualização mensal de dados financeiros por projeto
-- Cálculo automático de margens
-- Processamento de diferentes tipos de transações:
-  - Receita Devengada
-  - Desoneração da Folha
-  - Custos (CLT, Outros, Subcontratados)
+- **Dashboard:** Visão geral com indicadores financeiros.
+- **Planilhas Financeiras:** Visualização de receitas e despesas.
+- **Forecast:** Projeções e previsões financeiras com gráficos interativos.
+- **Upload:** Importação de dados via arquivos Excel.
+- **Gestão de Profissionais:** Módulo completo para gerenciamento de profissionais, incluindo gráficos de custos e tabelas com filtros e ordenação.
+- **Documentação:** Informação detalhada sobre a arquitetura e funcionamento do sistema.
 
-### 2. Dashboard
-- Visão geral dos indicadores financeiros
-- Gráficos e análises
+## Organização do Projeto
 
-### 3. Forecast
-- Projeções financeiras
-- Análise de tendências
-
-### 4. Upload de Dados
-- Importação de planilhas
-- Validação automática de dados
-
-## Regras de Negócio
-
-### Processamento de Transações
-1. **Receita**
-   - Tipo: "RECEITA DEVENGADA"
-   - Mantém valor original do banco
-   - Sempre positivo
-
-2. **Desoneração**
-   - Tipo: "DESONERAÇÃO DA FOLHA"
-   - Mantém valor original do banco
-   - Sempre positivo
-
-3. **Custos**
-   - Tipos: "CLT", "OUTROS", "SUBCONTRATADOS"
-   - Mantém valor e sinal original do banco
-
-### Cálculo de Margem
-- Fórmula: (1 - (|Custo| - Desoneração) / Receita) * 100
-- Onde |Custo| representa o valor absoluto do custo
-
-## Segurança
-### Configurações de Segurança
-- Headers de segurança configurados via Netlify
-- Proteção contra ataques XSS, CSRF e clickjacking
-- HSTS habilitado
-- Content Security Policy (CSP) implementada
-- Cookies seguros e httpOnly
-
-### Autenticação e Autorização
-- Sistema de login com JWT
-- Refresh tokens para maior segurança
-- Rotas protegidas
-- Timeout por inatividade
-- Validação de entrada em todos os formulários
-
-### Conformidade
-- LGPD compliant
-- Política de privacidade implementada
-- Logs de auditoria para ações sensíveis
-- Backup regular dos dados
+O projeto utiliza uma arquitetura modular, com separação clara entre componentes, contextos, páginas, rotas e utilitários. Para detalhes mais aprofundados, consulte a [Documentação](./docs/DOCUMENTACAO.md).
 
 ## Tecnologias Utilizadas
-- React com TypeScript
-- DexieJS para banco de dados local
-- React Bootstrap e Material-UI para interface
-- Vite como bundler
+
+- React, TypeScript e Vite
+- React-Bootstrap e TailwindCSS
+- Chart.js para visualização de dados
+- Jest e Testing Library para testes
+
+## Estrutura do Projeto
+
+```
+src/
+├── components/
+│   ├── gestao-profissionais/
+│   │   └── CustosGrafico.tsx
+│   ├── Layout.tsx
+│   ├── Menu.tsx
+│   └── FilterPanel.tsx
+├── contexts/
+│   └── AuthContext.tsx
+├── pages/
+│   ├── Dashboard.tsx
+│   ├── GestaoProfissionais.tsx
+│   ├── PlanilhasFinanceiras.tsx
+│   └── ...
+├── utils/
+│   └── formatters.ts
+└── App.tsx
+```
 
 ## Instalação e Execução
 
+1. Clone o repositório:
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   ```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Inicie a aplicação:
+   ```bash
+   npm run dev
+   ```
+4. Execute os testes:
+   ```bash
+   npm test
+   ```
+
+## Desenvolvimento e Testes
+
+### Requisitos de Qualidade
+- Cobertura mínima de testes: 80%
+- Todas as novas funcionalidades devem incluir testes
+- CI/CD automatizado via GitHub Actions
+
+### TDD (Test-Driven Development)
+Este projeto segue as práticas de TDD, onde os testes são escritos antes da implementação:
+
+1. Escrever o teste primeiro
+2. Implementar o código
+3. Refatorar mantendo os testes passando
+
+### Pipeline CI/CD
+O projeto utiliza GitHub Actions para automação de:
+- Execução de testes
+- Verificação de cobertura (mínimo 80%)
+- Build do projeto
+- Deploy automático após testes bem-sucedidos
+
+### Executando os Testes
 ```bash
-# Instalar dependências
-npm install
+# Executar todos os testes
+npm test
 
-# Executar em desenvolvimento
-npm run dev
+# Executar testes em modo watch
+npm run test:watch
 
-# Construir para produção
-npm run build
+# Verificar cobertura de testes
+npm run test:coverage
 ```
 
-## Estrutura do Projeto
+### Estrutura de Testes
 ```
 src/
-  ├── components/      # Componentes reutilizáveis
-  ├── contexts/        # Contextos React
-  ├── pages/          # Páginas da aplicação
-  ├── db/             # Configuração do banco de dados
-  ├── types/          # Tipos TypeScript
-  └── utils/          # Funções utilitárias
+└── __tests__/
+    ├── App.test.tsx
+    ├── Home.test.tsx
+    ├── CustosGrafico.test.tsx
+    └── ...
 ```
 
-## Últimas Atualizações
-- Implementação de medidas de segurança avançadas
-- Configuração de headers de segurança no Netlify
-- Atualização da documentação com informações de segurança
-- Melhorias na interface do usuário
-- Correção no processamento de valores financeiros
-- Atualização da documentação com regras detalhadas
+## Atualizações
+
+Esta documentação foi atualizada para refletir as últimas funcionalidades do sistema, incluindo o módulo de Gestão de Profissionais e a integração com ferramentas modernas de testes e desenvolvimento.
 
 ## Contribuição
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+
+1. Crie uma branch para sua feature
+2. Faça commit das alterações
+3. Push para a branch
+4. Crie um Pull Request
+
+## Contribuindo
+
+1. Crie os testes primeiro (`*.test.tsx`)
+2. Implemente a funcionalidade
+3. Garanta que os testes passem
+4. Faça o commit incluindo testes e implementação
+5. Crie o Pull Request
 
 ## Licença
 Este projeto está sob a licença MIT.

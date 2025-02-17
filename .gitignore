@@ -34,14 +34,6 @@ dist/
 build/
 out/
 
-# Test files
-analyze*.js
-*test.js
-*test.ts
-*test.tsx
-__tests__/
-coverage/
-
 # Project specific
 src/modelos/
 *.bak
