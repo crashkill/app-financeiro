@@ -12,8 +12,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "type-check": "tsc --noEmit",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css,scss}\"",
-    "prepare": "husky install"
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,scss}\""
   },
   "dependencies": {
     "@handsontable/react": "^15.0.0",

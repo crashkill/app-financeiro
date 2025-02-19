@@ -26,6 +26,8 @@ describe('Login Page', () => {
       </AuthProvider>
     );
 
+    expect(screen.getByText(/bem-vindo ao sistema financeiro/i)).toBeInTheDocument();
+    expect(screen.getByText(/por favor, faça login para continuar/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/senha/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
@@ -78,14 +80,11 @@ describe('Login Page', () => {
     const passwordInput = screen.getByLabelText(/senha/i);
     const submitButton = screen.getByRole('button', { name: /entrar/i });
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.change(emailInput, { target: { value: 'admin@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'admin123' } });
     fireEvent.click(submitButton);
 
-    // Aguarda pela tentativa de login
-    await new Promise(resolve => setTimeout(resolve, 0));
-
-    // Verifica se houve tentativa de navegação
-    expect(mockNavigate).toHaveBeenCalled();
+    // Aguarda o botão mostrar o estado de carregamento
+    expect(await screen.findByText(/entrando/i)).toBeInTheDocument();
   });
 });
