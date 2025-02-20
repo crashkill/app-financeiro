@@ -2,128 +2,117 @@
 
 Este é um sistema de gestão financeira que oferece funcionalidades robustas para visualização de indicadores, upload de dados, previsões financeiras (forecast), e gerenciamento de profissionais.
 
-## Funcionalidades Principais
+## 🚀 Funcionalidades Principais
 
-- **Dashboard:** Visão geral com indicadores financeiros.
-- **Planilhas Financeiras:** Visualização de receitas e despesas.
-- **Forecast:** Projeções e previsões financeiras com gráficos interativos.
-- **Upload:** Importação de dados via arquivos Excel.
-- **Gestão de Profissionais:** Módulo completo para gerenciamento de profissionais, incluindo gráficos de custos e tabelas com filtros e ordenação.
-- **Documentação:** Informação detalhada sobre a arquitetura e funcionamento do sistema.
+- **Dashboard:** Visão geral com indicadores financeiros
+- **Planilhas Financeiras:** Visualização de receitas e despesas
+- **Forecast:** Projeções e previsões financeiras com gráficos interativos
+- **Upload:** Importação de dados via arquivos Excel
+- **Gestão de Profissionais:** Módulo completo para gerenciamento de profissionais
+- **Documentação:** Informação detalhada sobre a arquitetura e funcionamento do sistema
 
-## Organização do Projeto
+## 🛠️ Tecnologias
 
-O projeto utiliza uma arquitetura modular, com separação clara entre componentes, contextos, páginas, rotas e utilitários. Para detalhes mais aprofundados, consulte a [Documentação](./docs/DOCUMENTACAO.md).
+- **Core:** React 18, TypeScript, Vite
+- **UI/UX:** React-Bootstrap, TailwindCSS, Chart.js
+- **Testes:** Jest, Testing Library
+- **CI/CD:** GitHub Actions, Netlify
+- **Gerenciador de Pacotes:** PNPM
+- **Banco de Dados Local:** IndexedDB (Dexie.js)
 
-## Tecnologias Utilizadas
+## 📦 Instalação
 
-- React, TypeScript e Vite
-- React-Bootstrap e TailwindCSS
-- Chart.js para visualização de dados
-- Jest e Testing Library para testes
-
-## Estrutura do Projeto
-
-```
-src/
-├── components/
-│   ├── gestao-profissionais/
-│   │   └── CustosGrafico.tsx
-│   ├── Layout.tsx
-│   ├── Menu.tsx
-│   └── FilterPanel.tsx
-├── contexts/
-│   └── AuthContext.tsx
-├── pages/
-│   ├── Dashboard.tsx
-│   ├── GestaoProfissionais.tsx
-│   ├── PlanilhasFinanceiras.tsx
-│   └── ...
-├── utils/
-│   └── formatters.ts
-└── App.tsx
-```
-
-## Instalação e Execução
-
-1. Clone o repositório:
+1. Pré-requisitos:
    ```bash
-   git clone <URL_DO_REPOSITORIO>
-   ```
-2. Instale as dependências:
-   ```bash
-   npm install
-   ```
-3. Inicie a aplicação:
-   ```bash
-   npm run dev
-   ```
-4. Execute os testes:
-   ```bash
-   npm test
+   # Instalar Node.js 18
+   nvm install 18
+   nvm use 18
+
+   # Instalar PNPM
+   npm install -g pnpm@8
    ```
 
-## Desenvolvimento e Testes
+2. Clone e instalação:
+   ```bash
+   # Clonar o repositório
+   git clone https://github.com/crashkill/app-financeiro.git
+   cd app-financeiro
 
-### Requisitos de Qualidade
-- Cobertura mínima de testes: 80%
-- Todas as novas funcionalidades devem incluir testes
-- CI/CD automatizado via GitHub Actions
+   # Instalar dependências
+   pnpm install
+   ```
 
-### TDD (Test-Driven Development)
-Este projeto segue as práticas de TDD, onde os testes são escritos antes da implementação:
+## 🚦 Scripts Disponíveis
 
-1. Escrever o teste primeiro
-2. Implementar o código
-3. Refatorar mantendo os testes passando
-
-### Pipeline CI/CD
-O projeto utiliza GitHub Actions para automação de:
-- Execução de testes
-- Verificação de cobertura (mínimo 80%)
-- Build do projeto
-- Deploy automático após testes bem-sucedidos
-
-### Executando os Testes
 ```bash
-# Executar todos os testes
-npm test
+# Desenvolvimento
+pnpm dev            # Inicia servidor de desenvolvimento
+pnpm build          # Gera build de produção
+pnpm preview        # Visualiza build local
 
-# Executar testes em modo watch
-npm run test:watch
+# Testes
+pnpm test           # Executa testes
+pnpm test:watch     # Executa testes em modo watch
+pnpm test:coverage  # Verifica cobertura de testes
 
-# Verificar cobertura de testes
-npm run test:coverage
+# Qualidade de Código
+pnpm lint           # Executa linter
+pnpm type-check     # Verifica tipos TypeScript
+pnpm format         # Formata código com Prettier
 ```
 
-### Estrutura de Testes
+## 🏗️ Estrutura do Projeto
+
 ```
 src/
-└── __tests__/
-    ├── App.test.tsx
-    ├── Home.test.tsx
-    ├── CustosGrafico.test.tsx
-    └── ...
+├── components/          # Componentes reutilizáveis
+├── contexts/           # Contextos React (Auth, etc)
+├── db/                 # Configuração IndexedDB
+├── pages/             # Páginas da aplicação
+├── routes/            # Configuração de rotas
+├── utils/             # Funções utilitárias
+└── __tests__/         # Testes automatizados
 ```
 
-## Atualizações
+## 🔄 CI/CD Pipeline
 
-Esta documentação foi atualizada para refletir as últimas funcionalidades do sistema, incluindo o módulo de Gestão de Profissionais e a integração com ferramentas modernas de testes e desenvolvimento.
+O projeto utiliza GitHub Actions para automação de:
 
-## Contribuição
+1. **Validação (validate)**
+   - Lint check
+   - Type check
+   - Testes unitários
+   - Verificação de cobertura (mínimo 80%)
 
-1. Crie uma branch para sua feature
-2. Faça commit das alterações
-3. Push para a branch
-4. Crie um Pull Request
+2. **Build**
+   - Compilação TypeScript
+   - Build do Vite
+   - Upload de artefatos
 
-## Contribuindo
+3. **Deploy (master)**
+   - Deploy automático no Netlify
+   - Comentários automáticos em PRs
+   - Verificações de segurança
 
-1. Crie os testes primeiro (`*.test.tsx`)
-2. Implemente a funcionalidade
-3. Garanta que os testes passem
-4. Faça o commit incluindo testes e implementação
-5. Crie o Pull Request
+## 🔒 Segurança
 
-## Licença
-Este projeto está sob a licença MIT.
+- Headers de segurança configurados
+- CSP (Content Security Policy) implementada
+- Autenticação robusta
+- HTTPS forçado
+- Cache otimizado para assets
+
+## 📚 Documentação
+
+Para informações detalhadas sobre a arquitetura, componentes e regras de negócio, consulte a [Documentação Completa](./docs/DOCUMENTACAO.md).
+
+## 🤝 Contribuindo
+
+1. Crie uma branch para sua feature: `git checkout -b feature/nome-da-feature`
+2. Commit suas mudanças: `git commit -m 'feat: adiciona nova feature'`
+3. Push para a branch: `git push origin feature/nome-da-feature`
+4. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.

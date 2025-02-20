@@ -16,15 +16,27 @@ export interface Transacao {
   contaResumo?: string // Adicionado para identificar Desoneração da Folha
 }
 
+export interface Profissional {
+  id?: number
+  nome: string
+  cargo: string
+  projeto: string
+  custo: number
+  tipo: string
+}
+
 type TransacaoModifications = Partial<Transacao>;
+type ProfissionalModifications = Partial<Profissional>;
 
 export class AppDatabase extends Dexie {
   transacoes!: Table<Transacao>
+  profissionais!: Table<Profissional>
 
   constructor() {
     super('FinanceiroDB')
-    this.version(6).stores({
-      transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo'
+    this.version(7).stores({
+      transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo',
+      profissionais: '++id, nome, cargo, projeto, tipo'
     })
 
     // Adiciona hooks para normalização de dados
@@ -52,116 +64,78 @@ export class AppDatabase extends Dexie {
         modifications.periodo = `${parseInt(mes)}/${ano}`
       }
     })
+
+    this.profissionais.hook('creating', (primKey, obj) => {
+      // Normaliza o valor do custo para número
+      obj.custo = converterParaNumero(obj.custo)
+      
+      // Garante que projeto não seja undefined
+      obj.projeto = obj.projeto || 'Sem Projeto'
+    })
+
+    this.profissionais.hook('updating', (modifications: ProfissionalModifications, primKey, obj) => {
+      if (modifications.custo !== undefined) {
+        modifications.custo = converterParaNumero(modifications.custo)
+      }
+    })
   }
 }
 
 export const db = new AppDatabase()
 
 // Função auxiliar para converter valor para número
-const converterParaNumero = (valor: any): number => {
-  if (typeof valor === 'number') return valor
-  if (!valor) return 0
-
-  // Converter para string e limpar
-  let str = String(valor)
-    .replace(/[^\d,.-]/g, '') // Remove tudo exceto números, vírgula, ponto e hífen
-    .trim()
-
-  // Trata formato brasileiro (ex: 1.234,56)
-  if (str.includes(',')) {
-    // Se tem vírgula, assume formato BR
-    str = str.replace(/\./g, '').replace(',', '.')
+function converterParaNumero(valor: any): number {
+  if (typeof valor === 'number') {
+    return valor
   }
-
-  const num = parseFloat(str)
-  return isNaN(num) ? 0 : num
+  if (typeof valor === 'string') {
+    // Remove caracteres não numéricos, exceto ponto e vírgula
+    const valorLimpo = valor.replace(/[^\d,.]/g, '')
+    // Substitui vírgula por ponto
+    const valorPonto = valorLimpo.replace(',', '.')
+    // Converte para número
+    return parseFloat(valorPonto) || 0
+  }
+  return 0
 }
 
 // Função para importar dados
-export const importarDados = async (dados: any[]) => {
-  try {
-    // Log dos campos disponíveis no primeiro registro
-    if (dados.length > 0) {
-      console.log('Campos disponíveis no Excel:', Object.keys(dados[0]));
-      console.log('Exemplo de registro completo:', dados[0]);
-    }
-
-    // Filtrar apenas os registros "Realizado"
-    const dadosFiltrados = dados.filter(item => {
-      const isRealizado = item.Relatorio === 'Realizado'
-      const temLancamento = item.Lancamento !== null && item.Lancamento !== undefined && item.Lancamento !== ''
-      return isRealizado && temLancamento
-    })
-
-    // Log para verificar registros de desoneração
-    const registrosDesoneracao = dadosFiltrados.filter(item => 
-      String(item.ContaResumo || '').includes('Desoneração da Folha')
-    );
-    console.log('Registros com Desoneração (valores originais):', registrosDesoneracao);
-
-    // Mapear os dados do Excel para o formato da transação
-    const transacoes: Transacao[] = dadosFiltrados.map(item => {
-      // Garantir que a natureza seja RECEITA ou CUSTO
-      const natureza = String(item.Natureza || '').toUpperCase() === 'RECEITA' ? 'RECEITA' : 'CUSTO'
-      
-      // Converter o valor do lançamento para número
-      const valorFinal = converterParaNumero(item.Lancamento)
-
-      // Normalizar contaResumo
-      let contaResumo = String(item.ContaResumo || '').toUpperCase().trim()
-      // Mapear variações conhecidas para os tipos padrão
-      if (contaResumo.includes('CLT')) {
-        contaResumo = 'CLT'
-      } else if (contaResumo.includes('SUBCONTRATADO') || contaResumo.includes('SUB-CONTRATADO')) {
-        contaResumo = 'SUBCONTRATADOS'
-      } else if (contaResumo !== 'OUTROS') {
-        contaResumo = 'OUTROS'
-      }
-
-      // Log detalhado de cada item
-      console.log('Processando item:', {
-        projeto: item.Projeto,
-        denominacaoConta: item.DenominacaoConta,
-        contaResumo: item.ContaResumo,
-        categoria: item.LinhaNegocio,
-        natureza,
-        valorOriginal: item.Lancamento,
-        valorConvertido: valorFinal
-      })
-
-      const transacao: Transacao = {
-        tipo: natureza === 'RECEITA' ? 'receita' : 'despesa',
-        natureza,
-        descricao: String(item.Projeto || ''),
-        valor: valorFinal, // Mantendo o valor original com sinal
-        data: item.Periodo || new Date().toISOString().split('T')[0],
-        categoria: String(item.LinhaNegocio || 'Outros'),
-        lancamento: valorFinal, // Mantendo o valor original com sinal
-        periodo: String(item.Periodo || ''),
-        denominacaoConta: String(item.DenominacaoConta || ''),
-        contaResumo: contaResumo
-      };
-
-      // Log da transação final
-      if (transacao.contaResumo.includes('Desoneração da Folha')) {
-        console.log('Transação de Desoneração (valor mantido com sinal):', transacao);
-      }
-
-      return transacao;
-    })
-
-    // Limpar tabela existente
+export async function importarDados(dados: any[]) {
+  return db.transaction('rw', db.transacoes, async () => {
+    // Limpa a tabela atual
     await db.transacoes.clear()
+    
+    // Prepara os dados para importação
+    const dadosFormatados = dados.map(item => {
+      const [mes, ano] = item.periodo.split('/')
+      return {
+        ...item,
+        valor: converterParaNumero(item.valor),
+        periodo: `${parseInt(mes)}/${ano}`,
+        projeto: item.projeto || item.descricao || 'Sem Projeto',
+        descricao: item.descricao || item.projeto || 'Sem Descrição'
+      }
+    })
+    
+    // Importa os dados
+    await db.transacoes.bulkAdd(dadosFormatados)
+  })
+}
 
-    // Inserir novos dados
-    const result = await db.transacoes.bulkAdd(transacoes)
-
-    return {
-      count: transacoes.length,
-      result
-    }
-  } catch (error) {
-    console.error('Erro ao importar dados:', error)
-    throw error
-  }
+// Função para importar profissionais
+export async function importarProfissionais(dados: any[]) {
+  return db.transaction('rw', db.profissionais, async () => {
+    // Limpa a tabela atual
+    await db.profissionais.clear()
+    
+    // Prepara os dados para importação
+    const dadosFormatados = dados.map(item => ({
+      ...item,
+      custo: converterParaNumero(item.custo),
+      projeto: item.projeto || 'Sem Projeto'
+    }))
+    
+    // Importa os dados
+    await db.profissionais.bulkAdd(dadosFormatados)
+  })
 }

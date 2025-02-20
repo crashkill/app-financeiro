@@ -20,7 +20,7 @@ const Login: React.FC = () => {
       await login(email, password);
       navigate('/');
     } catch (err) {
-      setError('Falha no login. Verifique suas credenciais.');
+      setError('Credenciais inválidas');
     } finally {
       setLoading(false);
     }
@@ -32,13 +32,13 @@ const Login: React.FC = () => {
         <Col md={6} lg={4}>
           <Card>
             <Card.Body className="p-4">
-              <h2 className="text-center mb-4">Login</h2>
+              <h2 className="text-center mb-4">Bem-vindo</h2>
               {error && <Alert variant="danger">{error}</Alert>}
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>E-mail</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -55,15 +55,14 @@ const Login: React.FC = () => {
                   />
                 </Form.Group>
 
-                <div className="d-grid">
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={loading}
-                  >
-                    {loading ? 'Entrando...' : 'Entrar'}
-                  </Button>
-                </div>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="w-100"
+                  disabled={loading}
+                >
+                  {loading ? 'Carregando...' : 'Entrar'}
+                </Button>
               </Form>
             </Card.Body>
           </Card>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table } from 'react-bootstrap';
 import FilterPanel from '../components/FilterPanel';
 import CustosGrafico from '../components/gestao-profissionais/CustosGrafico';
-import { db } from '../db/database';
+import { useProfissionaisData } from '../hooks/useProfissionaisData';
 import { formatCurrency } from '../utils/formatters';
 
 interface ProfissionalCusto {
@@ -30,13 +30,14 @@ const GestaoProfissionais: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'valor' | 'descricao' | 'periodo'>('valor');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const { data, isLoading: isLoadingData, error } = useProfissionaisData();
 
   // Carregar projetos e anos disponíveis
   useEffect(() => {
     const carregarDados = async () => {
       try {
-        const transacoes = await db.transacoes.toArray();
-        
+        const transacoes = data?.transacoes || [];
+
         // Extrair projetos únicos
         const uniqueProjects = Array.from(new Set(transacoes.map(t => t.projeto || t.descricao || 'Sem Projeto')));
         setProjects(uniqueProjects);
@@ -57,15 +58,15 @@ const GestaoProfissionais: React.FC = () => {
     };
 
     carregarDados();
-  }, []);
+  }, [data]);
 
   // Carregar custos dos profissionais quando projeto, ano ou mês mudar
   useEffect(() => {
     const carregarCustosProfissionais = async () => {
       setIsLoading(true);
       try {
-        const transacoes = await db.transacoes.toArray();
-        
+        const transacoes = data?.transacoes || [];
+
         // Filtrar transações por projeto, ano e mês selecionados
         const custosFiltrados = transacoes.filter(t => {
           const [mes, ano] = (t.periodo || '').split('/');
@@ -76,7 +77,7 @@ const GestaoProfissionais: React.FC = () => {
           const tipoMatch = ['CLT', 'OUTROS', 'SUBCONTRATADOS'].some(tipo => 
             contaResumo === tipo || contaResumo.includes(tipo)
           );
-          
+
           return anoMatch && mesMatch && projetoMatch && tipoMatch;
         });
 
@@ -85,7 +86,7 @@ const GestaoProfissionais: React.FC = () => {
 
         // Agrupar por tipo
         const custosAgrupados: CustosPorTipo = {};
-        
+
         custosFiltrados.forEach(t => {
           const tipo = t.contaResumo || 'Outros';
           if (!custosAgrupados[tipo]) {
@@ -95,14 +96,14 @@ const GestaoProfissionais: React.FC = () => {
               percentual: 0
             };
           }
-          
+
           const custo: ProfissionalCusto = {
             tipo,
             descricao: t.denominacaoConta || t.descricao,
             valor: Math.abs(t.valor),
             periodo: t.periodo
           };
-          
+
           custosAgrupados[tipo].items.push(custo);
           custosAgrupados[tipo].total += Math.abs(t.valor);
         });
@@ -136,7 +137,7 @@ const GestaoProfissionais: React.FC = () => {
     };
 
     carregarCustosProfissionais();
-  }, [selectedProjects, selectedYear, selectedMonth, sortBy, sortDirection]);
+  }, [selectedProjects, selectedYear, selectedMonth, sortBy, sortDirection, data]);
 
   const handleSort = (column: 'valor' | 'descricao' | 'periodo') => {
     if (sortBy === column) {
@@ -153,6 +154,14 @@ const GestaoProfissionais: React.FC = () => {
   // Ordenar os tipos de custo por total
   const tiposOrdenados = Object.entries(custosPorTipo)
     .sort(([, a], [, b]) => b.total - a.total);
+
+  if (isLoadingData) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>Erro ao carregar dados: {error.message}</div>;
+  }
 
   return (
     <Container fluid className="py-3">
@@ -187,7 +196,7 @@ const GestaoProfissionais: React.FC = () => {
                 <span>Custos por Profissional</span>
                 <span className="text-primary">Total Geral: {formatCurrency(totalGeral)}</span>
               </Card.Title>
-              
+
               {isLoading ? (
                 <div className="text-center">Carregando...</div>
               ) : tiposOrdenados.length === 0 ? (

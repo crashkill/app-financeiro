@@ -82,8 +82,8 @@ const Upload = () => {
     try {
       setIsImporting(true)
       setError('')
-      const result = await importarDados(files[0].data)
-      setSuccess(`${result.count} registros importados com sucesso!`)
+      await importarDados(files[0].data)
+      setSuccess(`${files[0].data.length} registros importados com sucesso!`)
       
       // Limpar o formulário após importação bem-sucedida
       setFiles([])
@@ -101,41 +101,49 @@ const Upload = () => {
   }
 
   return (
-    <Container>
+    <Container fluid className="py-3">
       <Row className="mb-4">
         <Col>
-          <h1>Upload de Dados</h1>
+          <h2>Upload de Dados</h2>
         </Col>
       </Row>
 
       {error && (
-        <Alert variant="danger" onClose={() => setError('')} dismissible>
-          {error}
-        </Alert>
+        <Row className="mb-4">
+          <Col>
+            <Alert variant="danger">{error}</Alert>
+          </Col>
+        </Row>
       )}
 
       {success && (
-        <Alert variant="success" onClose={() => setSuccess('')} dismissible>
-          {success}
-        </Alert>
+        <Row className="mb-4">
+          <Col>
+            <Alert variant="success">{success}</Alert>
+          </Col>
+        </Row>
       )}
 
-      <Row>
+      <Row className="mb-4">
         <Col>
-          <Card className="mb-4">
+          <Card>
             <Card.Body>
               <div
                 {...getRootProps()}
                 className={`dropzone ${isDragActive ? 'active' : ''}`}
+                style={{
+                  border: '2px dashed #ccc',
+                  borderRadius: '4px',
+                  padding: '20px',
+                  textAlign: 'center',
+                  cursor: 'pointer'
+                }}
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                  <p>Solte o arquivo aqui ...</p>
+                  <p>Solte o arquivo aqui...</p>
                 ) : (
-                  <p>
-                    Arraste e solte um arquivo Excel aqui, ou clique para
-                    selecionar
-                  </p>
+                  <p>Arraste e solte um arquivo aqui, ou clique para selecionar</p>
                 )}
               </div>
             </Card.Body>
@@ -143,41 +151,69 @@ const Upload = () => {
         </Col>
       </Row>
 
-      {files.length > 0 && preview.length > 0 && (
+      {files.length > 0 && (
         <>
-          <Row className="mb-3">
+          <Row className="mb-4">
             <Col>
-              <h3>Preview dos Dados</h3>
-              <p className="text-muted">
-                Mostrando as primeiras 5 linhas do arquivo
-              </p>
+              <Card>
+                <Card.Body>
+                  <h5>Arquivo Selecionado:</h5>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Tamanho</th>
+                        <th>Tipo</th>
+                        <th>Última Modificação</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {files.map((file, index) => (
+                        <tr key={index}>
+                          <td>{file.name}</td>
+                          <td>{Math.round(file.size / 1024)} KB</td>
+                          <td>{file.type}</td>
+                          <td>{new Date(file.lastModified).toLocaleString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
 
-          <Row className="mb-4">
-            <Col>
-              <div className="table-responsive">
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      {Object.keys(preview[0]).map((header) => (
-                        <th key={header}>{header}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {preview.map((row, index) => (
-                      <tr key={index}>
-                        {Object.values(row).map((value: any, i) => (
-                          <td key={i}>{value}</td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </div>
-            </Col>
-          </Row>
+          {preview.length > 0 && (
+            <Row className="mb-4">
+              <Col>
+                <Card>
+                  <Card.Body>
+                    <h5>Preview dos Dados:</h5>
+                    <div className="table-responsive">
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            {Object.keys(preview[0]).map((key) => (
+                              <th key={key}>{key}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {preview.map((row, index) => (
+                            <tr key={index}>
+                              {Object.values(row).map((value: any, i) => (
+                                <td key={i}>{value}</td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          )}
 
           <Row>
             <Col className="text-center">

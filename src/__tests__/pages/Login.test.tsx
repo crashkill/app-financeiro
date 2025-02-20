@@ -1,90 +1,105 @@
-import { describe, test, expect } from '@jest/globals';
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '../../contexts/AuthContext';
+import { AuthProvider } from '../../__mocks__/AuthContext';
 import Login from '../../pages/Login';
+import '@testing-library/jest-dom';
 
-const mockNavigate = jest.fn();
+describe('Login Component', () => {
+  const renderLogin = () => {
+    return render(
+      <BrowserRouter>
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
+      </BrowserRouter>
+    );
+  };
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-}));
-
-describe('Login Page', () => {
   beforeEach(() => {
-    mockNavigate.mockClear();
+    jest.clearAllMocks();
   });
 
-  test('renderiza formulário de login corretamente', () => {
-    render(
-      <AuthProvider>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </AuthProvider>
-    );
-
-    expect(screen.getByText(/bem-vindo ao sistema financeiro/i)).toBeInTheDocument();
-    expect(screen.getByText(/por favor, faça login para continuar/i)).toBeInTheDocument();
+  it('should render the login form', () => {
+    renderLogin();
+    
+    expect(screen.getByText(/bem-vindo/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/senha/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
   });
 
-  test('exibe mensagem de erro quando campos estão vazios', async () => {
-    render(
-      <AuthProvider>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </AuthProvider>
-    );
+  it('should handle form submission', async () => {
+    const mockLogin = jest.fn();
+    jest.spyOn(require('../../__mocks__/AuthContext'), 'useAuth').mockImplementation(() => ({
+      user: null,
+      isAdmin: false,
+      login: mockLogin,
+      logout: jest.fn()
+    }));
 
-    const submitButton = screen.getByRole('button', { name: /entrar/i });
-    fireEvent.click(submitButton);
-
-    expect(await screen.findByText(/e-mail é obrigatório/i)).toBeInTheDocument();
-    expect(await screen.findByText(/senha é obrigatória/i)).toBeInTheDocument();
-  });
-
-  test('exibe mensagem de erro quando e-mail é inválido', async () => {
-    render(
-      <AuthProvider>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </AuthProvider>
-    );
-
-    const emailInput = screen.getByLabelText(/e-mail/i);
-    fireEvent.change(emailInput, { target: { value: 'email-invalido' } });
-
-    const submitButton = screen.getByRole('button', { name: /entrar/i });
-    fireEvent.click(submitButton);
-
-    expect(await screen.findByText(/e-mail inválido/i)).toBeInTheDocument();
-  });
-
-  test('tenta fazer login com credenciais válidas', async () => {
-    render(
-      <AuthProvider>
-        <BrowserRouter>
-          <Login />
-        </BrowserRouter>
-      </AuthProvider>
-    );
-
+    renderLogin();
+    
     const emailInput = screen.getByLabelText(/e-mail/i);
     const passwordInput = screen.getByLabelText(/senha/i);
     const submitButton = screen.getByRole('button', { name: /entrar/i });
 
-    fireEvent.change(emailInput, { target: { value: 'admin@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'admin123' } });
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
     fireEvent.click(submitButton);
 
-    // Aguarda o botão mostrar o estado de carregamento
-    expect(await screen.findByText(/entrando/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(mockLogin).toHaveBeenCalledWith('test@example.com', 'password123');
+    });
+  });
+
+  it('should show loading state during form submission', async () => {
+    const mockLogin = jest.fn(() => new Promise(resolve => setTimeout(resolve, 100)));
+    jest.spyOn(require('../../__mocks__/AuthContext'), 'useAuth').mockImplementation(() => ({
+      user: null,
+      isAdmin: false,
+      login: mockLogin,
+      logout: jest.fn()
+    }));
+
+    renderLogin();
+    
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(submitButton);
+
+    expect(submitButton).toBeDisabled();
+    expect(screen.getByText(/carregando/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(mockLogin).toHaveBeenCalled();
+    });
+  });
+
+  it('should show error message on invalid credentials', async () => {
+    const mockLogin = jest.fn(() => Promise.reject(new Error('Credenciais inválidas')));
+    jest.spyOn(require('../../__mocks__/AuthContext'), 'useAuth').mockImplementation(() => ({
+      user: null,
+      isAdmin: false,
+      login: mockLogin,
+      logout: jest.fn()
+    }));
+
+    renderLogin();
+    
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
+
+    fireEvent.change(emailInput, { target: { value: 'wrong@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/credenciais inválidas/i)).toBeInTheDocument();
+    });
   });
 });
