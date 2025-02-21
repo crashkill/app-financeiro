@@ -6,12 +6,15 @@
     "sourceMap": true,
     "types": ["vite/client"]
   },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
+    "**/__tests__/**",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
     "src/setupTests.ts",
-    "jest.config.ts"
+    "jest.config.ts",
+    "node_modules"
   ]
 }

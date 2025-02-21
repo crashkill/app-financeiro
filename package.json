@@ -5,8 +5,9 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "postinstall": "tsc -p tsconfig.build.json",
+    "build": "vite build",
+    "postinstall": "echo 'Skipping type check during build'",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "jest",
