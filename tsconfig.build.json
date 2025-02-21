@@ -3,6 +3,15 @@
   "compilerOptions": {
     "noEmit": false,
     "outDir": "./dist",
-    "sourceMap": true
-  }
+    "sourceMap": true,
+    "types": ["vite/client"]
+  },
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "src/setupTests.ts",
+    "jest.config.ts"
+  ]
 }
