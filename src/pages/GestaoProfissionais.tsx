@@ -87,7 +87,16 @@ const GestaoProfissionais: React.FC = () => {
                 const custosAgrupados: CustosPorTipo = {};
 
                 custosFiltrados.forEach(t => {
-                    const tipo = t.contaResumo || 'Outros';
+                    // Mapear os tipos corretamente
+                    let tipo = t.contaResumo?.toUpperCase() || 'OUTROS';
+                    
+                    // Garantir que os tipos estejam corretos
+                    if (tipo.includes('CLT')) {
+                        tipo = 'CLT';
+                    } else if (tipo.includes('SUB') || tipo.includes('PJ')) {
+                        tipo = 'SUBCONTRATADOS';
+                    }
+
                     if (!custosAgrupados[tipo]) {
                         custosAgrupados[tipo] = {
                             items: [],

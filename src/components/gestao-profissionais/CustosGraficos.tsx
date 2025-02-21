@@ -1,11 +1,12 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from 'react-chartjs-2';
 import { Card } from 'react-bootstrap';
 import { formatCurrency } from '../../utils/formatters';
 
 // Registrar os elementos necessários do Chart.js
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface CustoGraficoProps {
     custosPorTipo: {
@@ -17,57 +18,88 @@ interface CustoGraficoProps {
 }
 
 const CustosGrafico: React.FC<CustoGraficoProps> = ({ custosPorTipo }) => {
-    // Define ordem específica para os tipos de custo
-    const ordemTipos = ['CLT', 'SUBCONTRATADOS', 'OUTROS'];
+    console.log('Dados recebidos:', custosPorTipo);
+
+    // Define ordem específica para os tipos de custo e seus labels de exibição
+    const tiposConfig = {
+        'SUBCONTRATADOS': { label: 'Subcontratados', key: 'SUBCONTRATADOS', color: 'rgba(255, 159, 64, 0.7)', borderColor: 'rgba(255, 159, 64, 1)' },
+        'CLT': { label: 'CLT', key: 'CLT', color: 'rgba(54, 162, 235, 0.7)', borderColor: 'rgba(54, 162, 235, 1)' }
+    };
+    
+    const ordemTipos = ['SUBCONTRATADOS', 'CLT'];
+
+    // Garante que todos os tipos tenham valores, mesmo que zero
+    const dadosNormalizados = { ...custosPorTipo };
+    ordemTipos.forEach(tipo => {
+        if (!dadosNormalizados[tipo]) {
+            dadosNormalizados[tipo] = { total: 0, percentual: 0 };
+        }
+    });
 
     // Organiza dados na ordem específica
-    const tiposOrdenados = Object.entries(custosPorTipo)
+    const tiposOrdenados = Object.entries(dadosNormalizados)
+        .filter(([tipo]) => ordemTipos.includes(tipo))
         .sort(([tipoA], [tipoB]) => {
             const indexA = ordemTipos.indexOf(tipoA);
             const indexB = ordemTipos.indexOf(tipoB);
             return indexA - indexB;
         });
 
+    console.log('Dados ordenados:', tiposOrdenados);
+
     const data = {
-        labels: tiposOrdenados.map(([tipo]) => tipo),
+        labels: tiposOrdenados.map(([tipo]) => tiposConfig[tipo]?.label || tipo),
         datasets: [
             {
                 data: tiposOrdenados.map(([, { total }]) => total),
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.7)',   // CLT - Azul
-                    'rgba(255, 159, 64, 0.7)',   // SUBCONTRATADOS - Laranja
-                    'rgba(75, 192, 192, 0.7)',   // OUTROS - Verde água
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(75, 192, 192, 1)',
-                ],
+                backgroundColor: tiposOrdenados.map(([tipo]) => tiposConfig[tipo]?.color),
+                borderColor: tiposOrdenados.map(([tipo]) => tiposConfig[tipo]?.borderColor),
                 borderWidth: 1,
             },
         ],
     };
+
+    console.log('Dados do gráfico:', data);
 
     const options = {
         responsive: true,
         plugins: {
             legend: {
                 position: 'bottom' as const,
+                labels: {
+                    font: {
+                        size: 12
+                    }
+                }
             },
             tooltip: {
                 callbacks: {
-                    label: function (context: any) {
-                        // Formatar o valor usando Intl.NumberFormat para garantir formato em Reais
-                        const valor = new Intl.NumberFormat('pt-BR', {
-                            style: 'currency',
-                            currency: 'BRL',
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }).format(context.raw);
-
-                        const percentual = custosPorTipo[context.label].percentual.toFixed(1);
-                        return `${context.label}: ${valor} (${percentual}%)`;
+                    label: function(context: any) {
+                        const displayLabel = context.label;
+                        const valor = formatCurrency(context.raw);
+                        
+                        // Encontra a chave original baseada no label de exibição
+                        const tipoEntry = Object.entries(tiposConfig).find(([_, config]) => config.label === displayLabel);
+                        const originalKey = tipoEntry?.[0];
+                        
+                        // Pega o percentual diretamente do custosPorTipo usando a chave original
+                        const percentual = originalKey ? dadosNormalizados[originalKey]?.percentual : 0;
+                        
+                        return `${displayLabel}: ${valor} (${percentual.toFixed(1)}%)`;
                     }
+                }
+            },
+            datalabels: {
+                color: '#000',
+                font: {
+                    weight: 'bold',
+                    size: 11
+                },
+                formatter: (value: number) => {
+                    return value > 0 ? formatCurrency(value) : '';
+                },
+                display: function(context: any) {
+                    return context.dataset.data[context.dataIndex] > 0;
                 }
             }
         },

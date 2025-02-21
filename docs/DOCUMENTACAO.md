@@ -3,6 +3,7 @@
 ## Índice
 1. [Planilhas Financeiras](#planilhas-financeiras)
 2. [Forecast](#forecast)
+3. [Gestão de Profissionais](#gestao-de-profissionais)
 
 ## Planilhas Financeiras
 
@@ -161,3 +162,80 @@ Página que permite visualizar e editar previsões financeiras futuras dos proje
 2. **Anos sem Dados**
    - Exibe zeros em todas as células
    - Mantém a formatação padrão
+
+## Gestão de Profissionais
+
+### Visão Geral
+Página que permite visualizar e analisar os custos relacionados aos profissionais alocados nos projetos, categorizados por tipo (CLT, Subcontratados, Outros).
+
+### Componentes Principais
+
+1. **Filtros**
+   - Seleção de projeto(s)
+   - Seleção de ano
+   - Seleção de mês (opcional)
+   - Suporta múltipla seleção de projetos
+
+2. **Gráfico de Distribuição**
+   - Gráfico de pizza mostrando distribuição dos custos
+   - Legendas com percentuais
+   - Cores distintas para cada categoria
+   - Posição fixa durante rolagem (sticky)
+
+3. **Tabela de Custos**
+   - Agrupamento por tipo de custo
+   - Total e percentual por grupo
+   - Detalhamento por profissional
+   - Ordenação por descrição, período ou valor
+
+### Regras de Negócio
+
+1. **Categorização de Custos**
+   - CLT: Custos relacionados a funcionários CLT
+   - Subcontratados: Custos com profissionais terceirizados
+   - Outros: Demais custos relacionados a profissionais
+
+2. **Cálculos**
+   - Total por categoria: Soma dos valores absolutos
+   - Percentual: (Total da categoria / Total geral) * 100
+   - Valores sempre exibidos em módulo (positivos)
+
+3. **Ordenação**
+   - Valor: Do maior para o menor (padrão)
+   - Descrição: Ordem alfabética
+   - Período: Ordem cronológica
+   - Direção alternável (ascendente/descendente)
+
+### Regras de Visualização
+
+1. **Cores e Estilos**
+   - Gráfico:
+     - CLT: Azul (rgba(54, 162, 235, 0.7))
+     - Subcontratados: Laranja (rgba(255, 159, 64, 0.7))
+     - Outros: Verde água (rgba(75, 192, 192, 0.7))
+   - Tabela:
+     - Valores monetários alinhados à direita
+     - Percentuais com uma casa decimal
+     - Totais em destaque
+
+2. **Layout Responsivo**
+   - Gráfico: 5 colunas em telas grandes
+   - Tabela: 7 colunas em telas grandes
+   - Adaptação para telas menores
+
+### Interatividade
+
+1. **Filtros**
+   - Atualização automática ao alterar filtros
+   - Preservação dos filtros entre sessões
+   - Limpeza de filtros disponível
+
+2. **Ordenação**
+   - Indicadores visuais da coluna ordenada
+   - Alternância de direção com clique
+   - Mantém ordenação ao atualizar dados
+
+3. **Tooltip do Gráfico**
+   - Exibe valor e percentual
+   - Formatação monetária adequada
+   - Atualização em tempo real
