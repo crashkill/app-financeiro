@@ -1,5 +1,9 @@
 # 📚 Documentação do App Financeiro
 
+## 📁 Repositório
+
+Código fonte disponível em: [https://github.com/crashkill/app-financeiro.git](https://github.com/crashkill/app-financeiro.git)
+
 ## 🎯 Visão Geral
 
 O App Financeiro é uma aplicação web moderna para gestão financeira empresarial, construída com as mais recentes tecnologias e práticas de desenvolvimento. O sistema oferece uma suite completa de ferramentas para análise financeira, gestão de profissionais e previsões orçamentárias.

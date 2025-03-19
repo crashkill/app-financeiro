@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Table, Alert, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Table, Alert, Spinner, Badge } from 'react-bootstrap';
 import SAPLogin from '../components/sap/SAPLogin';
 import { sapGuiService } from '../services/SAPGuiService';
 
@@ -19,6 +19,7 @@ const ConsultaSAP: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [isMockMode, setIsMockMode] = useState(false);
   
   // Lista de transações mais comuns
   const commonTransactions = [
@@ -96,6 +97,13 @@ const ConsultaSAP: React.FC = () => {
       if (response.status === 'success') {
         setResults(response.data.resultados || []);
         setMessage('Consulta realizada com sucesso');
+        
+        // Verifica se está em modo de simulação
+        if ((sapGuiService as any).useMock) {
+          setIsMockMode(true);
+        } else {
+          setIsMockMode(false);
+        }
       } else {
         setError('Erro ao executar a transação');
       }
@@ -115,14 +123,35 @@ const ConsultaSAP: React.FC = () => {
       setTransactionCode('');
       setParameters({});
       setResults([]);
+      setIsMockMode(false);
     } catch (error) {
       console.error('Erro ao desconectar:', error);
     }
   };
 
+  // Verifica o status da conexão ao montar o componente
+  useEffect(() => {
+    const checkConnectionStatus = () => {
+      const isActive = sapGuiService.isActiveConnection();
+      setIsConnected(isActive);
+      
+      // Verifica se está em modo de simulação
+      if ((sapGuiService as any).useMock) {
+        setIsMockMode(true);
+      }
+    };
+    
+    checkConnectionStatus();
+  }, []);
+
   return (
     <Container fluid className="py-4">
-      <h2 className="mb-4">Consulta SAP</h2>
+      <h2 className="mb-4">
+        Consulta SAP
+        {isMockMode && (
+          <Badge bg="warning" className="ms-2">Modo Simulação</Badge>
+        )}
+      </h2>
 
       {!isConnected ? (
         <Row className="justify-content-center">
@@ -210,6 +239,14 @@ const ConsultaSAP: React.FC = () => {
           {message && (
             <Alert variant="success" className="mb-4">
               {message}
+              {isMockMode && (
+                <div className="mt-2">
+                  <small className="text-muted">
+                    <strong>Nota:</strong> Esta consulta está sendo executada em modo de simulação. 
+                    Os dados exibidos são fictícios e não representam informações reais do SAP.
+                  </small>
+                </div>
+              )}
             </Alert>
           )}
 
@@ -217,8 +254,11 @@ const ConsultaSAP: React.FC = () => {
             <Row>
               <Col>
                 <Card>
-                  <Card.Header>
+                  <Card.Header className="d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">Resultados da Consulta</h5>
+                    {isMockMode && (
+                      <Badge bg="warning">Dados Simulados</Badge>
+                    )}
                   </Card.Header>
                   <Card.Body>
                     <div className="table-responsive">

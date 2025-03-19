@@ -1,5 +1,8 @@
 import { exec } from 'child_process';
 import path from 'path';
+import axios from 'axios';
+import { DOMParser } from 'xmldom';
+import * as fs from 'fs';
 
 interface SAPServer {
   name: string;
@@ -18,56 +21,139 @@ interface SAPTransactionResult {
   data: any;
 }
 
-export class SAPGuiService {
-  private servers: SAPServer[] = [
-    {
-      name: "ECQ Projeto",
-      systemId: "ECQ",
-      server: "brux1463:3200",
-      mode: 1
-    },
-    {
-      name: "PROD - VPN",
-      systemId: "PRH",
-      server: "10.177.23.202:3200",
-      mode: 1
-    },
-    {
-      name: "QA - MPLS",
-      systemId: "QAH",
-      server: "10.230.22.74:3200",
-      mode: 1
-    },
-    {
-      name: "PRODUÇÃO CLARO",
-      systemId: "ECP",
-      server: "brux1500:3200",
-      mode: 1
-    },
-    {
-      name: "PROD-MPLS",
-      systemId: "PRH",
-      server: "10.230.22.72:3200",
-      mode: 1
-    }
-  ];
+// URL base para o servidor local que se comunica com o SAP GUI
+const SAP_BRIDGE_API = 'http://localhost:3030/api/sap';
 
+export class SAPGuiService {
+  private servers: SAPServer[] = [];
   private credentials: SAPCredentials | null = null;
   private currentServer: SAPServer | null = null;
   private isConnected: boolean = false;
+  private useMock: boolean = false; // Flag para usar mock ou conexão real
+
+  constructor() {
+    // Carrega as configurações do SAP ao inicializar o serviço
+    this.loadSAPGUIConfigFromXML();
+  }
+
+  /**
+   * Lê as configurações do SAP diretamente do arquivo XML
+   */
+  private loadSAPGUIConfigFromXML(): void {
+    try {
+      // Caminho para o arquivo SAPUILandscape.xml
+      const xmlPath = path.resolve(__dirname, 'SAPUILandscape.xml');
+      
+      // Lê o conteúdo do arquivo
+      const xmlContent = fs.readFileSync(xmlPath, 'utf-8');
+      
+      // Faz o parsing do XML
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+      
+      // Extrai os serviços SAP do XML
+      const serviceNodes = xmlDoc.getElementsByTagName('Service');
+      const servers: SAPServer[] = [];
+      
+      for (let i = 0; i < serviceNodes.length; i++) {
+        const service = serviceNodes[i];
+        if (service.getAttribute('type') === 'SAPGUI') {
+          servers.push({
+            name: service.getAttribute('name') || '',
+            systemId: service.getAttribute('systemid') || '',
+            server: service.getAttribute('server') || '',
+            mode: parseInt(service.getAttribute('mode') || '1')
+          });
+        }
+      }
+      
+      if (servers.length > 0) {
+        this.servers = servers;
+        console.log(`Carregados ${servers.length} servidores SAP do arquivo de configuração`);
+      } else {
+        console.warn('Nenhum servidor SAP encontrado no arquivo de configuração');
+        // Carrega servidores padrão como fallback
+        this.loadDefaultServers();
+      }
+    } catch (error) {
+      console.error('Erro ao carregar configurações do arquivo XML:', error);
+      // Carrega servidores padrão como fallback
+      this.loadDefaultServers();
+    }
+  }
+
+  /**
+   * Carrega servidores SAP padrão (fallback)
+   */
+  private loadDefaultServers(): void {
+    this.servers = [
+      {
+        name: "ECQ Projeto",
+        systemId: "ECQ",
+        server: "brux1463:3200",
+        mode: 1
+      },
+      {
+        name: "PROD - VPN",
+        systemId: "PRH",
+        server: "10.177.23.202:3200",
+        mode: 1
+      },
+      {
+        name: "QA - MPLS",
+        systemId: "QAH",
+        server: "10.230.22.74:3200",
+        mode: 1
+      },
+      {
+        name: "PRODUÇÃO CLARO",
+        systemId: "ECP",
+        server: "brux1500:3200",
+        mode: 1
+      },
+      {
+        name: "PROD-MPLS",
+        systemId: "PRH",
+        server: "10.230.22.72:3200",
+        mode: 1
+      }
+    ];
+    console.log('Usando servidores SAP padrão');
+  }
+
+  /**
+   * Verifica se o servidor de ponte SAP está disponível
+   */
+  private async checkSAPBridgeAvailability(): Promise<boolean> {
+    try {
+      const response = await axios.get(`${SAP_BRIDGE_API}/status`);
+      return response.data.status === 'available';
+    } catch (error) {
+      console.warn('Servidor de ponte SAP não disponível, usando modo simulação:', error);
+      this.useMock = true;
+      return false;
+    }
+  }
 
   /**
    * Lê as informações do arquivo de configuração do SAP GUI
    * Isto permite sincronizar com as configurações do SAP GUI do Windows
    */
-  public loadSAPGUIConfig(): void {
+  public async loadSAPGUIConfig(): Promise<void> {
     try {
-      // Na versão web, não podemos acessar o arquivo diretamente
-      // Este método é uma preparação para futuras implementações desktop ou extensões
-      console.log('Carregando configurações do SAP GUI');
+      // Verifica se o servidor de ponte está disponível
+      const bridgeAvailable = await this.checkSAPBridgeAvailability();
       
-      // Em uma implementação real, aqui poderíamos ler o arquivo SAPUILandscape.xml
-      // Para esta versão web, usamos os servidores predefinidos
+      if (bridgeAvailable) {
+        // Carrega servidores do SAP GUI real
+        const response = await axios.get(`${SAP_BRIDGE_API}/servers`);
+        if (response.data && response.data.servers) {
+          this.servers = response.data.servers;
+          console.log('Servidores SAP carregados com sucesso:', this.servers.length);
+        }
+      } else {
+        console.log('Usando servidores SAP do arquivo de configuração (modo simulação)');
+      }
     } catch (error) {
       console.error('Erro ao carregar configurações do SAP GUI:', error);
     }
@@ -88,16 +174,38 @@ export class SAPGuiService {
       
       console.log(`Conectando ao servidor ${server.name} (${server.server}) com o usuário ${credentials.username}`);
 
-      // Em uma aplicação web, não podemos controlar diretamente o SAP GUI
-      // Aqui simulamos a conexão com base nas credenciais fornecidas
+      // Verifica se deve usar mock ou conexão real
+      if (!this.useMock) {
+        try {
+          // Tenta conexão real via API de ponte
+          const response = await axios.post(`${SAP_BRIDGE_API}/connect`, {
+            server: server.server,
+            systemId: server.systemId,
+            username: credentials.username,
+            password: credentials.password
+          });
+          
+          if (response.data && response.data.status === 'success') {
+            this.isConnected = true;
+            console.log('Conexão real com SAP GUI estabelecida com sucesso');
+            return true;
+          } else {
+            throw new Error('Falha na conexão: ' + (response.data?.message || 'Erro desconhecido'));
+          }
+        } catch (error) {
+          console.warn('Erro na conexão real, alternando para modo simulação:', error);
+          this.useMock = true;
+        }
+      }
       
-      // Simulação de validação de credenciais
-      if (credentials.username && credentials.password) {
-        this.isConnected = true;
-        
-        // Registro do sucesso de conexão
-        console.log('Conexão bem-sucedida com o SAP');
-        return true;
+      // Modo simulação (fallback)
+      if (this.useMock) {
+        // Simulação de validação de credenciais
+        if (credentials.username && credentials.password) {
+          this.isConnected = true;
+          console.log('Conexão simulada com o SAP estabelecida');
+          return true;
+        }
       }
       
       return false;
@@ -119,58 +227,79 @@ export class SAPGuiService {
     try {
       console.log(`Executando transação ${transaction} com parâmetros:`, parameters);
       
-      // Em uma aplicação real, este seria o ponto de integração com o SAP GUI
-      // Através de uma API Node ou uma extensão de navegador
+      // Verifica se deve usar mock ou conexão real
+      if (!this.useMock) {
+        try {
+          // Tenta executar transação real via API de ponte
+          const response = await axios.post(`${SAP_BRIDGE_API}/execute`, {
+            transaction,
+            parameters
+          });
+          
+          if (response.data && response.data.status === 'success') {
+            console.log('Transação executada com sucesso no SAP real');
+            return response.data;
+          } else {
+            throw new Error('Falha na execução: ' + (response.data?.message || 'Erro desconhecido'));
+          }
+        } catch (error) {
+          console.warn('Erro na execução real, alternando para modo simulação:', error);
+          this.useMock = true;
+        }
+      }
       
-      // Dados mockados para demonstração
-      switch (transaction) {
-        case 'S_ALR_87013019': {
-          return {
-            status: 'success',
-            data: {
-              resultados: this.mockFinancialReport(parameters)
-            }
-          };
+      // Modo simulação (fallback)
+      if (this.useMock) {
+        // Dados mockados para demonstração
+        switch (transaction) {
+          case 'S_ALR_87013019': {
+            return {
+              status: 'success',
+              data: {
+                resultados: this.mockFinancialReport(parameters)
+              }
+            };
+          }
+          
+          case 'ME23N': {
+            return {
+              status: 'success',
+              data: {
+                resultados: this.mockPurchaseOrder(parameters)
+              }
+            };
+          }
+          
+          case 'FB03': {
+            return {
+              status: 'success',
+              data: {
+                resultados: this.mockAccountingDocument(parameters)
+              }
+            };
+          }
+          
+          case 'XD03': {
+            return {
+              status: 'success',
+              data: {
+                resultados: this.mockCustomerData(parameters)
+              }
+            };
+          }
+          
+          case 'MM03': {
+            return {
+              status: 'success',
+              data: {
+                resultados: this.mockMaterialData(parameters)
+              }
+            };
+          }
+          
+          default:
+            throw new Error(`Transação ${transaction} não suportada no modo simulação`);
         }
-        
-        case 'ME23N': {
-          return {
-            status: 'success',
-            data: {
-              resultados: this.mockPurchaseOrder(parameters)
-            }
-          };
-        }
-        
-        case 'FB03': {
-          return {
-            status: 'success',
-            data: {
-              resultados: this.mockAccountingDocument(parameters)
-            }
-          };
-        }
-        
-        case 'XD03': {
-          return {
-            status: 'success',
-            data: {
-              resultados: this.mockCustomerData(parameters)
-            }
-          };
-        }
-        
-        case 'MM03': {
-          return {
-            status: 'success',
-            data: {
-              resultados: this.mockMaterialData(parameters)
-            }
-          };
-        }
-        
-        default:
-          throw new Error(`Transação ${transaction} não suportada`);
       }
     } catch (error) {
       console.error(`Erro ao executar transação ${transaction}:`, error);
@@ -346,36 +475,55 @@ export class SAPGuiService {
   }
 
   /**
-   * Desconecta do servidor SAP
+   * Desconecta do SAP
    */
   public async disconnect(): Promise<void> {
-    this.currentServer = null;
-    this.credentials = null;
-    this.isConnected = false;
-    console.log('Desconectado do SAP');
+    if (!this.isConnected) {
+      return;
+    }
+
+    try {
+      if (!this.useMock) {
+        try {
+          // Tenta desconexão real via API de ponte
+          await axios.post(`${SAP_BRIDGE_API}/disconnect`);
+        } catch (error) {
+          console.warn('Erro na desconexão real:', error);
+        }
+      }
+      
+      // Limpa o estado independentemente do resultado
+      this.isConnected = false;
+      this.currentServer = null;
+      this.credentials = null;
+      console.log('Desconectado do SAP');
+    } catch (error) {
+      console.error('Erro ao desconectar do SAP:', error);
+      throw error;
+    }
   }
 
   /**
-   * Obtém os servidores disponíveis
+   * Retorna a lista de servidores disponíveis
    */
   public getAvailableServers(): SAPServer[] {
     return this.servers;
   }
 
   /**
-   * Verifica se há uma conexão ativa com o SAP
+   * Verifica se há uma conexão ativa
    */
   public isActiveConnection(): boolean {
     return this.isConnected;
   }
 
   /**
-   * Obtém informações do servidor atual
+   * Retorna o servidor atual
    */
   public getCurrentServer(): SAPServer | null {
     return this.currentServer;
   }
 }
 
-// Singleton instance
+// Exporta uma instância única do serviço
 export const sapGuiService = new SAPGuiService();

@@ -1,0 +1,20 @@
+{
+  "name": "sap-bridge",
+  "version": "1.0.0",
+  "description": "Servidor de ponte para comunicação com SAP GUI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "edge-js": "^19.3.0",
+    "express": "^4.18.2",
+    "xmldom": "^0.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
