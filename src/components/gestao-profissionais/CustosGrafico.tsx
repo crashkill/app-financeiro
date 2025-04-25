@@ -1,11 +1,12 @@
 import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from 'react-chartjs-2';
 import { Card } from 'react-bootstrap';
 import { formatCurrency } from '../../utils/formatters';
 
 // Registrar os elementos necessários do Chart.js
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface CustoGraficoProps {
   custosPorTipo: {
@@ -48,6 +49,7 @@ const CustosGrafico: React.FC<CustoGraficoProps> = ({ custosPorTipo }) => {
     ],
   };
 
+  // Definir options com casting para evitar erros de tipo
   const options = {
     responsive: true,
     plugins: {
@@ -69,9 +71,29 @@ const CustosGrafico: React.FC<CustoGraficoProps> = ({ custosPorTipo }) => {
             return `${context.label}: ${valor} (${percentual}%)`;
           }
         }
+      },
+      // Configuração para formatar os rótulos dos valores no gráfico
+      datalabels: {
+        formatter: (value: number) => {
+          // Formatar para mostrar em milhares (K) para tornar mais legível
+          if (value >= 1000000) {
+            return `R$ ${(value / 1000000).toFixed(1)}M`;
+          } else if (value >= 1000) {
+            return `R$ ${(value / 1000).toFixed(0)}K`;
+          }
+          return formatCurrency(value);
+        },
+        color: '#000',
+        font: {
+          weight: 'bold' as const,
+          size: 14
+        },
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderRadius: 4,
+        padding: 6
       }
     },
-  };
+  } as ChartOptions<'pie'>;
 
   return (
     <Card className="h-100 d-flex flex-column">
