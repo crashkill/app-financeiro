@@ -45,36 +45,98 @@ const Dashboard = () => {
 
   // Filtrar transações quando a seleção muda
   useEffect(() => {
-    const filtered = allTransactions.filter(t => {
+    // <<< LOG: Verificar allTransactions
+    console.log(`[Dashboard Filtro Ano/Proj] Iniciando filtro. allTransactions.length: ${allTransactions.length}. 10 Primeiras:`, allTransactions.slice(0, 10));
+    console.log(`[Dashboard Filtro Ano/Proj] selectedYear: ${selectedYear}, selectedProjects: [${selectedProjects.join(', ')}]`);
+    
+    const filtered = allTransactions.filter((t, index) => { // Adicionado index
       // Filtrar por projeto
       const matchProject = selectedProjects.length === 0 || 
-        selectedProjects.includes(t.descricao || 'Sem Projeto')
+        selectedProjects.includes(t.projeto || 'Sem Projeto');
 
       // Filtrar por ano
-      const [, ano] = (t.periodo || '').split('/')
-      const matchYear = parseInt(ano) === selectedYear
+      const periodoOriginal = t.periodo || '';
+      const [, anoStr] = periodoOriginal.split('/');
+      const anoInt = parseInt(anoStr);
+      const matchYear = anoInt === selectedYear;
+      
+      // <<< LOG: Detalhes do filtro de ano (primeiras 10 tentativas)
+      if (index < 10) {
+          console.log(`[Dashboard Filtro Ano/Proj ${index}] periodo: '${periodoOriginal}', anoStr: '${anoStr}', anoInt: ${anoInt}, selectedYear: ${selectedYear}, matchYear: ${matchYear}`);
+      }
 
-      return matchProject && matchYear
-    })
+      return matchProject && matchYear;
+    });
     
-    setFilteredTransactions(filtered)
-  }, [selectedProjects, selectedYear, allTransactions])
+    console.log(`[Dashboard Filtro Ano/Proj] Resultado (filtered):`, filtered.slice(0, 10));
+    
+    setFilteredTransactions(filtered);
+  }, [selectedProjects, selectedYear, allTransactions]);
 
   // Calcular totais quando as transações filtradas mudam
   useEffect(() => {
-    const totaisCalculados = filteredTransactions.reduce((acc, transacao) => {
-      const valor = typeof transacao.lancamento === 'number' ? transacao.lancamento : 0
-      
-      if (transacao.natureza === 'RECEITA') {
-        acc.receita += valor
-      } else if (transacao.natureza === 'CUSTO') {
-        acc.custo += valor
-      }
-      return acc
-    }, { receita: 0, custo: 0 })
+    // Filtrar transações realizadas (não precisamos mais filtrar por Relatorio pois os dados já são filtrados no upload)
+    const transacoesRealizadas = filteredTransactions;
+    
+    console.log(`[Dashboard] Calculando totais sobre ${transacoesRealizadas.length} transações (para Ano=${selectedYear} e ProjetosSelecionados=[${selectedProjects.join(', ')}])`);
 
-    setTotais(totaisCalculados)
-  }, [filteredTransactions])
+    // Diagnóstico: listar todas as receitas para verificar o formato
+    const todasReceitas = transacoesRealizadas.filter(t => t.natureza === 'RECEITA');
+    console.log(`[Dashboard] Total de transações com natureza RECEITA: ${todasReceitas.length}`);
+    
+    // Listar os primeiros 5 registros de receita para verificar o formato
+    todasReceitas.slice(0, 5).forEach((t, i) => {
+      console.log(`[Dashboard] Receita #${i}: ContaResumo="${t.contaResumo}", Valor=${t.lancamento}, Período=${t.periodo}`);
+    });
+    
+    // Verificar registros específicos de RECEITA DEVENGADA
+    const receitasDevengadas = transacoesRealizadas.filter(t => 
+      (t.contaResumo || '').toUpperCase().trim() === 'RECEITA DEVENGADA');
+    console.log(`[Dashboard] Total de transações com ContaResumo "RECEITA DEVENGADA": ${receitasDevengadas.length}`);
+    
+    // Verificar registros de DESONERAÇÃO DA FOLHA
+    const receitasDesoneracao = transacoesRealizadas.filter(t => 
+      (t.contaResumo || '').toUpperCase().trim() === 'DESONERAÇÃO DA FOLHA');
+    console.log(`[Dashboard] Total de transações com ContaResumo "DESONERAÇÃO DA FOLHA": ${receitasDesoneracao.length}`);
+
+    const totaisCalculados = transacoesRealizadas.reduce((acc, transacao, index) => {
+      const valor = typeof transacao.lancamento === 'number' ? transacao.lancamento : 0;
+      const contaResumo = (transacao.contaResumo || '').toUpperCase().trim();
+      let adicionado = false; // Flag para log
+
+      // Regra para Receita: considera "RECEITA DEVENGADA"
+      if (transacao.natureza === 'RECEITA' && contaResumo === 'RECEITA DEVENGADA') {
+        acc.receita += valor;
+        adicionado = true;
+      }
+      
+      // Regra para Receita: considera também "DESONERAÇÃO DA FOLHA"
+      else if (contaResumo === 'DESONERAÇÃO DA FOLHA') {
+        acc.receita += valor;
+        adicionado = true;
+      }
+      
+      // Regra para Custo: considera CLT, SUBCONTRATADOS, OUTROS
+      else if (transacao.natureza === 'CUSTO' && 
+              (contaResumo.includes('CLT') || 
+               contaResumo.includes('SUBCONTRATADOS') || 
+               contaResumo.includes('OUTROS'))) {
+        acc.custo += valor;
+        adicionado = true;
+      }
+      
+      // <<< LOG: Detalhes da transação sendo processada no reduce (primeiras 20)
+      if (index < 20) { 
+          console.log(`[Dashboard Reduce ${index}] Transacao: Natureza=${transacao.natureza}, ContaResumo=${contaResumo}, Valor=${valor}, Adicionado=${adicionado}`);
+      }
+      
+      return acc;
+    }, { receita: 0, custo: 0 });
+
+    console.log(`[Dashboard] Totais calculados (Refinados): Receita=${totaisCalculados.receita}, Custo=${totaisCalculados.custo}`);
+
+    setTotais(totaisCalculados);
+  }, [filteredTransactions, selectedYear, selectedProjects]);
 
   return (
     <Container>

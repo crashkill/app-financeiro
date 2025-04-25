@@ -26,7 +26,6 @@ export interface Profissional {
 }
 
 type TransacaoModifications = Partial<Transacao>;
-type ProfissionalModifications = Partial<Profissional>;
 
 export class AppDatabase extends Dexie {
   transacoes!: Table<Transacao>
@@ -34,7 +33,7 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super('FinanceiroDB')
-    this.version(7).stores({
+    this.version(6).stores({
       transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo',
       profissionais: '++id, nome, cargo, projeto, tipo'
     })
@@ -43,11 +42,11 @@ export class AppDatabase extends Dexie {
     this.transacoes.hook('creating', (primKey, obj) => {
       // Normaliza o valor para número
       obj.valor = converterParaNumero(obj.valor)
-      
+
       // Garante que projeto e descricao não sejam undefined
       obj.projeto = obj.projeto || obj.descricao || 'Sem Projeto'
       obj.descricao = obj.descricao || obj.projeto || 'Sem Descrição'
-      
+
       // Normaliza o período para o formato correto (M/YYYY)
       if (obj.periodo) {
         const [mes, ano] = obj.periodo.split('/')
@@ -64,222 +63,132 @@ export class AppDatabase extends Dexie {
         modifications.periodo = `${parseInt(mes)}/${ano}`
       }
     })
-
-    this.profissionais.hook('creating', (primKey, obj) => {
-      // Normaliza o valor do custo para número
-      obj.custo = converterParaNumero(obj.custo)
-      
-      // Garante que projeto não seja undefined
-      obj.projeto = obj.projeto || 'Sem Projeto'
-    })
-
-    this.profissionais.hook('updating', (modifications: ProfissionalModifications, primKey, obj) => {
-      if (modifications.custo !== undefined) {
-        modifications.custo = converterParaNumero(modifications.custo)
-      }
-    })
   }
 }
 
 export const db = new AppDatabase()
 
 // Função auxiliar para converter valor para número
-function converterParaNumero(valor: any): number {
-  if (typeof valor === 'number') {
-    return valor
+const converterParaNumero = (valor: any): number => {
+  if (typeof valor === 'number') return valor
+  if (!valor) return 0
+
+  // Converter para string e limpar
+  let str = String(valor)
+    .replace(/[^\d,.-]/g, '') // Remove tudo exceto números, vírgula, ponto e hífen
+    .trim()
+
+  // Trata formato brasileiro (ex: 1.234,56)
+  if (str.includes(',')) {
+    // Se tem vírgula, assume formato BR
+    str = str.replace(/\./g, '').replace(',', '.')
   }
-  if (typeof valor === 'string') {
-    // Remove caracteres não numéricos, exceto ponto e vírgula
-    const valorLimpo = valor.replace(/[^\d,.]/g, '')
-    // Substitui vírgula por ponto
-    const valorPonto = valorLimpo.replace(',', '.')
-    // Converte para número
-    return parseFloat(valorPonto) || 0
-  }
-  return 0
+
+  const num = parseFloat(str)
+  return isNaN(num) ? 0 : num
 }
 
 // Função para importar dados
-export async function importarDados(dados: any[]) {
-  return db.transaction('rw', db.transacoes, async () => {
-    try {
-      // Limpa a tabela atual
-      await db.transacoes.clear()
-      
-      // Log para depuração
-      console.log('Dados originais do arquivo Excel:', dados.slice(0, 2));
-      
-      // Prepara os dados para importação
-      const dadosFormatados = dados.map(item => {
-        // Processamento do período
-        let periodoFormatado = 'Sem Periodo';
-        
-        if (item.periodo) {
-          try {
-            // Tenta processar o período em diferentes formatos
-            let mes, ano;
-            
-            if (typeof item.periodo === 'string' && item.periodo.includes('/')) {
-              // Formato esperado: "M/YYYY"
-              [mes, ano] = item.periodo.split('/');
-              periodoFormatado = `${parseInt(mes) || 1}/${ano || new Date().getFullYear()}`;
-            } else if (typeof item.periodo === 'string' && item.periodo.includes('-')) {
-              // Formato alternativo: "MM-YYYY"
-              [mes, ano] = item.periodo.split('-');
-              periodoFormatado = `${parseInt(mes) || 1}/${ano || new Date().getFullYear()}`;
-            } else if (item.mes && item.ano) {
-              // Campos separados
-              periodoFormatado = `${parseInt(item.mes) || 1}/${item.ano || new Date().getFullYear()}`;
-            } else if (typeof item.periodo === 'string') {
-              // Tentar extrair mês e ano de uma data completa
-              const dataParts = item.periodo.split(/[\/\-\.]/);
-              if (dataParts.length >= 2) {
-                // Assumindo formatos comuns como DD/MM/YYYY ou MM/DD/YYYY
-                periodoFormatado = `${parseInt(dataParts[1]) || 1}/${dataParts[2] || new Date().getFullYear()}`;
-              } else {
-                // Fallback: mês atual / ano atual
-                const hoje = new Date();
-                periodoFormatado = `${hoje.getMonth() + 1}/${hoje.getFullYear()}`;
-              }
-            } else {
-              // Fallback: mês atual / ano atual
-              const hoje = new Date();
-              periodoFormatado = `${hoje.getMonth() + 1}/${hoje.getFullYear()}`;
-            }
-          } catch (e) {
-            console.error('Erro ao processar período:', e, item);
-            const hoje = new Date();
-            periodoFormatado = `${hoje.getMonth() + 1}/${hoje.getFullYear()}`;
-          }
-        } else if (item.data) {
-          // Tenta extrair período da data
-          try {
-            const data = new Date(item.data);
-            if (!isNaN(data.getTime())) {
-              periodoFormatado = `${data.getMonth() + 1}/${data.getFullYear()}`;
-            } else {
-              const hoje = new Date();
-              periodoFormatado = `${hoje.getMonth() + 1}/${hoje.getFullYear()}`;
-            }
-          } catch (e) {
-            console.error('Erro ao extrair período da data:', e);
-            const hoje = new Date();
-            periodoFormatado = `${hoje.getMonth() + 1}/${hoje.getFullYear()}`;
-          }
-        }
-        
-        // Determina o tipo com base nos campos disponíveis
-        let tipo = 'despesa';
-        if (item.tipo && typeof item.tipo === 'string') {
-          tipo = item.tipo.toLowerCase().includes('receita') ? 'receita' : 'despesa';
-        } else if (item.natureza && typeof item.natureza === 'string') {
-          tipo = item.natureza.toUpperCase().includes('RECEITA') ? 'receita' : 'despesa';
-        } else if (item.contaResumo && typeof item.contaResumo === 'string' && 
-                  item.contaResumo.toLowerCase().includes('receita')) {
-          tipo = 'receita';
-        } else if (item.valor && parseFloat(String(item.valor)) > 0) {
-          tipo = 'receita'; // Assume que valor positivo é receita
-        }
-        
-        // Determina a natureza
-        let natureza = tipo === 'receita' ? 'RECEITA' : 'CUSTO';
-        if (item.natureza && typeof item.natureza === 'string') {
-          natureza = item.natureza.toUpperCase();
-        }
-
-        // Processa o valor
-        const valor = converterParaNumero(item.valor || 0);
-        
-        // Determina o projeto e descrição
-        const projeto = item.projeto || item.descricao || 'Sem Projeto';
-        const descricao = item.descricao || item.projeto || 'Sem Descrição';
-        
-        // Mapeia contaResumo para os valores esperados pelo sistema
-        // Este é um ponto crítico para a visualização correta nos menus
-        let contaResumo = '';
-        
-        // Primeiro tenta usar o contaResumo do arquivo
-        if (item.contaResumo) {
-          contaResumo = item.contaResumo.toString().toUpperCase().trim();
-          
-          // Normalizar valores comuns para compatibilidade
-          if (contaResumo.includes('RECEITA') || contaResumo.includes('DEVENGADA')) {
-            contaResumo = 'RECEITA DEVENGADA';
-          } else if (contaResumo.includes('DESON') && contaResumo.includes('FOLHA')) {
-            contaResumo = 'DESONERAÇÃO DA FOLHA';
-          } else if (contaResumo.includes('CLT')) {
-            contaResumo = 'CLT';
-          } else if (contaResumo.includes('SUBCONT')) {
-            contaResumo = 'SUBCONTRATADOS';
-          } else if (tipo === 'despesa') {
-            // Categoriza outros custos
-            contaResumo = 'OUTROS';
-          }
-        } 
-        // Se não houver contaResumo, tenta inferir dos outros campos
-        else {
-          if (tipo === 'receita') {
-            contaResumo = 'RECEITA DEVENGADA';
-          } else if (item.denominacaoConta && item.denominacaoConta.toString().toUpperCase().includes('DESON')) {
-            contaResumo = 'DESONERAÇÃO DA FOLHA';
-          } else if (descricao.toUpperCase().includes('CLT') || 
-                    (item.categoria && item.categoria.toString().toUpperCase().includes('CLT'))) {
-            contaResumo = 'CLT';
-          } else if (descricao.toUpperCase().includes('SUBCONT') || 
-                     (item.categoria && item.categoria.toString().toUpperCase().includes('SUBCONT'))) {
-            contaResumo = 'SUBCONTRATADOS';
-          } else {
-            contaResumo = 'OUTROS';
-          }
-        }
-        
-        // Cria o objeto de transação garantindo todos os campos obrigatórios
-        return {
-          tipo: tipo as 'receita' | 'despesa',
-          natureza: natureza as 'RECEITA' | 'CUSTO',
-          descricao: descricao,
-          valor: valor,
-          data: item.data || new Date().toISOString().split('T')[0],
-          categoria: item.categoria || contaResumo,
-          observacao: item.observacao || '',
-          lancamento: item.lancamento || Date.now(),
-          projeto: projeto,
-          periodo: periodoFormatado,
-          denominacaoConta: item.denominacaoConta || descricao,
-          contaResumo: contaResumo
-        };
-      });
-      
-      // Log para debug dos dados formatados
-      console.log('Primeiros registros formatados para importação:', dadosFormatados.slice(0, 2));
-      console.log('Unique contaResumo values:', [...new Set(dadosFormatados.map(d => d.contaResumo))]);
-      console.log('Unique projeto values:', [...new Set(dadosFormatados.map(d => d.projeto))]);
-      console.log('Unique periodo values:', [...new Set(dadosFormatados.map(d => d.periodo))]);
-      
-      // Importa os dados
-      const result = await db.transacoes.bulkAdd(dadosFormatados, { allKeys: true });
-      return { count: dadosFormatados.length, keys: result };
-    } catch (error) {
-      console.error('Erro na transação de importação:', error);
-      throw new Error(`Erro ao importar dados: ${error.message || 'Erro desconhecido'}`);
+export const importarDados = async (dados: any[]) => {
+  try {
+    // Log dos campos disponíveis no primeiro registro
+    if (dados.length > 0) {
+      console.log('Campos disponíveis no Excel:', Object.keys(dados[0]));
+      console.log('Exemplo de registro completo:', dados[0]);
     }
-  });
-}
 
-// Função para importar profissionais
-export async function importarProfissionais(dados: any[]) {
-  return db.transaction('rw', db.profissionais, async () => {
-    // Limpa a tabela atual
-    await db.profissionais.clear()
+    // Filtrar apenas os registros "Realizado"
+    const dadosFiltrados = dados.filter(item => {
+      const isRealizado = item.Relatorio === 'Realizado'
+      const temLancamento = item.Lancamento !== null && item.Lancamento !== undefined && item.Lancamento !== ''
+      return isRealizado && temLancamento
+    })
+
+    // Log para verificar registros de desoneração
+    const registrosDesoneracao = dadosFiltrados.filter(item =>
+      String(item.ContaResumo || '').toUpperCase().includes('DESONERAÇÃO')
+    );
+    console.log('Registros com Desoneração (valores originais):', registrosDesoneracao);
     
-    // Prepara os dados para importação
-    const dadosFormatados = dados.map(item => ({
-      ...item,
-      custo: converterParaNumero(item.custo),
-      projeto: item.projeto || 'Sem Projeto'
-    }))
-    
-    // Importa os dados
-    await db.profissionais.bulkAdd(dadosFormatados)
-  })
+    // Log para verificar registros de receita devengada
+    const registrosReceitaDevengada = dadosFiltrados.filter(item =>
+      String(item.ContaResumo || '').toUpperCase().includes('RECEITA DEVENGADA')
+    );
+    console.log('Registros com Receita Devengada (valores originais):', registrosReceitaDevengada);
+
+    // Mapear os dados do Excel para o formato da transação
+    const transacoes: Transacao[] = dadosFiltrados.map(item => {
+      // Garantir que a natureza seja RECEITA ou CUSTO
+      const natureza = String(item.Natureza || '').toUpperCase() === 'RECEITA' ? 'RECEITA' : 'CUSTO'
+
+      // Converter o valor do lançamento para número
+      const valorFinal = converterParaNumero(item.Lancamento)
+
+      // Normalizar contaResumo
+      let contaResumo = String(item.ContaResumo || '').toUpperCase().trim()
+      
+      // Verificar se é receita devengada
+      if (contaResumo.includes('RECEITA') && contaResumo.includes('DEVENGADA')) {
+        contaResumo = 'RECEITA DEVENGADA'
+      }
+      // Verificar se é desoneração da folha
+      else if (contaResumo.includes('DESONERAÇÃO') || contaResumo.includes('DESONERACAO')) {
+        contaResumo = 'DESONERAÇÃO DA FOLHA'
+      }
+      // Mapear variações conhecidas para os tipos padrão
+      else if (contaResumo.includes('CLT')) {
+        contaResumo = 'CLT'
+      } else if (contaResumo.includes('SUBCONTRATADO') || contaResumo.includes('SUB-CONTRATADO')) {
+        contaResumo = 'SUBCONTRATADOS'
+      } else if (contaResumo !== 'OUTROS') {
+        contaResumo = 'OUTROS'
+      }
+
+      // Log detalhado de cada item
+      console.log('Processando item:', {
+        projeto: item.Projeto,
+        denominacaoConta: item.DenominacaoConta,
+        contaResumo: item.ContaResumo,
+        contaResumoNormalizada: contaResumo,
+        categoria: item.LinhaNegocio,
+        natureza,
+        valorOriginal: item.Lancamento,
+        valorConvertido: valorFinal
+      })
+
+      const transacao: Transacao = {
+        tipo: natureza === 'RECEITA' ? 'receita' : 'despesa',
+        natureza,
+        descricao: String(item.Projeto || ''),
+        valor: valorFinal, // Mantendo o valor original com sinal
+        data: item.Periodo || new Date().toISOString().split('T')[0],
+        categoria: String(item.LinhaNegocio || 'Outros'),
+        lancamento: valorFinal, // Mantendo o valor original com sinal
+        periodo: String(item.Periodo || ''),
+        denominacaoConta: String(item.DenominacaoConta || ''),
+        contaResumo: contaResumo
+      };
+
+      // Log da transação final
+      if (contaResumo === 'DESONERAÇÃO DA FOLHA' || contaResumo === 'RECEITA DEVENGADA') {
+        console.log(`Transação de ${contaResumo} (valor mantido com sinal):`, transacao);
+      }
+
+      return transacao;
+    })
+
+    // Limpar tabela existente
+    await db.transacoes.clear()
+
+    // Inserir novos dados
+    const result = await db.transacoes.bulkAdd(transacoes)
+
+    return {
+      count: transacoes.length,
+      result
+    }
+  } catch (error) {
+    console.error('Erro ao importar dados:', error)
+    throw error
+  }
 }

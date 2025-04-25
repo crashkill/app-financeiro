@@ -27,8 +27,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Aceita tanto 'admin' quanto 'Administrador'
-    if ((email === 'admin' || email === 'Administrador') && password === 'admin') {
+    // Aceita 'admin', 'Administrador' ou 'Admin' com senha 'admin'
+    if ((email.toLowerCase() === 'admin' || email === 'Administrador') && password.toLowerCase() === 'admin') {
       const userData: User = { 
         email, 
         name: 'Administrador',

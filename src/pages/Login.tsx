@@ -15,7 +15,7 @@ const Login = () => {
   const validateForm = () => {
     const errors: {email?: string; password?: string} = {}
     if (!email) errors.email = 'E-mail é obrigatório'
-    else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'E-mail inválido'
+    // else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'E-mail inválido' // Temporariamente comentado
     if (!password) errors.password = 'Senha é obrigatória'
     setValidationErrors(errors)
     return Object.keys(errors).length === 0

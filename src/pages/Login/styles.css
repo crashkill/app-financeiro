@@ -1,0 +1,132 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.form-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.form-container.error {
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-message {
+  animation: slideUp 0.3s ease-out;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.input-group {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.input-group:focus-within label {
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.logo {
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Animação para o botão de submit */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.submit-button:not(:disabled):hover {
+  animation: pulse 1s infinite;
+}
+
+.error {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.bg-dots-darker {
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
+}
+
+.dark .bg-dots-lighter {
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
+}
+
+.shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .shadow-2xl {
+  background: rgba(17, 24, 39, 0.98);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Form input focus states */
+.focus\:border-blue-500:focus {
+  border-color: #3b82f6;
+}
+
+.dark .focus\:border-blue-500:focus {
+  border-color: #60a5fa;
+}
+
+/* Transition effects */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
