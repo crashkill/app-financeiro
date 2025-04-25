@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Table } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import FilterPanel from '../components/FilterPanel';
 import CustosGrafico from '../components/gestao-profissionais/CustosGrafico';
+import UploadProfissionais from '../components/gestao-profissionais/UploadProfissionais';
 import { useProfissionaisData } from '../hooks/useProfissionaisData';
 import { formatCurrency } from '../utils/formatters';
 
@@ -30,7 +31,8 @@ const GestaoProfissionais: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'valor' | 'descricao' | 'periodo'>('valor');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const { data, isLoading: isLoadingData, error } = useProfissionaisData();
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const { data, isLoading: isLoadingData, error, refetch } = useProfissionaisData();
 
   // Carregar projetos e anos disponíveis
   useEffect(() => {
@@ -167,8 +169,20 @@ const GestaoProfissionais: React.FC = () => {
     <Container fluid className="py-3">
       <Row className="mb-4">
         <Col>
-          <h1>Gestão de Profissionais</h1>
-          <p className="text-muted">Gerencie os profissionais alocados nos projetos</p>
+          <div className="d-flex justify-content-between align-items-center">
+            <div>
+              <h1>Gestão de Profissionais</h1>
+              <p className="text-muted">Gerencie os profissionais alocados nos projetos</p>
+            </div>
+            <Button 
+              variant="primary" 
+              onClick={() => setShowUploadModal(true)}
+              className="align-self-start"
+            >
+              <i className="bi bi-upload me-2"></i>
+              Importar Profissionais
+            </Button>
+          </div>
         </Col>
       </Row>
 
@@ -250,6 +264,12 @@ const GestaoProfissionais: React.FC = () => {
           </Card>
         </Col>
       </Row>
+
+      <UploadProfissionais 
+        show={showUploadModal} 
+        onHide={() => setShowUploadModal(false)} 
+        onSuccess={refetch}
+      />
     </Container>
   );
 };

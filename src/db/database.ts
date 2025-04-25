@@ -19,10 +19,9 @@ export interface Transacao {
 export interface Profissional {
   id?: number
   nome: string
-  cargo: string
+  tipo: string
   projeto: string
   custo: number
-  tipo: string
 }
 
 type TransacaoModifications = Partial<Transacao>;
@@ -33,9 +32,9 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super('FinanceiroDB')
-    this.version(6).stores({
+    this.version(7).stores({
       transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo',
-      profissionais: '++id, nome, cargo, projeto, tipo'
+      profissionais: '++id, nome, tipo, projeto'
     })
 
     // Adiciona hooks para normalização de dados
@@ -190,5 +189,62 @@ export const importarDados = async (dados: any[]) => {
   } catch (error) {
     console.error('Erro ao importar dados:', error)
     throw error
+  }
+}
+
+// Função para importar profissionais
+export const importarProfissionais = async (dados: any[]) => {
+  try {
+    // Log dos campos disponíveis no primeiro registro
+    if (dados.length > 0) {
+      console.log('Campos disponíveis no Excel de Profissionais:', Object.keys(dados[0]));
+      console.log('Exemplo de profissional completo:', dados[0]);
+    }
+
+    // Mapear os dados do Excel para o formato dos profissionais
+    const profissionais: Profissional[] = dados.map(item => {
+      // Verificar campos necessários
+      const nome = item['Nome do Profissional'] || item.Nome || '';
+      if (!nome) {
+        throw new Error('Campo "Nome do Profissional" ou "Nome" não encontrado para um dos registros');
+      }
+      
+      // Normalizar tipo de contratação
+      let tipo = String(item['Tipo de Contratação'] || item.Tipo || '').toUpperCase().trim();
+      // Se o tipo não for CLT, considera como PJ
+      if (tipo !== 'CLT') {
+        tipo = 'PJ';
+      }
+
+      // Verificar projeto
+      const projeto = item.Projeto || '';
+      if (!projeto) {
+        console.warn(`Profissional ${nome} sem projeto definido`);
+      }
+
+      // Converter valor para número
+      const custo = converterParaNumero(item['Custo Total'] || item.Custo || 0);
+
+      return {
+        nome,
+        tipo,
+        projeto,
+        custo
+      };
+    });
+
+    // Limpar tabela existente
+    await db.profissionais.clear();
+
+    // Inserir novos dados
+    const result = await db.profissionais.bulkAdd(profissionais);
+
+    return {
+      count: profissionais.length,
+      result
+    };
+  } catch (error) {
+    console.error('Erro ao importar profissionais:', error);
+    throw error;
   }
 }
