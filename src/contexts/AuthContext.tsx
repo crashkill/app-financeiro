@@ -16,15 +16,19 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    // Verificar se há um usuário no localStorage ao iniciar
+  const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        return JSON.parse(storedUser) as User;
+      } catch (e) {
+        console.error("Falha ao analisar o usuário do localStorage", e);
+        localStorage.removeItem('user');
+        return null;
+      }
     }
-  }, []);
+    return null; // Ou defina um estado inicial padrão se necessário
+  });
 
   const login = async (email: string, password: string) => {
     // Aceita 'admin', 'Administrador' ou 'Admin' com senha 'admin'

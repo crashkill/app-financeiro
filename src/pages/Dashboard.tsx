@@ -157,10 +157,10 @@ const Dashboard = () => {
 
       <Row>
         <Col md={6} className="mb-4">
-          <Card className="h-100">
+          <Card className="h-100 bg-card text-card-foreground border border-border">
             <Card.Body>
               <Card.Title>Receita Total</Card.Title>
-              <Card.Text className="h2 text-success">
+              <Card.Text className="h2 text-success dark:text-green-400">
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
                   currency: 'BRL'
@@ -170,10 +170,10 @@ const Dashboard = () => {
           </Card>
         </Col>
         <Col md={6} className="mb-4">
-          <Card className="h-100">
+          <Card className="h-100 bg-card text-card-foreground border border-border">
             <Card.Body>
               <Card.Title>Custo Total</Card.Title>
-              <Card.Text className="h2 text-danger">
+              <Card.Text className="h2 text-danger dark:text-red-400">
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
                   currency: 'BRL'
@@ -186,7 +186,7 @@ const Dashboard = () => {
 
       <Row>
         <Col>
-          <Card className="shadow">
+          <Card className="shadow bg-card text-card-foreground border border-border">
             <Card.Body>
               <ProjectCharts transactions={filteredTransactions} />
             </Card.Body>

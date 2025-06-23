@@ -10,7 +10,7 @@ const TestComponent = () => {
     <div>
       <div data-testid="user-status">{user ? 'logged-in' : 'logged-out'}</div>
       <div data-testid="admin-status">{isAdmin ? 'admin' : 'not-admin'}</div>
-      <button onClick={() => login({ email: 'test@example.com', password: 'password' })}>Login</button>
+      <button onClick={() => login('test@example.com', 'password')}>Login</button>
       <button onClick={logout}>Logout</button>
     </div>
   );

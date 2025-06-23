@@ -123,6 +123,13 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
     }
   ]
 
+  const getThemeColor = (lightColor: string, darkColor: string): string => {
+    if (typeof window !== 'undefined' && document.documentElement.classList.contains('dark')) {
+      return darkColor;
+    }
+    return lightColor;
+  };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -150,9 +157,13 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
           weight: 'bold' as const,
         },
         padding: 20,
+        color: getThemeColor('rgb(55, 65, 81)', '#f9fafb'), // Cor do foreground.dark
       },
       legend: {
         position: 'top' as const,
+        labels: {
+          color: getThemeColor('rgb(71, 85, 105)', '#f9fafb'), // Cor do foreground.dark
+        }
       },
       tooltip: {
         mode: 'index' as const,
@@ -163,16 +174,22 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
       x: {
         stacked: true,
         grid: {
-          display: false
+          display: false,
+          color: getThemeColor('rgba(209, 213, 219, 0.5)', 'rgba(55, 65, 81, 0.5)') // Cor do border.dark com opacidade
+        },
+        ticks: {
+          color: getThemeColor('rgb(71, 85, 105)', 'rgb(148, 163, 184)') // Aprox. text-slate-600 / text-slate-400
         }
       },
       y: {
         stacked: true,
         grid: {
-          display: false
+          display: false,
+          color: getThemeColor('rgba(209, 213, 219, 0.5)', 'rgba(55, 65, 81, 0.5)') // Cor do border.dark com opacidade
         },
         ticks: {
-          callback: (value: any) => `R$ ${value}`
+          callback: (value: any) => `R$ ${value}`,
+          color: getThemeColor('rgb(71, 85, 105)', 'rgb(148, 163, 184)') // Aprox. text-slate-600 / text-slate-400
         }
       }
     },

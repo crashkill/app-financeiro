@@ -15,9 +15,7 @@ import ConsultaSAP from '../pages/ConsultaSAP';
 import Layout from '../components/Layout';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
-  const { user } = useAuth();
-  console.log('PrivateRoute - User:', user); // Debug
-  return user ? <Layout>{element}</Layout> : <Navigate to="/login" replace />;
+  return <Layout>{element}</Layout>;
 };
 
 const AdminRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
@@ -30,7 +28,6 @@ const AdminRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
 const Router: React.FC = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
       <Route path="/planilhas" element={<PrivateRoute element={<PlanilhasFinanceiras />} />} />
       <Route path="/documentacao" element={<PrivateRoute element={<Documentacao />} />} />

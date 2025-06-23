@@ -1,5 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
+import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Upload from './pages/Upload'
@@ -10,23 +11,51 @@ import Documentacao from './pages/Documentacao'
 import GestaoProfissionais from './pages/GestaoProfissionais'
 import ConsultaSAP from './pages/ConsultaSAP'
 import Layout from './components/Layout'
+import { useEffect } from 'react'
 
 // Componente para rotas protegidas
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth()
-  return user ? <Layout>{children}</Layout> : <Navigate to="/login" />
+  const { user } = useAuth();
+  const location = useLocation();
+
+  if (!user) {
+    // Redireciona para a página de login, salvando a localização atual
+    // para que possamos enviar o usuário de volta para lá depois do login.
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <Layout>{children}</Layout>;
+}
+
+// Componente para garantir que o tema seja aplicado ao body
+export function ThemeWrapper({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
+  
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    // As classes de cor do body serão herdadas ou definidas por bg-background
+  }, [theme])
+
+  return <>{children}</>
 }
 
 function App() {
   const { user } = useAuth()
 
   return (
-    <div data-testid="app-container">
+    <ThemeProvider>
+      <ThemeWrapper>
+        <div data-testid="app-container" className="min-h-screen transition-colors duration-300 bg-background text-foreground">
       <Routes>
-        <Route
-          path="/login"
-          element={user ? <Navigate to="/dashboard" /> : <Login />}
-        />
+        {/* Rota pública de Login */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Rotas Protegidas */}
         <Route
           path="/dashboard"
           element={
@@ -91,9 +120,20 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        
+        {/* Redirecionamento da raiz e Rota Catch-all */}
+        <Route 
+          path="/" 
+          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
+        />
+        <Route 
+          path="*" 
+          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
+        />
       </Routes>
-    </div>
+        </div>
+      </ThemeWrapper>
+    </ThemeProvider>
   )
 }
 
