@@ -1,8 +1,5 @@
-import { exec } from 'child_process';
-import path from 'path';
 import axios from 'axios';
 import { DOMParser } from 'xmldom';
-import * as fs from 'fs';
 
 interface SAPServer {
   name: string;
@@ -32,20 +29,31 @@ export class SAPGuiService {
   private useMock: boolean = false; // Flag para usar mock ou conexão real
 
   constructor() {
-    // Carrega as configurações do SAP ao inicializar o serviço
-    this.loadSAPGUIConfigFromXML();
+    // Carrega servidores padrão
+    this.loadDefaultServers();
+    // Inicialização assíncrona será feita quando necessário
+  }
+
+  /**
+   * Inicializa o serviço de forma assíncrona
+   */
+  public async initialize(): Promise<void> {
+    try {
+      await this.loadSAPGUIConfigFromXML();
+    } catch (error) {
+      console.warn('Não foi possível carregar configurações do XML, usando configurações padrão:', error);
+      this.loadDefaultServers();
+    }
   }
 
   /**
    * Lê as configurações do SAP diretamente do arquivo XML
    */
-  private loadSAPGUIConfigFromXML(): void {
+  private async loadSAPGUIConfigFromXML(): Promise<void> {
     try {
-      // Caminho para o arquivo SAPUILandscape.xml
-      const xmlPath = path.resolve(__dirname, 'SAPUILandscape.xml');
-      
-      // Lê o conteúdo do arquivo
-      const xmlContent = fs.readFileSync(xmlPath, 'utf-8');
+      // Busca o arquivo XML via fetch (para funcionar no browser)
+      const response = await fetch('/src/services/SAPUILandscape.xml');
+      const xmlContent = await response.text();
       
       // Faz o parsing do XML
       const parser = new DOMParser();
