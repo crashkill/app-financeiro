@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
-import { ThemeProvider, useTheme } from './contexts/ThemeContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Upload from './pages/Upload'
@@ -27,19 +27,14 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return <Layout>{children}</Layout>;
 }
 
-// Componente para garantir que o tema seja aplicado ao body
+// Componente para garantir que o tema claro seja aplicado ao body
 export function ThemeWrapper({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme()
-  
   useEffect(() => {
     const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    // Sempre remove a classe dark para garantir modo claro
+    root.classList.remove('dark');
     // As classes de cor do body serão herdadas ou definidas por bg-background
-  }, [theme])
+  }, [])
 
   return <>{children}</>
 }

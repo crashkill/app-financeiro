@@ -124,9 +124,7 @@ export function ProjectCharts({ transactions }: ProjectChartsProps) {
   ]
 
   const getThemeColor = (lightColor: string, darkColor: string): string => {
-    if (typeof window !== 'undefined' && document.documentElement.classList.contains('dark')) {
-      return darkColor;
-    }
+    // Sempre retorna a cor do modo claro
     return lightColor;
   };
 

@@ -3,31 +3,18 @@ import { Nav } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { Squash as Hamburger } from 'hamburger-react'
 import {
-  UilAnalytics,
-  UilFileAlt,
-  UilChartGrowth,
-  UilCloudUpload,
-  UilSetting,
-  UilBook,
-  UilBars,
-  UilAngleRight,
-  UilUsersAlt,
-  UilDatabase
-} from '@iconscout/react-unicons'
+  BarChart3,
+  FileText,
+  TrendingUp,
+  Upload,
+  Settings,
+  Book,
+  Menu,
+  ChevronRight,
+  Users,
+  Database
+} from 'lucide-react'
 import { useConfig } from '../contexts/ConfigContext'
-
-// Wrappers para os ícones com parâmetros padrão
-// Updated icon wrappers with default parameters
-const Analytics = ({ ...props } = {}) => <UilAnalytics {...props} />
-const FileAlt = ({ ...props } = {}) => <UilFileAlt {...props} />
-const ChartGrowth = ({ ...props } = {}) => <UilChartGrowth {...props} />
-const CloudUpload = ({ ...props } = {}) => <UilCloudUpload {...props} />
-const Setting = ({ ...props } = {}) => <UilSetting {...props} />
-const Book = ({ ...props } = {}) => <UilBook {...props} />
-const Bars = ({ ...props } = {}) => <UilBars {...props} />
-const AngleRight = ({ ...props } = {}) => <UilAngleRight {...props} />
-const People = ({ ...props } = {}) => <UilUsersAlt {...props} />
-const Database = ({ ...props } = {}) => <UilDatabase {...props} />
 
 interface MenuIconProps {
   icon: React.ReactNode;
@@ -73,49 +60,49 @@ const Sidebar = () => {
   const menuItems = [
     {
       text: 'Dashboard',
-      icon: <Analytics />,
+      icon: <BarChart3 size={24} />,
       path: '/dashboard',
       color: '#2196f3'
     },
     {
       text: 'Planilhas Financeiras',
-      icon: <FileAlt />,
+      icon: <FileText size={24} />,
       path: '/planilhas',
       color: '#4caf50'
     },
     {
       text: 'Forecast',
-      icon: <ChartGrowth />,
+      icon: <TrendingUp size={24} />,
       path: '/forecast',
       color: '#9c27b0'
     },
     {
       text: 'Gestão de Profissionais',
-      icon: <People />,
+      icon: <Users size={24} />,
       path: '/gestao-profissionais',
       color: '#e91e63'
     },
     {
       text: 'Upload',
-      icon: <CloudUpload />,
+      icon: <Upload size={24} />,
       path: '/upload',
       color: '#ff9800'
     },
     {
       text: 'Consulta SAP',
-      icon: <Database />,
+      icon: <Database size={24} />,
       path: '/consulta-sap',
       color: '#00bcd4'
     },
     {
       text: 'Documentação',
-      icon: <Book />,
+      icon: <Book size={24} />,
       path: '/documentacao',
       color: '#607d8b'
     },
     {
       text: 'Configurações',
-      icon: <Setting />,
+      icon: <Settings size={24} />,
       path: '/config',
       color: '#607d8b'
     }

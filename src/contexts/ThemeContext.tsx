@@ -1,50 +1,47 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light';
 
 type ThemeContextType = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
+  toggleTheme: () => void; // Mantido para compatibilidade, mas não faz nada
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme] = useState<Theme>('light'); // Sempre modo claro
   const [mounted, setMounted] = useState(false);
 
-  // Efeito para carregar o tema salvo ou usar a preferência do sistema
+  // Efeito para garantir que o tema claro seja aplicado
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (systemPrefersDark) {
-      setTheme('dark');
-    }
-    
+    // Remove qualquer tema escuro salvo anteriormente
+    localStorage.removeItem('theme');
     setMounted(true);
   }, []);
 
-  // Efeito para aplicar o tema ao documento
+  // Efeito para aplicar o tema claro ao documento
   useEffect(() => {
     if (!mounted) return;
     
     const root = window.document.documentElement;
     
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    // Sempre remove a classe dark para garantir modo claro
+    root.classList.remove('dark');
     
-    localStorage.setItem('theme', theme);
-  }, [theme, mounted]);
+    // Define explicitamente o tema claro no localStorage
+    localStorage.setItem('theme', 'light');
+  }, [mounted]);
 
+  // Função vazia para compatibilidade - não faz nada
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    // Não faz nada - modo claro fixo
+  };
+
+  // Função vazia para compatibilidade - não permite mudança
+  const setTheme = () => {
+    // Não faz nada - modo claro fixo
   };
 
   if (!mounted) {
