@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
-import { db } from '../db/database'
-import type { Transacao } from '../db/database'
-import { ProjectCharts } from '../components/ProjectCharts'
-import FilterPanel from '../components/FilterPanel'
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import { useTransacoes } from '../hooks/useTransacoes';
+import { YearFilter, ProjectFilter } from '../components/filters';
+import { ProjectCharts } from '../components/ProjectCharts';
+import { storageService } from '../services/storageService';
+import { db, Transacao } from '../db/database';
 
 const Dashboard = () => {
   const [allTransactions, setAllTransactions] = useState<Transacao[]>([])
   const [filteredTransactions, setFilteredTransactions] = useState<Transacao[]>([])
   const [selectedProjects, setSelectedProjects] = useState<string[]>([])
-  const [selectedYear, setSelectedYear] = useState<number>(2024)
+  const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString())
+  const [isInitialized, setIsInitialized] = useState(false)
   const [projects, setProjects] = useState<string[]>([])
   const [years, setYears] = useState<number[]>([])
   const [totais, setTotais] = useState({
@@ -25,16 +27,29 @@ const Dashboard = () => {
         setAllTransactions(transacoes)
 
         // Extrair lista única de projetos
-        const uniqueProjects = Array.from(new Set(transacoes.map(t => t.descricao || 'Sem Projeto')))
+        const uniqueProjects = Array.from(new Set(transacoes.map(t => t.descricao || 'Sem Projeto'))) as string[]
         setProjects(uniqueProjects)
 
         // Extrair lista única de anos
-        const uniqueYears = Array.from(new Set(transacoes.map(t => {
+        const yearsFromTransactions = transacoes.map(t => {
           const [, ano] = (t.periodo || '').split('/')
-          return parseInt(ano)
-        }))).filter(year => !isNaN(year)).sort((a, b) => b - a) // Ordenar decrescente
-
+          return parseInt(ano, 10)
+        }).filter((year): year is number => !isNaN(year))
+        
+        const uniqueYears: number[] = Array.from(new Set(yearsFromTransactions)).sort((a: number, b: number) => b - a)
         setYears(uniqueYears)
+        
+        // Inicializar com o ano atual quando os dados estiverem carregados
+        if (!isInitialized && uniqueYears.length > 0) {
+          const currentYear = new Date().getFullYear()
+          if (uniqueYears.includes(currentYear)) {
+            setSelectedYear(currentYear.toString())
+          } else if (uniqueYears.length > 0) {
+            // Se o ano atual não existir nos dados, selecionar o ano mais recente
+            setSelectedYear(uniqueYears[0].toString())
+          }
+          setIsInitialized(true)
+        }
       } catch (error) {
         console.error('Erro ao carregar dados:', error)
       }
@@ -54,11 +69,11 @@ const Dashboard = () => {
       const matchProject = selectedProjects.length === 0 || 
         selectedProjects.includes(t.projeto || 'Sem Projeto');
 
-      // Filtrar por ano
+      // Filtrar por ano - sempre deve ter um ano selecionado
       const periodoOriginal = t.periodo || '';
       const [, anoStr] = periodoOriginal.split('/');
       const anoInt = parseInt(anoStr);
-      const matchYear = anoInt === selectedYear;
+      const matchYear = selectedYear && anoInt.toString() === selectedYear;
       
       // <<< LOG: Detalhes do filtro de ano (primeiras 10 tentativas)
       if (index < 10) {
@@ -146,14 +161,31 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      <FilterPanel
-        projects={projects}
-        selectedProjects={selectedProjects}
-        years={years}
-        selectedYear={selectedYear}
-        onProjectChange={setSelectedProjects}
-        onYearChange={setSelectedYear}
-      />
+      {/* Filtros Aprimorados */}
+      <Card className="mb-4">
+        <Card.Header>
+          <h5 className="mb-0">Filtros</h5>
+        </Card.Header>
+        <Card.Body>
+          <Row>
+            <Col md={6} className="mb-3">
+              <YearFilter
+                selectedYear={selectedYear}
+                onChange={setSelectedYear}
+                label="Filtrar por Ano"
+              />
+            </Col>
+            <Col md={6} className="mb-3">
+              <ProjectFilter
+                selectedProjects={selectedProjects}
+                onChange={setSelectedProjects}
+                label="Filtrar por Projetos"
+                dataSource="transactions"
+              />
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
       <Row>
         <Col md={6} className="mb-4">

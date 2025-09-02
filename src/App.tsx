@@ -11,6 +11,7 @@ import Documentacao from './pages/Documentacao'
 import GestaoProfissionais from './pages/GestaoProfissionais'
 import ConsultaSAP from './pages/ConsultaSAP'
 import Layout from './components/Layout'
+import ProjectFilterExample from './examples/ProjectFilterExample'
 import { useEffect } from 'react'
 
 // Componente para rotas protegidas
@@ -112,6 +113,14 @@ function App() {
           element={
             <PrivateRoute>
               <Config />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/test-filter"
+          element={
+            <PrivateRoute>
+              <ProjectFilterExample />
             </PrivateRoute>
           }
         />
