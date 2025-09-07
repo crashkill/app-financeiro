@@ -1,112 +1,188 @@
-interface LogEntry {
-  level: 'info' | 'warn' | 'error' | 'debug'
+/**
+ * Logger utilitário para Edge Functions
+ * Fornece logging estruturado com diferentes níveis
+ */
+
+export interface LogContext {
+  [key: string]: any
+}
+
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+
+export interface LogEntry {
+  level: LogLevel
   message: string
-  data?: any
   timestamp: string
-  function?: string
+  context?: LogContext
+  executionId?: string
 }
 
 class Logger {
-  private logLevel: string
+  private executionId?: string
 
-  constructor() {
-    this.logLevel = Deno.env.get('LOG_LEVEL') || 'info'
+  /**
+   * Define ID de execução para rastreamento
+   */
+  setExecutionId(id: string): void {
+    this.executionId = id
   }
 
-  private shouldLog(level: string): boolean {
-    const levels = { debug: 0, info: 1, warn: 2, error: 3 }
-    const currentLevel = levels[this.logLevel as keyof typeof levels] || 1
-    const messageLevel = levels[level as keyof typeof levels] || 1
-    return messageLevel >= currentLevel
+  /**
+   * Log de debug
+   */
+  debug(message: string, context?: LogContext): void {
+    this.log('debug', message, context)
   }
 
-  private formatLog(entry: LogEntry): string {
-    const { timestamp, level, message, data, function: fn } = entry
-    const prefix = `[${timestamp}] ${level.toUpperCase()}`
-    const functionInfo = fn ? ` [${fn}]` : ''
-    const dataInfo = data ? ` ${JSON.stringify(data)}` : ''
-    return `${prefix}${functionInfo}: ${message}${dataInfo}`
+  /**
+   * Log de informação
+   */
+  info(message: string, context?: LogContext): void {
+    this.log('info', message, context)
   }
 
-  private log(level: 'info' | 'warn' | 'error' | 'debug', message: string, data?: any, functionName?: string) {
-    if (!this.shouldLog(level)) return
+  /**
+   * Log de aviso
+   */
+  warn(message: string, context?: LogContext): void {
+    this.log('warn', message, context)
+  }
 
-    const entry: LogEntry = {
+  /**
+   * Log de erro
+   */
+  error(message: string, error?: Error | any, context?: LogContext): void {
+    const errorContext = {
+      ...context,
+      error: error instanceof Error ? {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      } : error
+    }
+    
+    this.log('error', message, errorContext)
+  }
+
+  /**
+   * Método principal de logging
+   */
+  private log(level: LogLevel, message: string, context?: LogContext): void {
+    const logEntry: LogEntry = {
       level,
       message,
-      data,
       timestamp: new Date().toISOString(),
-      function: functionName
+      context,
+      executionId: this.executionId
     }
 
-    const formattedLog = this.formatLog(entry)
-
+    // Formatação para console
+    const formattedMessage = this.formatMessage(logEntry)
+    
+    // Output baseado no nível
     switch (level) {
-      case 'error':
-        console.error(formattedLog)
+      case 'debug':
+        console.debug(formattedMessage)
+        break
+      case 'info':
+        console.info(formattedMessage)
         break
       case 'warn':
-        console.warn(formattedLog)
+        console.warn(formattedMessage)
         break
-      case 'debug':
-        console.debug(formattedLog)
+      case 'error':
+        console.error(formattedMessage)
         break
-      default:
-        console.log(formattedLog)
-    }
-
-    // Send to external logging service if configured
-    if (Deno.env.get('SENTRY_DSN')) {
-      this.sendToSentry(entry)
     }
   }
 
-  private async sendToSentry(entry: LogEntry) {
+  /**
+   * Formata mensagem para output
+   */
+  private formatMessage(entry: LogEntry): string {
+    const timestamp = entry.timestamp
+    const level = entry.level.toUpperCase().padEnd(5)
+    const executionId = entry.executionId ? `[${entry.executionId.substring(0, 8)}]` : ''
+    
+    let message = `${timestamp} ${level} ${executionId} ${entry.message}`
+    
+    if (entry.context && Object.keys(entry.context).length > 0) {
+      message += ` | Context: ${JSON.stringify(entry.context, null, 2)}`
+    }
+    
+    return message
+  }
+
+  /**
+   * Cria logger com contexto específico
+   */
+  withContext(context: LogContext): Logger {
+    const contextLogger = new Logger()
+    contextLogger.executionId = this.executionId
+    
+    // Override dos métodos para incluir contexto
+    const originalLog = contextLogger.log.bind(contextLogger)
+    contextLogger.log = (level: LogLevel, message: string, additionalContext?: LogContext) => {
+      const mergedContext = { ...context, ...additionalContext }
+      originalLog(level, message, mergedContext)
+    }
+    
+    return contextLogger
+  }
+
+  /**
+   * Mede tempo de execução de uma função
+   */
+  async time<T>(label: string, fn: () => Promise<T>): Promise<T> {
+    const startTime = performance.now()
+    this.info(`⏱️ Iniciando: ${label}`)
+    
     try {
-      // Simplified Sentry integration
-      // In production, use proper Sentry SDK
-      const sentryDsn = Deno.env.get('SENTRY_DSN')
-      if (!sentryDsn) return
-
-      // Basic Sentry payload
-      const payload = {
-        message: entry.message,
-        level: entry.level,
-        timestamp: entry.timestamp,
-        extra: entry.data,
-        tags: {
-          function: entry.function || 'unknown'
-        }
-      }
-
-      // Send to Sentry (simplified)
-      await fetch(sentryDsn, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
+      const result = await fn()
+      const duration = performance.now() - startTime
+      this.info(`✅ Concluído: ${label}`, { duration: `${duration.toFixed(2)}ms` })
+      return result
     } catch (error) {
-      console.error('Failed to send log to Sentry:', error)
+      const duration = performance.now() - startTime
+      this.error(`❌ Falhou: ${label}`, error, { duration: `${duration.toFixed(2)}ms` })
+      throw error
     }
   }
 
-  info(message: string, data?: any, functionName?: string) {
-    this.log('info', message, data, functionName)
+  /**
+   * Log de performance
+   */
+  performance(operation: string, duration: number, context?: LogContext): void {
+    this.info(`⚡ Performance: ${operation}`, {
+      ...context,
+      duration: `${duration.toFixed(2)}ms`,
+      performance: true
+    })
   }
 
-  warn(message: string, data?: any, functionName?: string) {
-    this.log('warn', message, data, functionName)
-  }
-
-  error(message: string, data?: any, functionName?: string) {
-    this.log('error', message, data, functionName)
-  }
-
-  debug(message: string, data?: any, functionName?: string) {
-    this.log('debug', message, data, functionName)
+  /**
+   * Log de auditoria
+   */
+  audit(action: string, context?: LogContext): void {
+    this.info(`📋 Audit: ${action}`, {
+      ...context,
+      audit: true
+    })
   }
 }
 
+// Instância singleton do logger
 export const logger = new Logger()
+
+// Utilitários de logging
+export const createLogger = (executionId?: string): Logger => {
+  const newLogger = new Logger()
+  if (executionId) {
+    newLogger.setExecutionId(executionId)
+  }
+  return newLogger
+}
+
+export const withExecutionId = (executionId: string): Logger => {
+  return createLogger(executionId)
+}

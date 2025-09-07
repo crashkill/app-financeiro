@@ -276,3 +276,6 @@ verify_jwt = false
 
 [functions.generate-forecast]
 verify_jwt = false
+
+[functions.hitss-automation]
+verify_jwt = false
