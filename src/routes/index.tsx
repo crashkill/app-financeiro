@@ -5,7 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 // Pages
 import Dashboard from '../pages/Dashboard';
 import PlanilhasFinanceiras from '../pages/PlanilhasFinanceiras';
-import Documentacao from '../pages/Documentacao';
 import Login from '../pages/Login';
 import AdminCheck from '../pages/AdminCheck';
 import GestaoProfissionais from '../pages/GestaoProfissionais';
@@ -30,7 +29,6 @@ const Router: React.FC = () => {
     <Routes>
       <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
       <Route path="/planilhas" element={<PrivateRoute element={<PlanilhasFinanceiras />} />} />
-      <Route path="/documentacao" element={<PrivateRoute element={<Documentacao />} />} />
       <Route path="/admin-check" element={<AdminRoute element={<AdminCheck />} />} />
       <Route path="/gestao-profissionais" element={<PrivateRoute element={<GestaoProfissionais />} />} />
       <Route path="/consulta-sap" element={<PrivateRoute element={<ConsultaSAP />} />} />

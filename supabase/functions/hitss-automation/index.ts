@@ -1,104 +1,217 @@
-/// <reference path="./deno.d.ts" />
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import * as XLSX from "https://esm.sh/xlsx@0.18.5";
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+import { corsHeaders, handleCors, createCorsResponse, createErrorResponse } from '../_shared/cors.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import * as XLSX from 'https://esm.sh/xlsx@0.18.5';
 
 // Configurações do Supabase
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-
-const supabase = createClient(
-  SUPABASE_URL,
-  SUPABASE_SERVICE_ROLE_KEY
-);
-
-// Interface para tipagem dos dados
-interface ProjectRow {
-  'Projeto': string;
-  'Cliente': string;
-  'Responsável': string;
-  'Status': string;
-  'Data Início': string;
-  'Data Fim': string;
-}
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const HITSS_EXPORT_URL = 'https://hitsscontrol.globalhitss.com.br/api/api/export/xls?clienteFiltro=&servicoFiltro=-1&tipoFiltro=-1&projetoFiltro=&projetoAtivoFiltro=true&projetoParalisadoFiltro=true&projetoEncerradoFiltro=true&projetoCanceladoFiltro=true&responsavelareaFiltro=&idResponsavelareaFiltro=&responsavelprojetoFiltro=FABRICIO%20CARDOSO%20DE%20LIMA&idresponsavelprojetoFiltro=78&filtroDeFiltro=09-2016&filtroAteFiltro=08-2025&visaoFiltro=PROJ&usuarioFiltro=fabricio.lima&idusuarioFiltro=78&perfilFiltro=RESPONSAVEL_DELIVERY%7CRESPONSAVEL_LANCAMENTO%7CVISITANTE&telaFiltro=painel_projetos';
 
-serve(async () => {
+interface HitssProject {
+  codigo_projeto: string;
+  nome_projeto: string;
+  cliente: string;
+  responsavel: string;
+  status: string;
+  data_inicio?: string;
+  data_fim?: string;
+  valor_contrato?: number;
+  horas_previstas?: number;
+  horas_realizadas?: number;
+}
+
+Deno.serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return handleCors(req);
+  }
+
   try {
-    // 1️⃣ Buscar credenciais das variáveis de ambiente
-    const username = Deno.env.get("HITSS_USER") || "fabricio.lima";
-    const password = Deno.env.get("HITSS_PASS") || "Hitss@2024";
+    const startTime = Date.now();
+    const executionId = crypto.randomUUID();
     
-    if (!username || !password) {
-      throw new Error("Credenciais HITSS não encontradas");
+    console.log(`🚀 Iniciando automação HITSS - ID: ${executionId}`);
+    
+    // Registrar início da execução
+    const { error: startError } = await supabase
+      .from('automation_executions')
+      .insert({
+        execution_id: executionId,
+        status: 'running'
+      });
+    
+    if (startError) {
+      console.warn('Erro ao registrar início da execução:', startError);
+      throw new Error(`Erro ao registrar execução: ${startError.message}`);
     }
 
-    // 2️⃣ Tentar acessar diretamente a URL de exportação (pode não precisar de login)
-    let cookie = null;
+    console.log('✅ Execução registrada com sucesso');
     
-    // MODO TESTE: Simular dados enquanto não conseguimos acessar o HitssControl
-     console.log('Simulando dados de teste para validar a lógica...');
-     
-     // Criar um XLSX simples de teste
-     const testData = [
-       ['Projeto', 'Cliente', 'Responsável', 'Status', 'Data Início', 'Data Fim'],
-       ['Projeto Teste 1', 'Cliente A', 'FABRICIO CARDOSO DE LIMA', 'Ativo', '2024-01-01', '2024-12-31'],
-       ['Projeto Teste 2', 'Cliente B', 'FABRICIO CARDOSO DE LIMA', 'Ativo', '2024-02-01', '2024-11-30'],
-       ['Projeto Teste 3', 'Cliente C', 'FABRICIO CARDOSO DE LIMA', 'Encerrado', '2023-06-01', '2024-05-31']
-     ];
-     
-     const ws = XLSX.utils.aoa_to_sheet(testData);
-     const wb = XLSX.utils.book_new();
-     XLSX.utils.book_append_sheet(wb, ws, 'Projetos');
-     const xlsxBuffer = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
-
-    // 4️⃣ Processar XLSX e extrair dados diretamente
-    console.log('Processando dados do XLSX...');
-    const workbook = XLSX.read(xlsxBuffer, { type: 'array' });
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const rows = XLSX.utils.sheet_to_json(worksheet) as ProjectRow[];
-    console.log(`Processando ${rows.length} registros...`);
-
-    rows.forEach((row: ProjectRow, index: number) => {
-      console.log(`Registro ${index + 1}:`, row);
-    });
-
-    // 7️⃣ Inserir dados na tabela hitss_projetos
-    console.log(`Inserindo ${rows.length} registros na tabela...`);
-    const { error: insertError } = await supabase
-      .from('hitss_projetos')
-      .insert(rows.map((row: ProjectRow) => ({
-        projeto: row['Projeto'],
-        cliente: row['Cliente'],
-        responsavel: row['Responsável'],
-        status: row['Status'],
-        data_inicio: row['Data Início'],
-        data_fim: row['Data Fim']
-      })));
-    if (insertError) throw insertError;
-
-    console.log(`✅ Dados processados com sucesso`);
-
-    // 9️⃣ Enviar e-mail notificando o usuário
-    await fetch("https://api.postmarkapp.com/email", {
-      method: "POST",
+    // Buscar credenciais do HITSS no Vault
+    console.log('🔐 Buscando credenciais do HITSS...');
+    const { data: credentials, error: credError } = await supabase
+      .from('vault')
+      .select('secret')
+      .eq('name', 'hitss_credentials')
+      .single();
+    
+    if (credError || !credentials) {
+      throw new Error('Credenciais do HITSS não encontradas no Vault');
+    }
+    
+    const hitssCredentials = JSON.parse(credentials.secret);
+    
+    // Download do arquivo XLSX do HITSS
+    console.log('📥 Fazendo download do arquivo HITSS...');
+    const response = await fetch(HITSS_EXPORT_URL, {
+      method: 'GET',
       headers: {
-        "X-Postmark-Server-Token": Deno.env.get("POSTMARK_TOKEN")!,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        From: "no-reply@seudominio.com",
-        To: "usuario@empresa.com", // ajustar destinatário
-        Subject: "Importação concluída",
-        TextBody: "O processo de importação foi finalizado com sucesso!",
-      }),
+        'Authorization': `Basic ${btoa(`${hitssCredentials.username}:${hitssCredentials.password}`)}`,
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }
     });
+    
+    if (!response.ok) {
+      throw new Error(`Erro ao baixar arquivo HITSS: ${response.status} ${response.statusText}`);
+    }
+    
+    const arrayBuffer = await response.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+    
+    if (!workbook.SheetNames.length) {
+      throw new Error('Arquivo XLSX não contém planilhas');
+    }
+    
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+    console.log(`📊 Arquivo processado: ${jsonData.length} linhas encontradas`);
+    
+    // Processar dados (assumindo que a primeira linha são os cabeçalhos)
+    const headers = jsonData[0] as string[];
+    const dataRows = jsonData.slice(1);
+    
+    const projects: HitssProject[] = [];
+    let recordsProcessed = 0;
+    let recordsFailed = 0;
+    
+    for (const row of dataRows) {
+      try {
+        if (!row || row.length === 0) continue;
+        
+        const project: HitssProject = {
+          codigo_projeto: String(row[0] || '').trim(),
+          nome_projeto: String(row[1] || '').trim(),
+          cliente: String(row[2] || '').trim(),
+          responsavel: String(row[3] || '').trim(),
+          status: String(row[4] || '').trim(),
+          data_inicio: row[5] ? String(row[5]) : undefined,
+          data_fim: row[6] ? String(row[6]) : undefined,
+          valor_contrato: row[7] ? Number(row[7]) : undefined,
+          horas_previstas: row[8] ? Number(row[8]) : undefined,
+          horas_realizadas: row[9] ? Number(row[9]) : undefined
+        };
+        
+        if (project.codigo_projeto && project.nome_projeto) {
+          projects.push(project);
+          recordsProcessed++;
+        }
+      } catch (error) {
+        console.warn('Erro ao processar linha:', error);
+        recordsFailed++;
+      }
+    }
+    
+    console.log(`✅ Processamento concluído: ${recordsProcessed} registros válidos, ${recordsFailed} falhas`);
+    
+    // Limpar dados existentes do período atual
+    const today = new Date().toISOString().split('T')[0];
+    console.log('🧹 Limpando dados existentes...');
+    
+    const { error: deleteError } = await supabase
+      .from('hitss_projetos')
+      .delete()
+      .gte('created_at', `${today}T00:00:00.000Z`);
+    
+    if (deleteError) {
+      console.warn('Erro ao limpar dados existentes:', deleteError);
+    }
+    
+    // Inserir novos dados
+    let recordsImported = 0;
+    if (projects.length > 0) {
+      console.log(`💾 Inserindo ${projects.length} projetos no banco...`);
+      
+      const { data: insertedData, error: insertError } = await supabase
+        .from('hitss_projetos')
+        .insert(projects)
+        .select();
+      
+      if (insertError) {
+        console.error('Erro ao inserir dados:', insertError);
+        throw new Error(`Erro ao inserir dados: ${insertError.message}`);
+      }
+      
+      recordsImported = insertedData?.length || 0;
+      console.log(`✅ ${recordsImported} projetos inseridos com sucesso`);
+    }
+    
+    const endTime = Date.now();
+    const executionTime = endTime - startTime;
+    
+    // Registrar execução concluída
+    const { error: completeError } = await supabase
+      .from('automation_executions')
+      .update({
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+        execution_time_ms: executionTime,
+        records_processed: recordsProcessed,
+        records_imported: recordsImported,
+        records_failed: recordsFailed,
+        file_name: 'hitss_export.xlsx',
+        file_size: arrayBuffer.byteLength
+      })
+      .eq('execution_id', executionId);
+    
+    if (completeError) {
+      console.warn('Erro ao atualizar execução concluída:', completeError);
+      throw new Error(`Erro ao atualizar execução: ${completeError.message}`);
+    }
 
-    return new Response("Processo concluído", { status: 200 });
+    console.log('✅ Automação HITSS concluída com sucesso');
+
+    return createCorsResponse({
+      success: true,
+      message: "Automação HITSS executada com sucesso",
+      executionId,
+      recordsProcessed,
+      recordsImported,
+      recordsFailed,
+      executionTime
+    }, 200);
+    
   } catch (err) {
-    console.error(err);
-    return new Response("Erro: " + err.message, { status: 500 });
+    console.error('❌ Erro na automação HITSS:', err);
+    
+    // Registrar erro na execução
+    const errorExecutionId = crypto.randomUUID();
+    const { error: errorUpdateError } = await supabase
+      .from('automation_executions')
+      .insert({
+        execution_id: errorExecutionId,
+        status: 'failed',
+        error_message: err.message
+      });
+    
+    if (errorUpdateError) {
+      console.warn('Erro ao registrar erro da execução:', errorUpdateError);
+    }
+    
+    return createErrorResponse(err.message, 500);
   }
 });

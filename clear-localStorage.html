@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Limpar LocalStorage - App Financeiro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+        .success {
+            background-color: #28a745;
+        }
+        .success:hover {
+            background-color: #218838;
+        }
+        .info {
+            background-color: #17a2b8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Limpar Dados do App Financeiro</h1>
+        
+        <div class="info">
+            <strong>ℹ️ Informação:</strong><br>
+            Esta página permite limpar os dados armazenados localmente no navegador.
+            Isso resolverá o problema de dados antigos ainda aparecendo na visualização.
+        </div>
+
+        <h3>Dados Atuais no LocalStorage:</h3>
+        <div id="currentData"></div>
+
+        <h3>Ações:</h3>
+        <button onclick="clearFinancialData()">🗑️ Limpar Dados Financeiros</button>
+        <button onclick="clearUploadHistory()">📋 Limpar Histórico de Upload</button>
+        <button onclick="clearAllData()">🧹 Limpar Todos os Dados</button>
+        <button onclick="refreshData()" class="success">🔄 Atualizar Visualização</button>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.innerHTML = message;
+            status.style.backgroundColor = type === 'success' ? '#d4edda' : 
+                                         type === 'error' ? '#f8d7da' : '#d1ecf1';
+            status.style.color = type === 'success' ? '#155724' : 
+                               type === 'error' ? '#721c24' : '#0c5460';
+        }
+
+        function refreshData() {
+            const financialData = localStorage.getItem('financial_data');
+            const uploadHistory = localStorage.getItem('upload_history');
+            
+            let html = '<ul>';
+            
+            if (financialData) {
+                const data = JSON.parse(financialData);
+                html += `<li><strong>Dados Financeiros:</strong> ${data.length} registros</li>`;
+            } else {
+                html += '<li><strong>Dados Financeiros:</strong> Nenhum dado encontrado</li>';
+            }
+            
+            if (uploadHistory) {
+                const history = JSON.parse(uploadHistory);
+                html += `<li><strong>Histórico de Upload:</strong> ${history.length} registros</li>`;
+            } else {
+                html += '<li><strong>Histórico de Upload:</strong> Nenhum histórico encontrado</li>';
+            }
+            
+            html += '</ul>';
+            document.getElementById('currentData').innerHTML = html;
+        }
+
+        function clearFinancialData() {
+            localStorage.removeItem('financial_data');
+            showStatus('✅ Dados financeiros removidos com sucesso!', 'success');
+            refreshData();
+        }
+
+        function clearUploadHistory() {
+            localStorage.removeItem('upload_history');
+            showStatus('✅ Histórico de upload removido com sucesso!', 'success');
+            refreshData();
+        }
+
+        function clearAllData() {
+            localStorage.clear();
+            showStatus('✅ Todos os dados do localStorage foram removidos!', 'success');
+            refreshData();
+        }
+
+        // Carregar dados iniciais
+        refreshData();
+    </script>
+</body>
+</html>

@@ -21,6 +21,10 @@ export default defineConfig({
     port: 3000,
     open: true,
     host: true,
+    fs: {
+      // Permite que o Vite sirva arquivos fora do diretório raiz
+      strict: false,
+    },
   },
   preview: {
     port: 4173,

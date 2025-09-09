@@ -7,11 +7,13 @@ import Upload from './pages/Upload'
 import Config from './pages/Config'
 import Forecast from './pages/Forecast'
 import PlanilhasFinanceiras from './pages/PlanilhasFinanceiras'
-import Documentacao from './pages/Documentacao'
+
 import GestaoProfissionais from './pages/GestaoProfissionais'
 import ConsultaSAP from './pages/ConsultaSAP'
+import AutomationTestPage from './pages/AutomationTestPage'
 import Layout from './components/Layout'
 import ProjectFilterExample from './examples/ProjectFilterExample'
+import ButtonExample from './examples/ButtonExample'
 import { useEffect } from 'react'
 
 // Componente para rotas protegidas
@@ -92,14 +94,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/documentacao"
-          element={
-            <PrivateRoute>
-              <Documentacao />
-            </PrivateRoute>
-          }
-        />
+
         <Route
           path="/consulta-sap"
           element={
@@ -121,6 +116,22 @@ function App() {
           element={
             <PrivateRoute>
               <ProjectFilterExample />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/button-example"
+          element={
+            <PrivateRoute>
+              <ButtonExample />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/automation-test"
+          element={
+            <PrivateRoute>
+              <AutomationTestPage />
             </PrivateRoute>
           }
         />

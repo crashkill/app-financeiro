@@ -1,6 +1,7 @@
-import { db, Transacao, Profissional } from '../db/database';
-import { supabase } from '../lib/supabase';
-import { TransacaoFinanceira, Colaborador } from '../types/database';
+import { supabase } from '@/lib/supabase';
+import { db } from '@/db/database';
+import type { Profissional, Transacao } from '@/db/database';
+import type { ColaboradorInsert, TransacaoFinanceiraInsert } from '@/types/database';
 
 export interface MigrationProgress {
   step: string;
@@ -122,19 +123,19 @@ class MigrationService {
       
       try {
         // Mapear dados do IndexedDB para o formato do Supabase
-        const colaborador: Omit<Colaborador, 'id' | 'created_at' | 'updated_at'> = {
+        const colaborador: ColaboradorInsert = {
           nome: prof.nome,
           email: `${prof.nome.toLowerCase().replace(/\s+/g, '.')}@empresa.com`, // Email fictício
           cargo: prof.cargo || 'Não informado',
           departamento: prof.projeto || 'Geral',
           data_admissao: new Date().toISOString().split('T')[0], // Data atual como padrão
           salario: prof.custo,
-          status: prof.tipo === 'CLT' ? 'ativo' : 'ativo'
+          status: 'ativo'
         };
 
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('colaboradores')
-          .insert([colaborador]);
+          .insert(colaborador);
 
         if (error) {
           console.error(`Erro ao migrar profissional ${prof.nome}:`, error);
@@ -158,12 +159,12 @@ class MigrationService {
     let migradas = 0;
 
     // Buscar colaboradores para mapear por nome/projeto
-    const { data: colaboradores } = await supabase
+    const { data: colaboradores } = await (supabase as any)
       .from('colaboradores')
       .select('id, nome, departamento');
 
     const colaboradoresMap = new Map<string, string>();
-    colaboradores?.forEach(col => {
+    colaboradores?.forEach((col: any) => {
       colaboradoresMap.set(col.nome.toLowerCase(), col.id);
       colaboradoresMap.set(col.departamento.toLowerCase(), col.id);
     });
@@ -173,18 +174,26 @@ class MigrationService {
       
       try {
         // Mapear dados do IndexedDB para o formato do Supabase
-        const transacao: Omit<TransacaoFinanceira, 'id' | 'created_at' | 'updated_at'> = {
+        const colaboradorId = this.findColaboradorId(trans, colaboradoresMap);
+        
+        // Pular transação se não encontrar colaborador válido
+        if (!colaboradorId) {
+          console.warn(`Transação ${trans.id} ignorada: colaborador não encontrado`);
+          continue;
+        }
+        
+        const transacao: TransacaoFinanceiraInsert = {
           tipo: trans.tipo,
           categoria: trans.categoria,
           descricao: trans.descricao,
           valor: trans.valor,
           data_transacao: this.formatDate(trans.data),
-          colaborador_id: this.findColaboradorId(trans, colaboradoresMap) || ''
+          colaborador_id: colaboradorId
         };
 
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('transacoes_financeiras')
-          .insert([transacao]);
+          .insert(transacao);
 
         if (error) {
           console.error(`Erro ao migrar transação ${trans.id}:`, error);

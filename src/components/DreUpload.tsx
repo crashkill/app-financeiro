@@ -5,17 +5,22 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface DreRow {
   upload_batch_id: string;
-  project_reference: string;
-  period_year: number;
-  period_month: number;
-  account_code: string;
-  account_name: string;
-  account_situation: string | null;
-  account_grouping: string | null;
-  amount: number;
-  status: string;
-  source_file_name: string;
-  // raw_line_data?: any; // Opcional, se for armazenar
+  file_name: string;
+  tipo: string;
+  natureza: string;
+  descricao: string;
+  valor: string;
+  data: string;
+  categoria: string;
+  observacao: string | null;
+  lancamento: string;
+  projeto: string;
+  periodo: string;
+  denominacao_conta: string;
+  conta_resumo: string;
+  linha_negocio: string;
+  relatorio: string;
+  raw_data: any;
 }
 
 const DreUpload: React.FC = () => {
@@ -93,18 +98,35 @@ const DreUpload: React.FC = () => {
             if (monthIndex !== -1 && row[colIndex] !== undefined && row[colIndex] !== null && row[colIndex] !== '') {
               const amount = parseFloat(String(row[colIndex]).replace(/[^0-9.,-]+/g, '').replace('.', '').replace(',', '.'));
               if (!isNaN(amount)) {
+                const rawData = {
+                  accountSituation,
+                  accountGrouping,
+                  accountCode,
+                  accountName,
+                  monthHeader,
+                  originalAmount: row[colIndex],
+                  projectReference,
+                  year
+                };
+                
                 dreDataToInsert.push({
                   upload_batch_id: uploadBatchId,
-                  project_reference: projectReference,
-                  period_year: year,
-                  period_month: monthIndex + 1,
-                  account_code: accountCode,
-                  account_name: accountName,
-                  account_situation: accountSituation,
-                  account_grouping: accountGrouping,
-                  amount: amount,
-                  status: 'staging',
-                  source_file_name: sourceFileName,
+                  file_name: sourceFileName,
+                  tipo: amount >= 0 ? 'receita' : 'despesa',
+                  natureza: amount >= 0 ? 'RECEITA' : 'CUSTO',
+                  descricao: `${projectReference} - ${accountName}`,
+                  valor: amount.toString(),
+                  data: `${monthIndex + 1}/${year}`,
+                  categoria: accountGrouping || 'Não especificado',
+                  observacao: null,
+                  lancamento: amount.toString(),
+                  projeto: `${projectReference} - ${accountName}`,
+                  periodo: `${monthIndex + 1}/${year}`,
+                  denominacao_conta: accountName,
+                  conta_resumo: accountCode,
+                  linha_negocio: accountGrouping || 'Não especificado',
+                  relatorio: 'Realizado',
+                  raw_data: rawData
                 });
               }
             }
@@ -123,7 +145,7 @@ const DreUpload: React.FC = () => {
         const BATCH_SIZE = 500;
         for (let i = 0; i < dreDataToInsert.length; i += BATCH_SIZE) {
           const batch = dreDataToInsert.slice(i, i + BATCH_SIZE);
-          const { error } = await supabase.from('financial_dre').insert(batch);
+          const { error } = await supabase.from('dre_hitss').insert(batch);
           if (error) {
             throw new Error(`Erro ao inserir lote no Supabase: ${error.message}`);
           }
@@ -185,21 +207,7 @@ const DreUpload: React.FC = () => {
           style={{ marginBottom: '10px' }}
         />
       </div>
-      <button 
-        onClick={handleUpload} 
-        disabled={isLoading || !file || !projectReference}
-        style={{
-          padding: '10px 20px', 
-          fontSize: '16px', 
-          cursor: (isLoading || !file || !projectReference) ? 'not-allowed' : 'pointer',
-          backgroundColor: (isLoading || !file || !projectReference) ? '#ccc' : '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px'
-        }}
-      >
-        {isLoading ? 'Enviando...' : 'Enviar para Supabase'}
-      </button>
+
       {message && <p style={{ marginTop: '15px', color: message.startsWith('Erro') ? 'red' : 'green' }}>{message}</p>}
     </div>
   );

@@ -70,12 +70,7 @@ const defaultItems: SidebarItem[] = [
     path: '/consulta-sap',
     icon: <Search size={20} />
   },
-  {
-    id: 'documentacao',
-    label: 'Documentação',
-    path: '/documentacao',
-    icon: <FileText size={20} />
-  },
+
   {
     id: 'configuracoes',
     label: 'Configurações',
@@ -105,15 +100,15 @@ const Sidebar: React.FC<SidebarProps> = ({
     open: {
       width: 280,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 300,
         damping: 30
       }
     },
     closed: {
-      width: 80,
+      width: 64,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 300,
         damping: 30
       }

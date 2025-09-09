@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form } from 'react-bootstrap';
 import { useTransacoes } from '../hooks/useTransacoes';
 import { YearFilter, ProjectFilter } from '../components/filters';
 import { ProjectCharts } from '../components/ProjectCharts';
 import { storageService } from '../services/storageService';
 import { db, Transacao } from '../db/database';
+import Project_Year from '../components/Project_Year';
+
 
 const Dashboard = () => {
   const [allTransactions, setAllTransactions] = useState<Transacao[]>([])
@@ -36,18 +38,20 @@ const Dashboard = () => {
           return parseInt(ano, 10)
         }).filter((year): year is number => !isNaN(year))
         
-        const uniqueYears: number[] = Array.from(new Set(yearsFromTransactions)).sort((a: number, b: number) => b - a)
+        const currentYear = new Date().getFullYear()
+        const uniqueYearsFromData = Array.from(new Set(yearsFromTransactions))
+        
+        // Garantir que o ano atual esteja sempre na lista
+        const allYears = uniqueYearsFromData.includes(currentYear) 
+          ? uniqueYearsFromData 
+          : [currentYear, ...uniqueYearsFromData]
+        
+        const uniqueYears: number[] = allYears.sort((a: number, b: number) => b - a)
         setYears(uniqueYears)
         
-        // Inicializar com o ano atual quando os dados estiverem carregados
-        if (!isInitialized && uniqueYears.length > 0) {
-          const currentYear = new Date().getFullYear()
-          if (uniqueYears.includes(currentYear)) {
-            setSelectedYear(currentYear.toString())
-          } else if (uniqueYears.length > 0) {
-            // Se o ano atual não existir nos dados, selecionar o ano mais recente
-            setSelectedYear(uniqueYears[0].toString())
-          }
+        // Sempre inicializar com o ano atual
+        if (!isInitialized) {
+          setSelectedYear(currentYear.toString())
           setIsInitialized(true)
         }
       } catch (error) {
@@ -161,31 +165,15 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      {/* Filtros Aprimorados */}
-      <Card className="mb-4">
-        <Card.Header>
-          <h5 className="mb-0">Filtros</h5>
-        </Card.Header>
-        <Card.Body>
-          <Row>
-            <Col md={6} className="mb-3">
-              <YearFilter
-                selectedYear={selectedYear}
-                onChange={setSelectedYear}
-                label="Filtrar por Ano"
-              />
-            </Col>
-            <Col md={6} className="mb-3">
-              <ProjectFilter
-                selectedProjects={selectedProjects}
-                onChange={setSelectedProjects}
-                label="Filtrar por Projetos"
-                dataSource="transactions"
-              />
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
+      {/* Filtros */}
+      <Project_Year
+        projects={projects}
+        years={years}
+        selectedProjects={selectedProjects}
+        selectedYear={selectedYear}
+        onProjectsChange={setSelectedProjects}
+        onYearChange={setSelectedYear}
+      />
 
       <Row>
         <Col md={6} className="mb-4">

@@ -11,8 +11,8 @@ import { createClient } from '@supabase/supabase-js';
 
 // Cliente com service_role para operações do Vault (APENAS BACKEND)
 const getVaultClient = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   
   if (!supabaseUrl || !serviceRoleKey) {
     throw new Error('Configuração do Supabase incompleta para operações do Vault');
@@ -238,15 +238,15 @@ export const isServerEnvironment = (): boolean => {
  * Função helper para validar configuração do Vault
  */
 export const validateVaultConfig = (): boolean => {
-  const hasUrl = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const hasServiceRole = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const hasUrl = !!(process.env.VITE_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const hasServiceRole = !!(process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY);
   
   if (!hasUrl) {
-    console.error('❌ NEXT_PUBLIC_SUPABASE_URL não configurada');
+    console.error('❌ VITE_SUPABASE_URL ou NEXT_PUBLIC_SUPABASE_URL não configurada');
   }
   
   if (!hasServiceRole) {
-    console.error('❌ SUPABASE_SERVICE_ROLE_KEY não configurada');
+    console.error('❌ VITE_SUPABASE_SERVICE_ROLE_KEY ou SUPABASE_SERVICE_ROLE_KEY não configurada');
   }
   
   return hasUrl && hasServiceRole;

@@ -12,7 +12,8 @@ import {
   Menu,
   ChevronRight,
   Users,
-  Database
+  Database,
+  TestTube
 } from 'lucide-react'
 import { useConfig } from '../contexts/ConfigContext'
 
@@ -94,12 +95,7 @@ const Sidebar = () => {
       path: '/consulta-sap',
       color: '#00bcd4'
     },
-    {
-      text: 'Documentação',
-      icon: <Book size={24} />,
-      path: '/documentacao',
-      color: '#607d8b'
-    },
+
     {
       text: 'Configurações',
       icon: <Settings size={24} />,

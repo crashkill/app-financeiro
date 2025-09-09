@@ -19,10 +19,7 @@ export interface FooterProps {
 }
 
 const defaultLinks: FooterLink[] = [
-  {
-    label: 'Documentação',
-    href: '/documentacao'
-  },
+
   {
     label: 'Suporte',
     href: '/suporte'
