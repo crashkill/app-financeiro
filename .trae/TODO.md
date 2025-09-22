@@ -1,5 +1,6 @@
-# TODO:
+# Próximos Passos
 
-- [x] create-changelog: Criar arquivo CHANGELOG.md documentando todas as mudanças da migração (priority: High)
-- [x] git-add-commit: Fazer git add e commit das mudanças no GitHub (priority: High)
-- [x] verify-git-status: Verificar status do git e arquivos modificados (priority: Medium)
+1.  Ler a documentação do Storage do Supabase
+2.  Subir o arquivo para lá
+3.  Criar uma Edge Function que importe o conteúdo do arquivo para a tabela `dre_hitss`
+4.  Mudar o nome do script para um nome mais conveniente e indicativo

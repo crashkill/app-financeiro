@@ -6,9 +6,11 @@ export interface HITSSConfig {
   username: string
   password: string
   baseUrl: string
-  downloadPath: string
+  loginUrl: string
+  downloadUrl: string
+  supabaseClient: SupabaseClient
+  executionId: string
   timeout?: number
-  retries?: number
 }
 
 export interface AutomationResult {
@@ -73,26 +75,8 @@ export interface AutomationLog {
   executionId: string
 }
 
-export interface BrowserConfig {
-  headless: boolean
-  timeout: number
-  viewport: {
-    width: number
-    height: number
-  }
-  userAgent?: string
-}
-
-export interface NavigationStep {
-  action: 'goto' | 'click' | 'type' | 'wait' | 'download'
-  selector?: string
-  value?: string
-  timeout?: number
-  description: string
-}
-
-export interface HITSSNavigationFlow {
-  loginSteps: NavigationStep[]
-  downloadSteps: NavigationStep[]
-  logoutSteps?: NavigationStep[]
+export interface SessionData {
+  cookies: string
+  token?: string
+  expiresAt?: Date
 }

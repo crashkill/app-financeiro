@@ -5,11 +5,13 @@ interface User {
   email: string;
   name: string;
   isAdmin: boolean;
+  isDemo?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
   isAdmin: boolean;
+  isDemo: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -46,6 +48,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Para desenvolvimento, criar uma sessão mock no Supabase
         // Em produção, isso seria substituído por autenticação real
         console.log('Login local realizado, sincronizando com Supabase...');
+        
+      } else if (email.toLowerCase() === 'demo@hitss.com' && password === 'demo123') {
+        // Usuário demo com acesso limitado
+        const userData: User = {
+          email: 'demo@hitss.com',
+          name: 'Usuário Demo',
+          isAdmin: false,
+          isDemo: true
+        };
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        console.log('Login demo realizado com sucesso');
         
       } else {
         // Tentar autenticação real com Supabase
@@ -91,6 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider value={{ 
       user, 
       isAdmin: user?.isAdmin || false,
+      isDemo: user?.isDemo || false,
       login, 
       logout 
     }}>

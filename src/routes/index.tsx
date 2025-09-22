@@ -10,18 +10,13 @@ import AdminCheck from '../pages/AdminCheck';
 import GestaoProfissionais from '../pages/GestaoProfissionais';
 import ConsultaSAP from '../pages/ConsultaSAP';
 
-// Layout
+// Layout and Routes
 import Layout from '../components/Layout';
+import DemoRoute from './DemoRoute';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
-  return <Layout>{element}</Layout>;
-};
-
-const AdminRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
-  const { user, isAdmin } = useAuth();
-  console.log('AdminRoute - User:', user); // Debug
-  console.log('AdminRoute - IsAdmin:', isAdmin); // Debug
-  return user && isAdmin ? <Layout>{element}</Layout> : <Navigate to="/" replace />;
+  const { user } = useAuth();
+  return user ? <Layout>{element}</Layout> : <Navigate to="/" replace />;
 };
 
 const Router: React.FC = () => {
@@ -29,9 +24,9 @@ const Router: React.FC = () => {
     <Routes>
       <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
       <Route path="/planilhas" element={<PrivateRoute element={<PlanilhasFinanceiras />} />} />
-      <Route path="/admin-check" element={<AdminRoute element={<AdminCheck />} />} />
-      <Route path="/gestao-profissionais" element={<PrivateRoute element={<GestaoProfissionais />} />} />
-      <Route path="/consulta-sap" element={<PrivateRoute element={<ConsultaSAP />} />} />
+      <Route path="/admin-check" element={<DemoRoute element={<AdminCheck />} adminOnly={true} />} />
+      <Route path="/gestao-profissionais" element={<DemoRoute element={<GestaoProfissionais />} demoRestricted={true} />} />
+      <Route path="/consulta-sap" element={<DemoRoute element={<ConsultaSAP />} demoRestricted={true} />} />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

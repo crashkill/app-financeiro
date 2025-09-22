@@ -15,6 +15,7 @@ import {
   Settings
 } from 'lucide-react';
 import TestAutomation from '@/components/automation/TestAutomation';
+import TestAutomationHitss from '@/components/TestAutomation';
 import TestDashboard from '@/components/automation/TestDashboard';
 import DataValidator from '@/components/automation/DataValidator';
 import AutomationMonitor from '@/components/automation/AutomationMonitor';
@@ -227,9 +228,10 @@ const AutomationTestPage: React.FC = () => {
 
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="overview">Visão Geral</TabsTrigger>
           <TabsTrigger value="test">Execução de Teste</TabsTrigger>
+          <TabsTrigger value="hitss-test">Teste HITSS</TabsTrigger>
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="validation">Validação</TabsTrigger>
           <TabsTrigger value="monitor">Monitoramento</TabsTrigger>
@@ -321,6 +323,10 @@ const AutomationTestPage: React.FC = () => {
 
         <TabsContent value="test">
           <TestAutomation />
+        </TabsContent>
+
+        <TabsContent value="hitss-test">
+          <TestAutomationHitss />
         </TabsContent>
 
         <TabsContent value="dashboard">
