@@ -1,4 +1,3 @@
-// Removendo imports de módulos Node.js que não são compatíveis com o navegador
 import axios from 'axios';
 import { DOMParser } from 'xmldom';
 
@@ -30,27 +29,63 @@ export class SAPGuiService {
   private useMock: boolean = false; // Flag para usar mock ou conexão real
 
   constructor() {
-    // Carrega as configurações do SAP ao inicializar o serviço
-    this.loadSAPGUIConfigFromXML();
+    // Carrega servidores padrão
+    this.loadDefaultServers();
+    // Inicialização assíncrona será feita quando necessário
   }
 
   /**
-   * Carrega as configurações do SAP
+   * Inicializa o serviço de forma assíncrona
    */
-  private loadSAPGUIConfigFromXML(): void {
+  public async initialize(): Promise<void> {
     try {
-      // No ambiente do navegador, não podemos ler arquivos do sistema de arquivos
-      // Carregamos diretamente os servidores padrão
-      this.loadDefaultServers();
-      
-      // Em uma implementação real, poderíamos buscar a configuração de uma API
-      // Por exemplo:
-      // axios.get('/api/sap-config').then(response => {
-      //   const xmlContent = response.data;
-      //   // Processar o XML...
-      // });
+      await this.loadSAPGUIConfigFromXML();
     } catch (error) {
-      console.error('Erro ao carregar configurações:', error);
+      console.warn('Não foi possível carregar configurações do XML, usando configurações padrão:', error);
+      this.loadDefaultServers();
+    }
+  }
+
+  /**
+   * Lê as configurações do SAP diretamente do arquivo XML
+   */
+  private async loadSAPGUIConfigFromXML(): Promise<void> {
+    try {
+      // Busca o arquivo XML via fetch (para funcionar no browser)
+      const response = await fetch('/src/services/SAPUILandscape.xml');
+      const xmlContent = await response.text();
+      
+      // Faz o parsing do XML
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+      
+      // Extrai os serviços SAP do XML
+      const serviceNodes = xmlDoc.getElementsByTagName('Service');
+      const servers: SAPServer[] = [];
+      
+      for (let i = 0; i < serviceNodes.length; i++) {
+        const service = serviceNodes[i];
+        if (service.getAttribute('type') === 'SAPGUI') {
+          servers.push({
+            name: service.getAttribute('name') || '',
+            systemId: service.getAttribute('systemid') || '',
+            server: service.getAttribute('server') || '',
+            mode: parseInt(service.getAttribute('mode') || '1')
+          });
+        }
+      }
+      
+      if (servers.length > 0) {
+        this.servers = servers;
+        console.log(`Carregados ${servers.length} servidores SAP do arquivo de configuração`);
+      } else {
+        console.warn('Nenhum servidor SAP encontrado no arquivo de configuração');
+        // Carrega servidores padrão como fallback
+        this.loadDefaultServers();
+      }
+    } catch (error) {
+      console.error('Erro ao carregar configurações do arquivo XML:', error);
+      // Carrega servidores padrão como fallback
       this.loadDefaultServers();
     }
   }

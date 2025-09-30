@@ -1,14 +1,37 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Container, Row, Col, Card, Table, Button, Modal, Form, Spinner } from 'react-bootstrap'
 import { useTransacoes } from '../hooks/useTransacoes'
 import { Transacao } from '../db/database'
 import { useConfig } from '../contexts/ConfigContext'
+import { YearFilter, ProjectFilter } from '../components/filters'
 
 const Receitas = () => {
   const { config } = useConfig()
   const { transacoes, total, adicionarTransacao, editarTransacao, excluirTransacao, isLoading } = useTransacoes({ tipo: 'receita' })
+  const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString())
+  const [selectedProjects, setSelectedProjects] = useState<string[]>([])
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
+
+  // Filtrar transações por ano e projetos selecionados
+  const filteredTransactions = useMemo(() => {
+    return transacoes.filter(transacao => {
+      // Filtro por ano
+      const transacaoYear = transacao.periodo ? transacao.periodo.split('/')[1] : new Date(transacao.data).getFullYear().toString()
+      const yearMatch = selectedYear === 'all' || transacaoYear === selectedYear
+      
+      // Filtro por projetos (se nenhum projeto selecionado, mostra todos)
+      const projectMatch = selectedProjects.length === 0 || 
+        (transacao.projeto && selectedProjects.includes(transacao.projeto))
+      
+      return yearMatch && projectMatch
+    })
+  }, [transacoes, selectedYear, selectedProjects])
+
+  // Calcular total das transações filtradas
+  const filteredTotal = useMemo(() => {
+    return filteredTransactions.reduce((sum, transacao) => sum + transacao.valor, 0)
+  }, [filteredTransactions])
   const [formData, setFormData] = useState({
     descricao: '',
     valor: '',
@@ -98,6 +121,32 @@ const Receitas = () => {
         </Col>
       </Row>
 
+      {/* Filtros */}
+      <Card className="mb-4">
+        <Card.Header>
+          <h5 className="mb-0">Filtros</h5>
+        </Card.Header>
+        <Card.Body>
+          <Row>
+            <Col md={6} className="mb-3">
+              <YearFilter
+                selectedYear={selectedYear}
+                onChange={setSelectedYear}
+                label="Filtrar por Ano"
+              />
+            </Col>
+            <Col md={6} className="mb-3">
+              <ProjectFilter
+                selectedProjects={selectedProjects}
+                onChange={setSelectedProjects}
+                label="Filtrar por Projetos"
+                dataSource="transactions"
+              />
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+
       <Row className="mb-4">
         <Col>
           <Card>
@@ -105,7 +154,10 @@ const Receitas = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <h5 className="mb-0">Total de Receitas</h5>
-                  <h2 className="text-success mb-0">{formatMoney(total)}</h2>
+                  <h2 className="text-success mb-0">{formatMoney(filteredTotal)}</h2>
+                  <small className="text-muted">
+                    {filteredTransactions.length} de {transacoes.length} receitas
+                  </small>
                 </div>
                 <Button variant="primary" onClick={() => handleShow()}>
                   Nova Receita
@@ -131,7 +183,7 @@ const Receitas = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {transacoes.map((transacao) => (
+                  {filteredTransactions.map((transacao) => (
                     <tr key={transacao.id}>
                       <td>{formatDate(transacao.data)}</td>
                       <td>{transacao.descricao}</td>
@@ -156,10 +208,10 @@ const Receitas = () => {
                       </td>
                     </tr>
                   ))}
-                  {transacoes.length === 0 && (
+                  {filteredTransactions.length === 0 && (
                     <tr>
                       <td colSpan={5} className="text-center">
-                        Nenhuma receita cadastrada
+                        {transacoes.length === 0 ? 'Nenhuma receita cadastrada' : 'Nenhuma receita encontrada com os filtros aplicados'}
                       </td>
                     </tr>
                   )}

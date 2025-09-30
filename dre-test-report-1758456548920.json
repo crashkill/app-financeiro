@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-09-21T12:09:08.913Z",
+  "summary": {
+    "totalTests": 7,
+    "successCount": 0,
+    "errorCount": 7,
+    "successRate": "0.0",
+    "totalDuration": "0.10"
+  },
+  "results": {
+    "cronStatus": {
+      "status": "error",
+      "details": {
+        "error": "TypeError: fetch failed"
+      },
+      "duration": 0
+    },
+    "hitssDownload": {
+      "status": "error",
+      "details": {
+        "error": "fetch failed"
+      },
+      "duration": 0
+    },
+    "fileUpload": {
+      "status": "error",
+      "details": {
+        "error": "fetch failed"
+      },
+      "duration": 0
+    },
+    "dreProcessing": {
+      "status": "error",
+      "details": {
+        "error": "fetch failed"
+      },
+      "duration": 0
+    },
+    "emailNotification": {
+      "status": "error",
+      "details": {
+        "error": "fetch failed"
+      },
+      "duration": 0
+    },
+    "dataInsertion": {
+      "status": "error",
+      "details": {
+        "error": "TypeError: fetch failed"
+      },
+      "duration": 0
+    },
+    "logsVerification": {
+      "status": "error",
+      "details": {
+        "error": "TypeError: fetch failed"
+      },
+      "duration": 0
+    }
+  }
+}

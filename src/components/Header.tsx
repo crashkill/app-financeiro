@@ -12,7 +12,7 @@ const Header = () => {
   }
 
   return (
-    <div className="bg-white shadow-sm">
+    <div className="bg-gray-50 dark:bg-slate-800 shadow-sm">
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between py-2">
           <div className="d-flex align-items-center">
@@ -26,8 +26,8 @@ const Header = () => {
               }}
             />
             <div>
-              <h4 className="mb-0 text-dark" style={{ fontSize: '1.4rem' }}>Plataforma Financeira</h4>
-              <small className="text-muted" style={{ fontSize: '0.85rem' }}>Fábrica de Software Globalhitss</small>
+              <h4 className="mb-0" style={{ fontSize: '1.4rem' }}>Plataforma Financeira</h4>
+              <small className="text-slate-500 dark:text-slate-400" style={{ fontSize: '0.85rem' }}>Fábrica de Software Globalhitss</small>
             </div>
           </div>
           <div className="d-flex align-items-center">

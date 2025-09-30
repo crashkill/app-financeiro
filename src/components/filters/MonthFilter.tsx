@@ -38,9 +38,10 @@ const MonthFilter: React.FC<MonthFilterProps> = ({
       <Form.Select
         value={selectedMonth}
         onChange={handleMonthChange}
+        className="form-control bg-input text-foreground border-border focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         {months.map(month => (
-          <option key={month.value} value={month.value}>
+          <option key={month.value} value={month.value} className="text-slate-900 dark:text-white">
             {month.label}
           </option>
         ))}

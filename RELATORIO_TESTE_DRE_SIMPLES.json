@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-09-21T20:35:06.067Z",
+  "summary": {
+    "total": 5,
+    "successful": 3,
+    "failed": 0,
+    "warnings": 2,
+    "successRate": "60.0"
+  },
+  "results": {
+    "connectivity": {
+      "status": "success",
+      "details": "Conexão estabelecida"
+    },
+    "dreTables": {
+      "status": "success",
+      "details": "0 registros DRE"
+    },
+    "storage": {
+      "status": "warning",
+      "details": "Bucket dre-files não encontrado"
+    },
+    "edgeFunctions": {
+      "status": "warning",
+      "details": "Edge Function returned a non-2xx status code"
+    },
+    "hitssLogs": {
+      "status": "success",
+      "details": "5 logs"
+    }
+  }
+}

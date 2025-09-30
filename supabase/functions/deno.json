@@ -1,0 +1,48 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-env --allow-read --allow-write --watch=static/,routes/ dev.ts"
+  },
+  "imports": {
+    "@supabase/functions-js": "https://esm.sh/@supabase/functions-js@2.1.5",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.38.4",
+    "cors": "https://deno.land/x/cors@v1.2.2/mod.ts",
+    "csv": "https://deno.land/x/csv@v0.8.0/mod.ts",
+    "xlsx": "https://esm.sh/xlsx@0.18.5",
+    "std/": "https://deno.land/std@0.208.0/",
+    "std/encoding/": "https://deno.land/std@0.208.0/encoding/",
+    "std/fs/": "https://deno.land/std@0.208.0/fs/",
+    "std/http/": "https://deno.land/std@0.208.0/http/",
+    "std/path/": "https://deno.land/std@0.208.0/path/",
+    "std/testing/": "https://deno.land/std@0.208.0/testing/"
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  },
+  "fmt": {
+    "files": {
+      "include": ["**/*.ts", "**/*.js"]
+    },
+    "options": {
+      "useTabs": false,
+      "lineWidth": 100,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
+  },
+  "lint": {
+    "files": {
+      "include": ["**/*.ts", "**/*.js"]
+    },
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "test": {
+    "files": {
+      "include": ["**/*_test.ts", "**/*_test.js", "**/test_*.ts", "**/test_*.js"]
+    }
+  }
+}
