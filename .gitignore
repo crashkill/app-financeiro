@@ -39,3 +39,4 @@ src/modelos/
 *.bak
 *.tmp
 *.temp
+.vercel

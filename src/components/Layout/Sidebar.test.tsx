@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '../../contexts/AuthContext';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 
 const mockUseAuth = jest.fn();
 

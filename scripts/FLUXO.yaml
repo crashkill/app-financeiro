@@ -1,0 +1,153 @@
+id: dre_supabase_complete_pipeline
+name: "Pipeline Completo DRE - Supabase ETL"
+description: "Pipeline para processar Excel DRE no Supabase usando HITSS_DOWNLOAD_URL do Vault"
+version: "1.2"
+
+config:
+  supabase:
+    project_ref: "oomhhhfahdvavnhlbioa"               # apenas o REF do projeto
+    anon_key: "{{VAULT_SUPABASE_ANON_KEY}}"          # chave anon do Supabase
+    bucket_name: "dre-reports"
+    file_url: "{{VAULT_HITSS_DOWNLOAD_URL}}"         # URL do Vault
+
+  timeouts:
+    download: 300
+    processing: 600
+    
+  retry:
+    max_attempts: 3
+    delay_seconds: 5
+
+trigger:
+  type: webhook
+  name: dre_file_processor
+  description: "Recebe Excel DRE. Se não passar fileUrl, usa variável HITSS_DOWNLOAD_URL do Vault"
+  inputs:
+    fileUrl: 
+      type: string
+      required: false       # opcional porque pode usar o Vault
+      description: "URL do Excel. Se omitido → Vault HITSS_DOWNLOAD_URL"
+    fileName: 
+      type: string
+      required: true
+      description: "Nome do arquivo (.xlsx)"
+    forceReprocess:
+      type: boolean
+      default: false
+      description: "Forçar reprocessamento mesmo se já existe"
+
+steps:
+  - id: resolve_file_url
+    name: "Resolver URL do Excel"
+    type: transform
+    inputs:
+      expression: |
+        {
+          "fileUrl": "{{config.supabase.file_url | default(trigger.fileUrl)}}",
+          "fileName": "{{trigger.fileName}}"
+        }
+
+  - id: validate_input
+    name: "Validação de entrada"
+    type: transform
+    inputs:
+      expression: |
+        {
+          "isValidUrl": "{{steps.resolve_file_url.fileUrl}}" | test("^https?://.*\\.xlsx?$"),
+          "fileUrl": "{{steps.resolve_file_url.fileUrl}}",
+          "fileName": "{{steps.resolve_file_url.fileName}}",
+          "timestamp": now() | strftime("%Y%m%d_%H%M%S")
+        }
+    on_error:
+      action: fail
+      message: "Arquivo inválido ou URL não localizada"
+
+  - id: prepare_file_info
+    name: "Preparar infos do arquivo"
+    type: transform
+    inputs:
+      expression: |
+        {
+          "originalFileName": "{{steps.validate_input.fileName}}",
+          "uniqueFileName": "{{steps.validate_input.timestamp}}_{{steps.validate_input.fileName}}",
+          "storagePath": "uploads/{{steps.validate_input.timestamp}}_{{steps.validate_input.fileName}}",
+          "batchId": uuid(),
+          "fileUrl": "{{steps.validate_input.fileUrl}}"
+        }
+
+  - id: download_and_store
+    name: "Enviar para Supabase Functions"
+    type: http
+    timeout: "{{config.timeouts.download}}"
+    retry:
+      max_attempts: "{{config.retry.max_attempts}}"
+      delay: "{{config.retry.delay_seconds}}"
+    inputs:
+      method: POST
+      url: "https://{{config.supabase.project_ref}}.supabase.co/functions/v1/download-and-trigger"
+      headers:
+        Authorization: "Bearer {{config.supabase.anon_key}}"
+        Content-Type: "application/json"
+      body:
+        fileUrl: "{{steps.prepare_file_info.fileUrl}}"
+        fileName: "{{steps.prepare_file_info.uniqueFileName}}"
+        bucketName: "{{config.supabase.bucket_name}}"
+        forceReprocess: "{{trigger.forceReprocess}}"
+
+  - id: check_download_response
+    name: "Checar resposta Supabase"
+    type: transform
+    inputs:
+      expression: |
+        {
+          "success": "{{steps.download_and_store.response.body.success}}",
+          "fileName": "{{steps.download_and_store.response.body.fileName}}",
+          "batchId": "{{steps.prepare_file_info.batchId}}",
+          "message": "{{steps.download_and_store.response.body.message}}",
+          "processingResult": "{{steps.download_and_store.response.body.processingResult}}"
+        }
+    conditions:
+      - if: "{{steps.check_download_response.success}} != true"
+        then:
+          action: fail
+          message: "Falha: {{steps.check_download_response.message}}"
+
+  - id: generate_processing_report
+    name: "Resumo do processamento"
+    type: transform
+    inputs:
+      expression: |
+        {
+          "batchId": "{{steps.check_download_response.batchId}}",
+          "originalFile": "{{steps.prepare_file_info.originalFileName}}",
+          "processedFile": "{{steps.prepare_file_info.uniqueFileName}}",
+          "fileUrl": "{{steps.prepare_file_info.fileUrl}}",
+          "processedAt": now(),
+          "status": "{{steps.check_download_response.success}}",
+          "message": "{{steps.check_download_response.message}}",
+          "factRecordsInserted": "{{steps.check_download_response.processingResult.factRecordsInserted | default(0)}}"
+        }
+
+  - id: success_notification
+    name: "Log final"
+    type: log
+    inputs:
+      level: "info"
+      message: |
+        ✅ DRE processado!
+        Arquivo: {{steps.generate_processing_report.originalFile}}
+        Batch: {{steps.generate_processing_report.batchId}}
+        Registros na fato: {{steps.generate_processing_report.factRecordsInserted}}
+
+on_error:
+  - id: error_log
+    name: "Log de erro"
+    type: log
+    inputs:
+      level: "error"
+      message: "❌ Pipeline falhou: {{error.message}} em {{error.step}}"
+
+outputs:
+  - id: result
+    description: "Resumo final"
+    value: "{{steps.generate_processing_report}}"

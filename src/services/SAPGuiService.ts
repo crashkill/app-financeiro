@@ -1,8 +1,6 @@
-import { exec } from 'child_process';
-import path from 'path';
+// Removendo imports de módulos Node.js que não são compatíveis com o navegador
 import axios from 'axios';
 import { DOMParser } from 'xmldom';
-import * as fs from 'fs';
 
 interface SAPServer {
   name: string;
@@ -37,47 +35,22 @@ export class SAPGuiService {
   }
 
   /**
-   * Lê as configurações do SAP diretamente do arquivo XML
+   * Carrega as configurações do SAP
    */
   private loadSAPGUIConfigFromXML(): void {
     try {
-      // Caminho para o arquivo SAPUILandscape.xml
-      const xmlPath = path.resolve(__dirname, 'SAPUILandscape.xml');
+      // No ambiente do navegador, não podemos ler arquivos do sistema de arquivos
+      // Carregamos diretamente os servidores padrão
+      this.loadDefaultServers();
       
-      // Lê o conteúdo do arquivo
-      const xmlContent = fs.readFileSync(xmlPath, 'utf-8');
-      
-      // Faz o parsing do XML
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
-      
-      // Extrai os serviços SAP do XML
-      const serviceNodes = xmlDoc.getElementsByTagName('Service');
-      const servers: SAPServer[] = [];
-      
-      for (let i = 0; i < serviceNodes.length; i++) {
-        const service = serviceNodes[i];
-        if (service.getAttribute('type') === 'SAPGUI') {
-          servers.push({
-            name: service.getAttribute('name') || '',
-            systemId: service.getAttribute('systemid') || '',
-            server: service.getAttribute('server') || '',
-            mode: parseInt(service.getAttribute('mode') || '1')
-          });
-        }
-      }
-      
-      if (servers.length > 0) {
-        this.servers = servers;
-        console.log(`Carregados ${servers.length} servidores SAP do arquivo de configuração`);
-      } else {
-        console.warn('Nenhum servidor SAP encontrado no arquivo de configuração');
-        // Carrega servidores padrão como fallback
-        this.loadDefaultServers();
-      }
+      // Em uma implementação real, poderíamos buscar a configuração de uma API
+      // Por exemplo:
+      // axios.get('/api/sap-config').then(response => {
+      //   const xmlContent = response.data;
+      //   // Processar o XML...
+      // });
     } catch (error) {
-      console.error('Erro ao carregar configurações do arquivo XML:', error);
-      // Carrega servidores padrão como fallback
+      console.error('Erro ao carregar configurações:', error);
       this.loadDefaultServers();
     }
   }

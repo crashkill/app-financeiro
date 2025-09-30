@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Dados de Teste</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e8; color: #2e7d32; }
+        .warning { background: #fff3e0; color: #ef6c00; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .stats { background: #e3f2fd; padding: 15px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Popular Banco com Dados de Teste</h1>
+    <div id="logs"></div>
+    
+    <button onclick="popularDadosTeste()">Popular Dados de Teste</button>
+    <button onclick="verificarDados()">Verificar Dados</button>
+    <button onclick="limparBanco()">Limpar Banco</button>
+    <button onclick="testarDashboard()">Testar Lógica Dashboard</button>
+    <button onclick="limparLogs()">Limpar Logs</button>
+
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+    <script>
+        const logs = document.getElementById('logs');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            logs.appendChild(div);
+            logs.scrollTop = logs.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function limparLogs() {
+            logs.innerHTML = '';
+        }
+        
+        // Configuração do banco igual ao projeto
+        class AppDatabase extends Dexie {
+            constructor() {
+                super('FinanceiroDB');
+                this.version(7).stores({
+                    transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo',
+                    profissionais: '++id, nome, tipo, projeto'
+                });
+                
+                // Hooks de normalização
+                this.transacoes.hook('creating', (primKey, obj) => {
+                    obj.valor = converterParaNumero(obj.valor);
+                    obj.projeto = obj.projeto || obj.descricao || 'Sem Projeto';
+                    obj.descricao = obj.descricao || obj.projeto || 'Sem Descrição';
+                    
+                    if (obj.periodo) {
+                        const [mes, ano] = obj.periodo.split('/');
+                        obj.periodo = `${parseInt(mes)}/${ano}`;
+                    }
+                });
+                
+                this.transacoes.hook('updating', (modifications, primKey, obj) => {
+                    if (modifications.valor !== undefined) {
+                        modifications.valor = converterParaNumero(modifications.valor);
+                    }
+                    if (modifications.periodo) {
+                        const [mes, ano] = modifications.periodo.split('/');
+                        modifications.periodo = `${parseInt(mes)}/${ano}`;
+                    }
+                });
+            }
+        }
+        
+        const converterParaNumero = (valor) => {
+            if (typeof valor === 'number') return valor;
+            if (!valor) return 0;
+            
+            let str = String(valor)
+                .replace(/[^\d,.-]/g, '')
+                .trim();
+            
+            if (str.includes(',')) {
+                str = str.replace(/\./g, '').replace(',', '.');
+            }
+            
+            const num = parseFloat(str);
+            return isNaN(num) ? 0 : num;
+        };
+        
+        const db = new AppDatabase();
+        
+        // Dados de teste similares aos do execute-dre-flow.js
+        const dadosTeste = [
+            {
+                tipo: 'receita',
+                natureza: 'RECEITA',
+                descricao: 'HITSS_AUTO_Receita Projeto A',
+                valor: 50000,
+                data: '2024-01-15',
+                categoria: 'Receita Operacional',
+                lancamento: 1,
+                periodo: '1/2024',
+                projeto: 'Projeto A',
+                contaResumo: 'RECEITA_OPERACIONAL'
+            },
+            {
+                tipo: 'despesa',
+                natureza: 'CUSTO',
+                descricao: 'HITSS_AUTO_Custo Pessoal',
+                valor: 25000,
+                data: '2024-01-15',
+                categoria: 'Custo Pessoal',
+                lancamento: 2,
+                periodo: '1/2024',
+                projeto: 'Projeto A',
+                contaResumo: 'CUSTO_PESSOAL'
+            },
+            {
+                tipo: 'receita',
+                natureza: 'RECEITA',
+                descricao: 'HITSS_AUTO_Receita Projeto B',
+                valor: 75000,
+                data: '2024-02-15',
+                categoria: 'Receita Operacional',
+                lancamento: 3,
+                periodo: '2/2024',
+                projeto: 'Projeto B',
+                contaResumo: 'RECEITA_OPERACIONAL'
+            },
+            {
+                tipo: 'despesa',
+                natureza: 'CUSTO',
+                descricao: 'HITSS_AUTO_Infraestrutura',
+                valor: 15000,
+                data: '2024-02-15',
+                categoria: 'Infraestrutura',
+                lancamento: 4,
+                periodo: '2/2024',
+                projeto: 'Projeto B',
+                contaResumo: 'CUSTO_INFRAESTRUTURA'
+            },
+            {
+                tipo: 'receita',
+                natureza: 'RECEITA',
+                descricao: 'HITSS_AUTO_Receita Projeto C',
+                valor: 100000,
+                data: '2024-03-15',
+                categoria: 'Receita Operacional',
+                lancamento: 5,
+                periodo: '3/2024',
+                projeto: 'Projeto C',
+                contaResumo: 'RECEITA_OPERACIONAL'
+            },
+            {
+                tipo: 'despesa',
+                natureza: 'CUSTO',
+                descricao: 'HITSS_AUTO_Desoneração da Folha',
+                valor: 8000,
+                data: '2024-03-15',
+                categoria: 'Desoneração',
+                lancamento: 6,
+                periodo: '3/2024',
+                projeto: 'Projeto C',
+                contaResumo: 'Desoneração da Folha'
+            }
+        ];
+        
+        async function popularDadosTeste() {
+            try {
+                log('Iniciando população de dados de teste...', 'info');
+                
+                // Verificar conexão
+                if (!db.isOpen()) {
+                    await db.open();
+                    log('✓ Banco aberto', 'success');
+                }
+                
+                // Limpar dados existentes
+                await db.transacoes.clear();
+                log('✓ Dados existentes limpos', 'success');
+                
+                // Inserir dados de teste
+                log(`Inserindo ${dadosTeste.length} transações de teste...`, 'info');
+                
+                for (let i = 0; i < dadosTeste.length; i++) {
+                    const transacao = dadosTeste[i];
+                    try {
+                        const id = await db.transacoes.add(transacao);
+                        log(`✓ Transação ${i + 1} inserida (ID: ${id}): ${transacao.descricao}`, 'success');
+                    } catch (error) {
+                        log(`❌ Erro ao inserir transação ${i + 1}: ${error.message}`, 'error');
+                        throw error;
+                    }
+                }
+                
+                log('✅ Todos os dados de teste foram inseridos com sucesso!', 'success');
+                await verificarDados();
+                
+            } catch (error) {
+                log(`❌ Erro ao popular dados: ${error.message}`, 'error');
+                log(`Tipo do erro: ${error.constructor.name}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        async function verificarDados() {
+            try {
+                log('Verificando dados no banco...', 'info');
+                
+                const count = await db.transacoes.count();
+                log(`📊 Total de transações: ${count}`, 'info');
+                
+                if (count > 0) {
+                    const transacoes = await db.transacoes.toArray();
+                    
+                    // Estatísticas
+                    const projetos = [...new Set(transacoes.map(t => t.projeto || t.descricao))];
+                    const anos = [...new Set(transacoes.map(t => {
+                        const [, ano] = (t.periodo || '').split('/');
+                        return parseInt(ano, 10);
+                    }).filter(ano => !isNaN(ano)))];
+                    
+                    const receitas = transacoes.filter(t => t.tipo === 'receita');
+                    const despesas = transacoes.filter(t => t.tipo === 'despesa');
+                    
+                    const totalReceitas = receitas.reduce((sum, t) => sum + (t.valor || 0), 0);
+                    const totalDespesas = despesas.reduce((sum, t) => sum + (t.valor || 0), 0);
+                    
+                    const statsDiv = document.createElement('div');
+                    statsDiv.className = 'stats';
+                    statsDiv.innerHTML = `
+                        <h3>📈 Estatísticas dos Dados</h3>
+                        <p><strong>Projetos:</strong> ${projetos.length} (${projetos.join(', ')})</p>
+                        <p><strong>Anos:</strong> ${anos.length} (${anos.join(', ')})</p>
+                        <p><strong>Receitas:</strong> ${receitas.length} transações - Total: R$ ${totalReceitas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                        <p><strong>Despesas:</strong> ${despesas.length} transações - Total: R$ ${totalDespesas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                        <p><strong>Resultado:</strong> R$ ${(totalReceitas - totalDespesas).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                    `;
+                    logs.appendChild(statsDiv);
+                    
+                    log('✓ Dados verificados com sucesso', 'success');
+                } else {
+                    log('⚠️ Nenhuma transação encontrada no banco', 'warning');
+                }
+                
+            } catch (error) {
+                log(`❌ Erro ao verificar dados: ${error.message}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        async function testarDashboard() {
+            try {
+                log('Testando lógica do Dashboard...', 'info');
+                
+                // Simular a lógica do Dashboard
+                if (!db.isOpen()) {
+                    await db.open();
+                }
+                
+                const count = await db.transacoes.count();
+                log(`📊 Número total de transações: ${count}`, 'info');
+                
+                const transacoes = await db.transacoes.toArray();
+                log(`📋 Transações carregadas: ${transacoes.length} registros`, 'success');
+                
+                // Extrair projetos únicos
+                const uniqueProjects = Array.from(new Set(transacoes.map(t => t.descricao || 'Sem Projeto')));
+                log(`🏗️ Projetos únicos: ${uniqueProjects.length} (${uniqueProjects.join(', ')})`, 'success');
+                
+                // Extrair anos únicos
+                const yearsFromTransactions = transacoes.map(t => {
+                    const [, ano] = (t.periodo || '').split('/');
+                    return parseInt(ano, 10);
+                }).filter(year => !isNaN(year));
+                
+                const currentYear = new Date().getFullYear();
+                const uniqueYearsFromData = Array.from(new Set(yearsFromTransactions));
+                
+                const allYears = uniqueYearsFromData.includes(currentYear) 
+                    ? uniqueYearsFromData 
+                    : [currentYear, ...uniqueYearsFromData];
+                
+                const uniqueYears = allYears.sort((a, b) => b - a);
+                log(`📅 Anos únicos: ${uniqueYears.join(', ')}`, 'success');
+                
+                log('✅ Lógica do Dashboard testada com sucesso!', 'success');
+                
+            } catch (error) {
+                log(`❌ Erro ao testar Dashboard: ${error.message}`, 'error');
+                log(`Tipo do erro: ${error.constructor.name}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        async function limparBanco() {
+            try {
+                log('Limpando banco de dados...', 'warning');
+                await db.transacoes.clear();
+                await db.profissionais.clear();
+                log('✓ Banco limpo com sucesso', 'success');
+            } catch (error) {
+                log(`❌ Erro ao limpar banco: ${error.message}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+    </script>
+</body>
+</html>

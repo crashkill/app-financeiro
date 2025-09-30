@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste do Banco de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .log {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste do Banco de Dados IndexedDB</h1>
+    
+    <div>
+        <button class="btn-primary" onclick="testDatabase()">Testar Banco</button>
+        <button class="btn-success" onclick="populateTestData()">Popular Dados de Teste</button>
+        <button onclick="clearLogs()">Limpar Logs</button>
+    </div>
+    
+    <div id="status">Pronto para testar...</div>
+    <div id="logs" class="log"></div>
+
+    <script>
+        let db;
+        const logs = [];
+        
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `${timestamp}: ${message}`;
+            logs.push(logMessage);
+            console.log(logMessage);
+            
+            const logsDiv = document.getElementById('logs');
+            logsDiv.textContent = logs.join('\n');
+            logsDiv.className = `log ${type === 'error' ? 'error' : type === 'success' ? 'success' : ''}`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+        
+        function setStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+        
+        function clearLogs() {
+            logs.length = 0;
+            document.getElementById('logs').textContent = '';
+            document.getElementById('logs').className = 'log';
+        }
+        
+        async function initDatabase() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('AppDatabase', 1);
+                
+                request.onerror = () => {
+                    reject(new Error('Erro ao abrir banco de dados'));
+                };
+                
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    db = event.target.result;
+                    
+                    // Criar tabela de transações
+                    if (!db.objectStoreNames.contains('transacoes')) {
+                        const transacoesStore = db.createObjectStore('transacoes', { keyPath: 'id', autoIncrement: true });
+                        transacoesStore.createIndex('projeto', 'projeto', { unique: false });
+                        transacoesStore.createIndex('data', 'data', { unique: false });
+                    }
+                    
+                    // Criar tabela de profissionais
+                    if (!db.objectStoreNames.contains('profissionais')) {
+                        const profissionaisStore = db.createObjectStore('profissionais', { keyPath: 'id', autoIncrement: true });
+                        profissionaisStore.createIndex('nome', 'nome', { unique: false });
+                    }
+                };
+            });
+        }
+        
+        async function testDatabase() {
+            try {
+                setStatus('Testando banco de dados...');
+                addLog('=== INICIANDO TESTE DO BANCO DE DADOS ===');
+                
+                // Inicializar banco
+                addLog('Inicializando banco de dados...');
+                await initDatabase();
+                addLog('Banco de dados inicializado com sucesso');
+                
+                // Verificar tabelas
+                const tableNames = Array.from(db.objectStoreNames);
+                addLog(`Tabelas disponíveis: ${tableNames.join(', ')}`);
+                
+                // Contar transações
+                const transaction = db.transaction(['transacoes'], 'readonly');
+                const store = transaction.objectStore('transacoes');
+                const countRequest = store.count();
+                
+                countRequest.onsuccess = () => {
+                    const count = countRequest.result;
+                    addLog(`Número total de transações: ${count}`);
+                    
+                    if (count === 0) {
+                        addLog('Banco está vazio. Clique em "Popular Dados de Teste" para adicionar dados.', 'info');
+                    } else {
+                        // Listar algumas transações
+                        const getAllRequest = store.getAll();
+                        getAllRequest.onsuccess = () => {
+                            const transacoes = getAllRequest.result.slice(0, 3);
+                            addLog(`Primeiras ${transacoes.length} transações:`);
+                            transacoes.forEach((t, i) => {
+                                addLog(`  ${i + 1}. ${t.descricao} - R$ ${t.valor} (${t.projeto})`);
+                            });
+                        };
+                    }
+                    
+                    setStatus('Teste concluído com sucesso!');
+                    addLog('=== TESTE CONCLUÍDO ===', 'success');
+                };
+                
+                countRequest.onerror = () => {
+                    throw new Error('Erro ao contar transações');
+                };
+                
+            } catch (error) {
+                const errorMessage = `Erro: ${error.message}`;
+                addLog(errorMessage, 'error');
+                addLog(`Stack: ${error.stack}`, 'error');
+                setStatus('Teste falhou');
+            }
+        }
+        
+        async function populateTestData() {
+            try {
+                setStatus('Populando dados de teste...');
+                addLog('=== POPULANDO DADOS DE TESTE ===');
+                
+                if (!db) {
+                    await initDatabase();
+                }
+                
+                const transaction = db.transaction(['transacoes'], 'readwrite');
+                const store = transaction.objectStore('transacoes');
+                
+                const testData = [
+                    {
+                        descricao: 'Desenvolvimento Frontend',
+                        valor: 5000,
+                        projeto: 'Projeto A',
+                        data: new Date().toISOString().split('T')[0],
+                        periodo: '2024-01'
+                    },
+                    {
+                        descricao: 'Consultoria Backend',
+                        valor: 7500,
+                        projeto: 'Projeto B',
+                        data: new Date().toISOString().split('T')[0],
+                        periodo: '2024-01'
+                    },
+                    {
+                        descricao: 'Análise de Sistemas',
+                        valor: 3000,
+                        projeto: 'Projeto C',
+                        data: new Date().toISOString().split('T')[0],
+                        periodo: '2024-01'
+                    }
+                ];
+                
+                let count = 0;
+                for (const data of testData) {
+                    const request = store.add(data);
+                    await new Promise((resolve, reject) => {
+                        request.onsuccess = () => {
+                            count++;
+                            resolve(request.result);
+                        };
+                        request.onerror = () => reject(request.error);
+                    });
+                }
+                
+                addLog(`${count} transações de teste inseridas com sucesso!`, 'success');
+                setStatus('Dados de teste inseridos!');
+                
+                // Executar teste após popular
+                setTimeout(() => testDatabase(), 1000);
+                
+            } catch (error) {
+                const errorMessage = `Erro ao popular dados: ${error.message}`;
+                addLog(errorMessage, 'error');
+                setStatus('Erro ao popular dados');
+            }
+        }
+        
+        // Executar teste inicial
+        window.addEventListener('load', () => {
+            setTimeout(() => testDatabase(), 500);
+        });
+    </script>
+</body>
+</html>

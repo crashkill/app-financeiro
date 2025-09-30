@@ -102,12 +102,12 @@ Content-Security-Policy: default-src 'self'...
 - Geração de sourcemaps
 
 #### 3. Deploy
-- Deploy automático no Netlify
+- Deploy automático na Vercel
 - Rollback automático
 - Preview de PRs
 - Comentários automáticos
 
-### Configuração Netlify
+### Configuração Vercel
 - Build command: `pnpm build`
 - Publish directory: `dist`
 - Node version: 18

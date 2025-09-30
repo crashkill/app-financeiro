@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
+import { runFullDebug, debugAuth, testSupabaseConnectivity } from '../lib/debug-supabase'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -11,6 +12,26 @@ const Login = () => {
   const [error, setError] = useState('')
   const [validationErrors, setValidationErrors] = useState<{email?: string; password?: string}>({})
   const [isLoading, setIsLoading] = useState(false)
+
+  // Debug completo na inicialização do componente
+  useEffect(() => {
+    const runDebugOnMount = async () => {
+      console.log('[LOGIN-COMPONENT] Componente de login montado');
+      
+      // Executar debug completo apenas em produção (Vercel)
+      const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+      
+      if (isProduction) {
+        console.log('[LOGIN-COMPONENT] Ambiente de produção detectado, executando debug completo');
+        await runFullDebug();
+      } else {
+        console.log('[LOGIN-COMPONENT] Ambiente local detectado, executando teste básico de conectividade');
+        await testSupabaseConnectivity();
+      }
+    };
+
+    runDebugOnMount();
+  }, []);
 
   const validateForm = () => {
     const errors: {email?: string; password?: string} = {}
@@ -25,16 +46,48 @@ const Login = () => {
     e.preventDefault()
     if (!validateForm()) return
     
+    const timestamp = new Date().toISOString();
+    const environment = window.location.hostname;
+    
+    console.log(`[LOGIN-SUBMIT ${timestamp}] [${environment}] Iniciando processo de login`, {
+      email,
+      hasPassword: !!password,
+      passwordLength: password.length
+    });
+    
     setIsLoading(true)
     setError('')
 
     try {
+      // Debug antes do login
+      console.log('[LOGIN-SUBMIT] Executando debug de auth antes do login');
+      await debugAuth(email);
+      
+      console.log('[LOGIN-SUBMIT] Chamando função de login do contexto');
       await login(email, password)
+      
+      console.log('[LOGIN-SUBMIT] Login bem-sucedido, redirecionando para dashboard');
       navigate('/dashboard')
     } catch (err) {
+      console.error('[LOGIN-SUBMIT] Erro durante o login:', err);
+      
+      // Debug detalhado do erro
+      if (err instanceof Error) {
+        console.error('[LOGIN-SUBMIT] Detalhes do erro:', {
+          message: err.message,
+          name: err.name,
+          stack: err.stack
+        });
+      }
+      
+      // Executar debug adicional em caso de erro
+      console.log('[LOGIN-SUBMIT] Executando debug adicional após erro');
+      await debugAuth(email);
+      
       setError('Email ou senha inválidos')
     } finally {
       setIsLoading(false)
+      console.log(`[LOGIN-SUBMIT] Processo de login finalizado em ${new Date().toISOString()}`);
     }
   }
 

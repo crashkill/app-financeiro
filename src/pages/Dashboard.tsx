@@ -4,6 +4,32 @@ import { db } from '../db/database'
 import type { Transacao } from '../db/database'
 import { ProjectCharts } from '../components/ProjectCharts'
 import FilterPanel from '../components/FilterPanel'
+import { Bar, Line, Pie } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 const Dashboard = () => {
   const [allTransactions, setAllTransactions] = useState<Transacao[]>([])
@@ -14,7 +40,22 @@ const Dashboard = () => {
   const [years, setYears] = useState<number[]>([])
   const [totais, setTotais] = useState({
     receita: 0,
-    custo: 0
+    custo: 0,
+    margem: 0,
+    margemPercentual: 0
+  })
+  
+  // Dados mensais para gráficos adicionais
+  const [dadosMensais, setDadosMensais] = useState<{
+    meses: string[],
+    receitas: number[],
+    custos: number[],
+    margens: number[]
+  }>({
+    meses: [],
+    receitas: [],
+    custos: [],
+    margens: []
   })
 
   // Carregar todas as transações
@@ -73,7 +114,7 @@ const Dashboard = () => {
     setFilteredTransactions(filtered);
   }, [selectedProjects, selectedYear, allTransactions]);
 
-  // Calcular totais quando as transações filtradas mudam
+  // Calcular totais e dados mensais quando as transações filtradas mudam
   useEffect(() => {
     // Filtrar transações realizadas (não precisamos mais filtrar por Relatorio pois os dados já são filtrados no upload)
     const transacoesRealizadas = filteredTransactions;
@@ -135,8 +176,94 @@ const Dashboard = () => {
 
     console.log(`[Dashboard] Totais calculados (Refinados): Receita=${totaisCalculados.receita}, Custo=${totaisCalculados.custo}`);
 
-    setTotais(totaisCalculados);
+    // Calcular margem e margem percentual
+    const margem = totaisCalculados.receita - Math.abs(totaisCalculados.custo);
+    const margemPercentual = totaisCalculados.receita !== 0 
+      ? (1 - (Math.abs(totaisCalculados.custo) / totaisCalculados.receita)) * 100 
+      : 0;
+
+    setTotais({
+      ...totaisCalculados,
+      margem,
+      margemPercentual
+    });
+
+    // Preparar dados mensais para gráficos
+    const dadosPorMes = new Map<string, { receita: number, custo: number }>();
+    
+    transacoesRealizadas.forEach(t => {
+      const [mes] = (t.periodo || '').split('/');
+      if (!mes) return;
+      
+      const mesFormatado = mes.padStart(2, '0');
+      const chave = mesFormatado;
+      
+      if (!dadosPorMes.has(chave)) {
+        dadosPorMes.set(chave, { receita: 0, custo: 0 });
+      }
+      
+      const dados = dadosPorMes.get(chave)!;
+      const valor = typeof t.lancamento === 'number' ? t.lancamento : 0;
+      const contaResumo = (t.contaResumo || '').toUpperCase().trim();
+      
+      if (t.natureza === 'RECEITA' && (contaResumo === 'RECEITA DEVENGADA' || contaResumo === 'DESONERAÇÃO DA FOLHA')) {
+        dados.receita += valor;
+      } else if (t.natureza === 'CUSTO' && 
+                (contaResumo.includes('CLT') || 
+                 contaResumo.includes('SUBCONTRATADOS') || 
+                 contaResumo.includes('OUTROS'))) {
+        dados.custo += Math.abs(valor);
+      }
+    });
+    
+    // Ordenar meses numericamente
+    const mesesOrdenados = Array.from(dadosPorMes.keys()).sort((a, b) => parseInt(a) - parseInt(b));
+    
+    // Mapear nomes dos meses
+    const nomesMeses = [
+      'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+      'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+    ];
+    
+    const meses = mesesOrdenados.map(m => nomesMeses[parseInt(m) - 1]);
+    const receitas = mesesOrdenados.map(m => dadosPorMes.get(m)!.receita);
+    const custos = mesesOrdenados.map(m => dadosPorMes.get(m)!.custo);
+    const margens = mesesOrdenados.map(m => {
+      const dados = dadosPorMes.get(m)!;
+      return dados.receita - dados.custo;
+    });
+    
+    setDadosMensais({ meses, receitas, custos, margens });
+    
   }, [filteredTransactions, selectedYear, selectedProjects]);
+
+  // Opções comuns para gráficos
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            let label = context.dataset.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+              }).format(context.parsed.y);
+            }
+            return label;
+          }
+        }
+      }
+    },
+  };
 
   return (
     <Container>
@@ -156,7 +283,7 @@ const Dashboard = () => {
       />
 
       <Row>
-        <Col md={6} className="mb-4">
+        <Col md={4} className="mb-4">
           <Card className="h-100">
             <Card.Body>
               <Card.Title>Receita Total</Card.Title>
@@ -169,7 +296,7 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={6} className="mb-4">
+        <Col md={4} className="mb-4">
           <Card className="h-100">
             <Card.Body>
               <Card.Title>Custo Total</Card.Title>
@@ -182,13 +309,176 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
+        <Col md={4} className="mb-4">
+          <Card className="h-100">
+            <Card.Body>
+              <Card.Title>Margem Total</Card.Title>
+              <Card.Text className="h2 text-primary">
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'percent',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                }).format(totais.margemPercentual / 100)}
+              </Card.Text>
+              <Card.Text className="text-muted">
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(totais.margem)}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
 
       <Row>
         <Col>
-          <Card className="shadow">
+          <Card className="shadow mb-4">
             <Card.Body>
+              <Card.Title>Gráficos de Desempenho</Card.Title>
               <ProjectCharts transactions={filteredTransactions} />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col md={6}>
+          <Card className="shadow mb-4">
+            <Card.Body>
+              <Card.Title>Evolução Mensal de Receitas e Custos</Card.Title>
+              <div style={{ height: '300px' }}>
+                <Bar 
+                  options={chartOptions}
+                  data={{
+                    labels: dadosMensais.meses,
+                    datasets: [
+                      {
+                        label: 'Receita',
+                        data: dadosMensais.receitas,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                      },
+                      {
+                        label: 'Custo',
+                        data: dadosMensais.custos,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                      }
+                    ],
+                  }}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={6}>
+          <Card className="shadow mb-4">
+            <Card.Body>
+              <Card.Title>Tendência de Margem Mensal</Card.Title>
+              <div style={{ height: '300px' }}>
+                <Line
+                  options={chartOptions}
+                  data={{
+                    labels: dadosMensais.meses,
+                    datasets: [
+                      {
+                        label: 'Margem (R$)',
+                        data: dadosMensais.margens,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        tension: 0.1,
+                        fill: true
+                      }
+                    ],
+                  }}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col md={6}>
+          <Card className="shadow mb-4">
+            <Card.Body>
+              <Card.Title>Distribuição de Receita vs Custo</Card.Title>
+              <div style={{ height: '300px' }}>
+                <Pie
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: 'right',
+                      },
+                      tooltip: {
+                        callbacks: {
+                          label: function(context: any) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL'
+                            }).format(value)} (${((value / (totais.receita + Math.abs(totais.custo))) * 100).toFixed(1)}%)`;
+                          }
+                        }
+                      }
+                    }
+                  }}
+                  data={{
+                    labels: ['Receita', 'Custo'],
+                    datasets: [
+                      {
+                        data: [totais.receita, Math.abs(totais.custo)],
+                        backgroundColor: [
+                          'rgba(75, 192, 192, 0.6)',
+                          'rgba(255, 99, 132, 0.6)'
+                        ],
+                        borderColor: [
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1,
+                      },
+                    ],
+                  }}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={6}>
+          <Card className="shadow mb-4">
+            <Card.Body>
+              <Card.Title>Composição da Margem</Card.Title>
+              <div style={{ height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="text-center">
+                  <h1 className="display-4 mb-3">
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'percent',
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    }).format(totais.margemPercentual / 100)}
+                  </h1>
+                  <p className="lead">Margem = 1 - (Custo/Receita)</p>
+                  <div className="d-flex justify-content-around mt-4">
+                    <div className="text-success">
+                      <strong>Receita:</strong><br />
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(totais.receita)}
+                    </div>
+                    <div className="text-danger">
+                      <strong>Custo:</strong><br />
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(Math.abs(totais.custo))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Card.Body>
           </Card>
         </Col>

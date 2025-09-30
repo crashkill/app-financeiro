@@ -16,7 +16,7 @@ Este é um sistema de gestão financeira que oferece funcionalidades robustas pa
 - **Core:** React 18, TypeScript, Vite
 - **UI/UX:** React-Bootstrap, TailwindCSS, Chart.js
 - **Testes:** Jest, Testing Library
-- **CI/CD:** GitHub Actions, Netlify
+- **CI/CD:** Vercel
 - **Gerenciador de Pacotes:** PNPM
 - **Banco de Dados Local:** IndexedDB (Dexie.js)
 
@@ -76,23 +76,20 @@ src/
 
 ## 🔄 CI/CD Pipeline
 
-O projeto utiliza GitHub Actions para automação de:
+O projeto utiliza Vercel para automação de:
 
-1. **Validação (validate)**
+1. **Validação e Build**
    - Lint check
    - Type check
    - Testes unitários
-   - Verificação de cobertura (mínimo 80%)
-
-2. **Build**
    - Compilação TypeScript
    - Build do Vite
-   - Upload de artefatos
 
-3. **Deploy (master)**
-   - Deploy automático no Netlify
-   - Comentários automáticos em PRs
-   - Verificações de segurança
+2. **Deploy Automático**
+   - Deploy automático a cada push na branch principal
+   - Preview de PRs
+   - Rollback simplificado
+   - Monitoramento de performance
 
 ## 🔒 Segurança
 

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Dexie Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e8; color: #2e7d32; }
+        .warning { background: #fff3e0; color: #ef6c00; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Diagnóstico Dexie - DexieError2</h1>
+    <div id="logs"></div>
+    
+    <button onclick="testarDexieBasico()">Teste Básico Dexie</button>
+    <button onclick="testarConexaoBanco()">Teste Conexão</button>
+    <button onclick="testarOperacoes()">Teste Operações</button>
+    <button onclick="limparBanco()">Limpar Banco</button>
+    <button onclick="limparLogs()">Limpar Logs</button>
+
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+    <script>
+        const logs = document.getElementById('logs');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            logs.appendChild(div);
+            logs.scrollTop = logs.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function limparLogs() {
+            logs.innerHTML = '';
+        }
+        
+        // Configuração do banco igual ao projeto
+        class AppDatabase extends Dexie {
+            constructor() {
+                super('FinanceiroDB');
+                this.version(7).stores({
+                    transacoes: '++id, tipo, natureza, [projeto+periodo], [descricao+periodo], periodo, projeto, descricao, contaResumo',
+                    profissionais: '++id, nome, tipo, projeto'
+                });
+                
+                // Hooks de normalização
+                this.transacoes.hook('creating', (primKey, obj) => {
+                    try {
+                        obj.valor = converterParaNumero(obj.valor);
+                        obj.projeto = obj.projeto || obj.descricao || 'Sem Projeto';
+                        obj.descricao = obj.descricao || obj.projeto || 'Sem Descrição';
+                        
+                        if (obj.periodo) {
+                            const [mes, ano] = obj.periodo.split('/');
+                            obj.periodo = `${parseInt(mes)}/${ano}`;
+                        }
+                        log(`Hook creating executado para: ${obj.descricao}`, 'success');
+                    } catch (error) {
+                        log(`Erro no hook creating: ${error.message}`, 'error');
+                        throw error;
+                    }
+                });
+                
+                this.transacoes.hook('updating', (modifications, primKey, obj) => {
+                    try {
+                        if (modifications.valor !== undefined) {
+                            modifications.valor = converterParaNumero(modifications.valor);
+                        }
+                        if (modifications.periodo) {
+                            const [mes, ano] = modifications.periodo.split('/');
+                            modifications.periodo = `${parseInt(mes)}/${ano}`;
+                        }
+                        log(`Hook updating executado`, 'success');
+                    } catch (error) {
+                        log(`Erro no hook updating: ${error.message}`, 'error');
+                        throw error;
+                    }
+                });
+            }
+        }
+        
+        const converterParaNumero = (valor) => {
+            if (typeof valor === 'number') return valor;
+            if (!valor) return 0;
+            
+            let str = String(valor)
+                .replace(/[^\d,.-]/g, '')
+                .trim();
+            
+            if (str.includes(',')) {
+                str = str.replace(/\./g, '').replace(',', '.');
+            }
+            
+            const num = parseFloat(str);
+            return isNaN(num) ? 0 : num;
+        };
+        
+        const db = new AppDatabase();
+        
+        async function testarDexieBasico() {
+            try {
+                log('Iniciando teste básico do Dexie...', 'info');
+                
+                // Verificar se Dexie está disponível
+                if (typeof Dexie === 'undefined') {
+                    throw new Error('Dexie não está carregado');
+                }
+                log('✓ Dexie carregado com sucesso', 'success');
+                
+                // Verificar versão
+                log(`✓ Versão do Dexie: ${Dexie.version}`, 'success');
+                
+                // Verificar suporte ao IndexedDB
+                if (!window.indexedDB) {
+                    throw new Error('IndexedDB não é suportado neste navegador');
+                }
+                log('✓ IndexedDB suportado', 'success');
+                
+            } catch (error) {
+                log(`❌ Erro no teste básico: ${error.message}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        async function testarConexaoBanco() {
+            try {
+                log('Testando conexão com o banco...', 'info');
+                
+                // Verificar se o banco está aberto
+                log(`Estado do banco - isOpen: ${db.isOpen()}`, 'info');
+                
+                if (!db.isOpen()) {
+                    log('Tentando abrir o banco...', 'warning');
+                    await db.open();
+                    log('✓ Banco aberto com sucesso', 'success');
+                } else {
+                    log('✓ Banco já estava aberto', 'success');
+                }
+                
+                // Verificar tabelas
+                const tables = db.tables.map(t => t.name);
+                log(`✓ Tabelas disponíveis: ${tables.join(', ')}`, 'success');
+                
+                // Testar contagem
+                const count = await db.transacoes.count();
+                log(`✓ Número de transações: ${count}`, 'success');
+                
+            } catch (error) {
+                log(`❌ Erro na conexão: ${error.message}`, 'error');
+                log(`Tipo do erro: ${error.constructor.name}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        async function testarOperacoes() {
+            try {
+                log('Testando operações CRUD...', 'info');
+                
+                // Teste de inserção
+                const transacaoTeste = {
+                    tipo: 'receita',
+                    natureza: 'RECEITA',
+                    descricao: 'Teste Debug',
+                    valor: 1000,
+                    data: '2024-01-01',
+                    categoria: 'Teste',
+                    lancamento: 1,
+                    periodo: '1/2024'
+                };
+                
+                log('Inserindo transação de teste...', 'info');
+                const id = await db.transacoes.add(transacaoTeste);
+                log(`✓ Transação inserida com ID: ${id}`, 'success');
+                
+                // Teste de leitura
+                log('Lendo transação inserida...', 'info');
+                const transacao = await db.transacoes.get(id);
+                log(`✓ Transação lida: ${JSON.stringify(transacao)}`, 'success');
+                
+                // Teste de atualização
+                log('Atualizando transação...', 'info');
+                await db.transacoes.update(id, { valor: 1500 });
+                log('✓ Transação atualizada', 'success');
+                
+                // Teste de exclusão
+                log('Excluindo transação de teste...', 'info');
+                await db.transacoes.delete(id);
+                log('✓ Transação excluída', 'success');
+                
+            } catch (error) {
+                log(`❌ Erro nas operações: ${error.message}`, 'error');
+                log(`Tipo do erro: ${error.constructor.name}`, 'error');
+                log(`Stack: ${error.stack}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        async function limparBanco() {
+            try {
+                log('Limpando banco de dados...', 'warning');
+                await db.transacoes.clear();
+                await db.profissionais.clear();
+                log('✓ Banco limpo com sucesso', 'success');
+            } catch (error) {
+                log(`❌ Erro ao limpar banco: ${error.message}`, 'error');
+                console.error('Erro completo:', error);
+            }
+        }
+        
+        // Executar teste básico automaticamente
+        window.addEventListener('load', () => {
+            log('Página carregada, executando diagnóstico automático...', 'info');
+            testarDexieBasico();
+        });
+    </script>
+</body>
+</html>

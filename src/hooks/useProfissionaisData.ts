@@ -40,7 +40,7 @@ export function useProfissionaisData(): UseProfissionaisDataResult {
         profissionais: profissionais.map(p => ({
           id: p.id || 0,
           nome: p.nome || '',
-          cargo: p.cargo || '',
+          cargo: '', // Campo não existe na interface original
           projeto: p.projeto || '',
           custo: p.custo || 0,
           tipo: p.tipo || 'CLT'
