@@ -31,7 +31,7 @@ const Header = () => {
             </div>
           </div>
           <div className="d-flex align-items-center">
-            <span className="me-3">Olá, {user?.name}</span>
+            <span className="me-3">Olá, {user?.email}</span>
             <Button variant="outline-primary" onClick={handleLogout}>
               Sair
             </Button>

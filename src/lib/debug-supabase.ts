@@ -13,9 +13,9 @@ export const testSupabaseConnectivity = async () => {
     
     // Teste 2: Verificar configuração do cliente
     console.log('[SUPABASE-TEST] Configuração do cliente:', {
-      supabaseUrl: supabase.supabaseUrl,
-      supabaseKey: supabase.supabaseKey?.substring(0, 20) + '...',
-      authUrl: supabase.auth.url
+      supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
+      supabaseKey: import.meta.env.VITE_SUPABASE_ANON_KEY?.substring(0, 20) + '...',
+      authConfigured: !!supabase.auth
     });
     
     // Teste 3: Testar conexão básica com uma query simples
@@ -48,7 +48,7 @@ export const testSupabaseConnectivity = async () => {
     
     // Teste 5: Verificar configurações de auth
     console.log('[SUPABASE-TEST] Configurações de auth:', {
-      persistSession: supabase.auth.storageKey,
+      authEnabled: !!supabase.auth,
       autoRefreshToken: 'enabled'
     });
     

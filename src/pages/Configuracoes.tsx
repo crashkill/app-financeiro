@@ -51,7 +51,7 @@ const Configuracoes = () => {
               <Form>
                 <Form.Group className="mb-3">
                   <Form.Label>Nome</Form.Label>
-                  <Form.Control type="text" defaultValue={user?.name} disabled />
+                  <Form.Control type="text" defaultValue={user?.email} disabled />
                 </Form.Group>
 
                 <Form.Group className="mb-3">

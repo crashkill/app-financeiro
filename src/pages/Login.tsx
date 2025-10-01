@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
+import { Eye, EyeOff, User, Lock, LogIn } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { runFullDebug, debugAuth, testSupabaseConnectivity } from '../lib/debug-supabase'
+import '../styles/login.css'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -12,6 +13,7 @@ const Login = () => {
   const [error, setError] = useState('')
   const [validationErrors, setValidationErrors] = useState<{email?: string; password?: string}>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   // Debug completo na inicialização do componente
   useEffect(() => {
@@ -92,59 +94,68 @@ const Login = () => {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold text-gray-800">Bem-vindo ao Sistema Financeiro</h2>
-          <p className="mt-2 text-sm text-gray-600">Por favor, faça login para continuar</p>
-        </div>
+    <div className="login-container">
+      <div className="login-card">
+        <h1 className="login-title">Sistema Financeiro</h1>
+        <p className="login-subtitle">Faça login para acessar sua conta</p>
 
         {error && (
-          <Alert variant="danger" className="mb-4">
+          <div className="error-message">
             {error}
-          </Alert>
+          </div>
         )}
 
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="email">E-mail</Form.Label>
-            <Form.Control
-              id="email"
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <User className="input-icon" size={20} />
+            <input
               type="text"
+              className="form-input"
+              placeholder="Digite seu e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               aria-label="E-mail"
-              isInvalid={!!validationErrors.email}
             />
-            <Form.Control.Feedback type="invalid">
-              {validationErrors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
+            {validationErrors.email && (
+              <div className="validation-error">{validationErrors.email}</div>
+            )}
+          </div>
 
-          <Form.Group className="mb-4">
-            <Form.Label htmlFor="password">Senha</Form.Label>
-            <Form.Control
-              id="password"
-              type="password"
+          <div className="form-group">
+            <Lock className="input-icon" size={20} />
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-input"
+              placeholder="Digite sua senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               aria-label="Senha"
-              isInvalid={!!validationErrors.password}
             />
-            <Form.Control.Feedback type="invalid">
-              {validationErrors.password}
-            </Form.Control.Feedback>
-          </Form.Group>
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+            {validationErrors.password && (
+              <div className="validation-error">{validationErrors.password}</div>
+            )}
+          </div>
 
-          <Button
+          <button
             type="submit"
-            variant="primary"
-            className="w-100"
+            className="login-button"
             disabled={isLoading}
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
-          </Button>
-        </Form>
+            <div className="button-content">
+              {isLoading && <div className="loading-spinner"></div>}
+              <LogIn size={20} style={{ marginRight: '0.5rem' }} />
+              {isLoading ? 'Entrando...' : 'Entrar'}
+            </div>
+          </button>
+        </form>
       </div>
     </div>
   )

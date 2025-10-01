@@ -93,8 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         debugLog('Erro no login', {
           message: error.message,
           status: error.status,
-          name: error.name,
-          cause: error.cause
+          name: error.name
         });
         throw new Error('Email ou senha inválidos');
       }
