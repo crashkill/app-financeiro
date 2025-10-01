@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app-financeiro:
+    build: .
+    environment:
+      # Doppler injeta as variáveis automaticamente
+      - DOPPLER_PROJECT=app-financeiro
+      - DOPPLER_CONFIG=dev
+    volumes:
+      - ./mcp.template.json:/app/mcp.template.json:ro
+    command: doppler run -- npm start
+    depends_on:
+      - doppler-init
+
+  doppler-init:
+    image: dopplerhq/cli:latest
+    volumes:
+      - ~/.doppler:/root/.doppler:ro
+      - ./:/app:rw
+    working_dir: /app
+    command: >
+      sh -c "
+        doppler setup --project app-financeiro --config dev --no-interactive &&
+        doppler run -- node sync-mcp-config.js
+      "

@@ -153,7 +153,6 @@ const FileUpload = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium">Preview dos dados</h3>
-            <Button onClick={handleImport}>Importar Dados</Button>
           </div>
           <div className="border rounded-lg overflow-x-auto">
             <table className="w-full">

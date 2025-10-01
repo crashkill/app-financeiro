@@ -1,79 +1,86 @@
-import * as React from "react"
+import React from 'react';
+import { cn } from '@/lib/utils';
 
-import { cn } from "../../lib/utils"
+interface CardProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+export const Card: React.FC<CardProps> = ({ children, className }) => {
+  return (
+    <div className={cn(
+      'rounded-lg border bg-card text-card-foreground shadow-sm',
       className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
+    )}>
+      {children}
+    </div>
+  );
+};
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
+interface CardHeaderProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+export const CardHeader: React.FC<CardHeaderProps> = ({ children, className }) => {
+  return (
+    <div className={cn('flex flex-col space-y-1.5 p-6', className)}>
+      {children}
+    </div>
+  );
+};
+
+interface CardTitleProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const CardTitle: React.FC<CardTitleProps> = ({ children, className }) => {
+  return (
+    <h3 className={cn(
+      'text-2xl font-semibold leading-none tracking-tight',
       className
-    )}
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
+    )}>
+      {children}
+    </h3>
+  );
+};
 
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
+interface CardDescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+export const CardDescription: React.FC<CardDescriptionProps> = ({ children, className }) => {
+  return (
+    <p className={cn('text-sm text-muted-foreground', className)}>
+      {children}
+    </p>
+  );
+};
 
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
+interface CardContentProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export const CardContent: React.FC<CardContentProps> = ({ children, className }) => {
+  return (
+    <div className={cn('p-6 pt-0', className)}>
+      {children}
+    </div>
+  );
+};
+
+interface CardFooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const CardFooter: React.FC<CardFooterProps> = ({ children, className }) => {
+  return (
+    <div className={cn('flex items-center p-6 pt-0', className)}>
+      {children}
+    </div>
+  );
+};

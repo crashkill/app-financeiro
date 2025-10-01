@@ -1,32 +1,59 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Upload from './pages/Upload'
 import Config from './pages/Config'
 import Forecast from './pages/Forecast'
 import PlanilhasFinanceiras from './pages/PlanilhasFinanceiras'
-import Documentacao from './pages/Documentacao'
+
 import GestaoProfissionais from './pages/GestaoProfissionais'
 import ConsultaSAP from './pages/ConsultaSAP'
+import AutomationTestPage from './pages/AutomationTestPage'
 import Layout from './components/Layout'
+import ProjectFilterExample from './examples/ProjectFilterExample'
+import ButtonExample from './examples/ButtonExample'
+import { useEffect } from 'react'
 
 // Componente para rotas protegidas
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth()
-  return user ? <Layout>{children}</Layout> : <Navigate to="/login" />
+  const { user } = useAuth();
+  const location = useLocation();
+
+  if (!user) {
+    // Redireciona para a página de login, salvando a localização atual
+    // para que possamos enviar o usuário de volta para lá depois do login.
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <Layout>{children}</Layout>;
+}
+
+// Componente para garantir que o tema claro seja aplicado ao body
+export function ThemeWrapper({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const root = window.document.documentElement;
+    // Sempre remove a classe dark para garantir modo claro
+    root.classList.remove('dark');
+    // As classes de cor do body serão herdadas ou definidas por bg-background
+  }, [])
+
+  return <>{children}</>
 }
 
 function App() {
   const { user } = useAuth()
 
   return (
-    <div data-testid="app-container">
+    <ThemeProvider>
+      <ThemeWrapper>
+        <div data-testid="app-container" className="min-h-screen transition-colors duration-300 bg-background text-foreground">
       <Routes>
-        <Route
-          path="/login"
-          element={user ? <Navigate to="/dashboard" /> : <Login />}
-        />
+        {/* Rota pública de Login */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Rotas Protegidas */}
         <Route
           path="/dashboard"
           element={
@@ -67,14 +94,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/documentacao"
-          element={
-            <PrivateRoute>
-              <Documentacao />
-            </PrivateRoute>
-          }
-        />
+
         <Route
           path="/consulta-sap"
           element={
@@ -91,9 +111,44 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route
+          path="/test-filter"
+          element={
+            <PrivateRoute>
+              <ProjectFilterExample />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/button-example"
+          element={
+            <PrivateRoute>
+              <ButtonExample />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/automation-test"
+          element={
+            <PrivateRoute>
+              <AutomationTestPage />
+            </PrivateRoute>
+          }
+        />
+        
+        {/* Redirecionamento da raiz e Rota Catch-all */}
+        <Route 
+          path="/" 
+          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
+        />
+        <Route 
+          path="*" 
+          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
+        />
       </Routes>
-    </div>
+        </div>
+      </ThemeWrapper>
+    </ThemeProvider>
   )
 }
 

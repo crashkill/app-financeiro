@@ -1,0 +1,117 @@
+name: 🔄 Sync MCP Configuration
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'mcp.json'
+      - 'scripts/sync-mcp-config.js'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Ambiente para sincronizar'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  sync-mcp:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        environment: [dev, staging, prod]
+        
+    steps:
+    - name: 🚀 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: 🔧 Install Dependencies
+      run: npm ci
+      
+    - name: 🔐 Install Doppler CLI
+      run: |
+        curl -Ls https://cli.doppler.com/install.sh | sh
+        sudo mv /tmp/doppler /usr/local/bin/doppler
+        
+    - name: 🔑 Setup Doppler
+      env:
+        DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+      run: |
+        echo $DOPPLER_TOKEN | doppler configure set token --scope /
+        doppler setup --project app-financeiro --config ${{ matrix.environment }} --no-interactive
+        
+    - name: 📋 Generate MCP Templates
+      run: |
+        npm run mcp:sync:generate
+        
+    - name: 🔄 Sync Configuration
+      run: |
+        npm run mcp:sync:all
+        
+    - name: 📤 Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mcp-config-${{ matrix.environment }}
+        path: |
+          mcp.template.json
+          mcp.resolved.json
+          sync-mcp.sh
+          docker-compose.yml
+        retention-days: 30
+        
+    - name: 📊 Validate Configuration
+      run: |
+        # Validar se os arquivos JSON estão corretos
+        node -e "JSON.parse(require('fs').readFileSync('mcp.template.json', 'utf8')); console.log('✅ Template válido')"
+        node -e "JSON.parse(require('fs').readFileSync('mcp.resolved.json', 'utf8')); console.log('✅ Resolved válido')"
+        
+    - name: 🚨 Notify on Failure
+      if: failure()
+      run: |
+        echo "❌ Sincronização falhou para ambiente: ${{ matrix.environment }}"
+        echo "🔍 Verifique os logs para mais detalhes"
+
+  # Job para enviar para diferentes sistemas
+  deploy-configs:
+    needs: sync-mcp
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - name: 📥 Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: mcp-config-prod
+        
+    - name: 🔐 Setup Doppler for Production
+      env:
+        DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PROD }}
+      run: |
+        curl -Ls https://cli.doppler.com/install.sh | sh
+        sudo mv /tmp/doppler /usr/local/bin/doppler
+        echo $DOPPLER_TOKEN | doppler configure set token --scope /
+        
+    - name: 🎯 Deploy to Production Systems
+      run: |
+        echo "🚀 Deploying to production systems..."
+        # Aqui você pode adicionar comandos para:
+        # - SSH para servidores e atualizar configs
+        # - Integrar com Kubernetes secrets
+        # - Atualizar outros sistemas
+        
+    - name: ✅ Success Notification
+      run: |
+        echo "🎉 MCP Configuration sincronizada com sucesso!"
+        echo "📊 Ambientes: dev, staging, prod"
+        echo "🔗 Artifacts disponíveis por 30 dias" 

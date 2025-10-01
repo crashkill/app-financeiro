@@ -43,7 +43,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   return (
     <Row className="mb-4 g-3">
       <Col md={8}>
-        <Card className="shadow h-100">
+        <Card className="shadow h-100 bg-card text-card-foreground border border-border">
           <Card.Body>
             <Form.Group>
               <Form.Label><strong>Filtrar Projetos</strong></Form.Label>
@@ -52,16 +52,16 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 size="lg"
                 onChange={handleProjectSelection}
                 value={selectedProjects}
-                className="form-control"
+                className="form-control bg-input text-foreground border-border focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 style={{ minHeight: '200px' }}
               >
                 {projects.map((project) => (
-                  <option key={project} value={project}>
+                  <option key={project} value={project} className="text-slate-900 dark:text-white">
                     {project}
                   </option>
                 ))}
               </Form.Select>
-              <Form.Text className="text-muted">
+              <Form.Text className="text-slate-500 dark:text-slate-400">
                 Segure Ctrl para selecionar múltiplos projetos. Nenhuma seleção mostra todos os projetos.
               </Form.Text>
             </Form.Group>
@@ -69,14 +69,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         </Card>
       </Col>
       <Col md={4}>
-        <Card className="shadow h-100">
+        <Card className="shadow h-100 bg-card text-card-foreground border border-border">
           <Card.Body>
             <Form.Group className="mb-3">
               <Form.Label><strong>Filtrar Ano</strong></Form.Label>
               <Form.Select
                 onChange={handleYearSelection}
                 value={selectedYear}
-                className="form-control"
+                className="form-control bg-input text-foreground border-border focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 {years.map((year) => (
                   <option key={year} value={year}>

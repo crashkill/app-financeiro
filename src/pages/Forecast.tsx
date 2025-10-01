@@ -9,7 +9,7 @@ import { ForecastData } from '../types/forecast';
 const Forecast: React.FC = () => {
   const [forecastData, setForecastData] = useState<ForecastData[]>([]);
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-  const [selectedYear, setSelectedYear] = useState<number>(2024);
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
   const [projects, setProjects] = useState<string[]>([]);
   const [years, setYears] = useState<number[]>([]);
 

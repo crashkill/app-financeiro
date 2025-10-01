@@ -19,6 +19,7 @@ export interface Transacao {
 export interface Profissional {
   id?: number
   nome: string
+  cargo: string; // Adicionado para corrigir o erro de build
   tipo: string
   projeto: string
   custo: number
@@ -209,6 +210,8 @@ export const importarProfissionais = async (dados: any[]) => {
         throw new Error('Campo "Nome do Profissional" ou "Nome" não encontrado para um dos registros');
       }
       
+      const cargo = item['Cargo'] || ''; // Ajuste o nome da coluna 'Cargo' se necessário
+
       // Normalizar tipo de contratação
       let tipo = String(item['Tipo de Contratação'] || item.Tipo || '').toUpperCase().trim();
       // Se o tipo não for CLT, considera como PJ
@@ -227,6 +230,7 @@ export const importarProfissionais = async (dados: any[]) => {
 
       return {
         nome,
+        cargo, // Adicionado campo cargo
         tipo,
         projeto,
         custo
