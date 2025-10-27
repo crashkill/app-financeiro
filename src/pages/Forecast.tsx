@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ForecastTable from '../components/ForecastTable';
-import FilterPanel from '../components/FilterPanel';
+import ProjectFilterReusable from '../components/filters/ProjectFilterReusable';
+import YearFilterReusable from '../components/filters/YearFilterReusable';
 import { db } from '../db/database';
 import type { Transacao } from '../db/database';
 import { ForecastData } from '../types/forecast';
@@ -254,14 +255,26 @@ const Forecast: React.FC = () => {
         </Col>
       </Row>
 
-      <FilterPanel
-        projects={projects}
-        selectedProjects={selectedProjects}
-        years={years}
-        selectedYear={selectedYear}
-        onProjectChange={setSelectedProjects}
-        onYearChange={setSelectedYear}
-      />
+      <Row className="mb-4">
+        <Col md={8}>
+          <ProjectFilterReusable
+            projects={projects}
+            selectedProjects={selectedProjects}
+            onChange={setSelectedProjects}
+            isLoading={false}
+            label="Filtrar Projetos"
+          />
+        </Col>
+        <Col md={4}>
+          <YearFilterReusable
+            years={years}
+            selectedYear={selectedYear}
+            onChange={setSelectedYear}
+            isLoading={false}
+            label="Filtrar Ano"
+          />
+        </Col>
+      </Row>
 
       <ForecastTable 
         data={forecastData} 

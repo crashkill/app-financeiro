@@ -1,0 +1,5482 @@
+[
+  {
+    "id": 1,
+    "execution_id": "exec_1758501200728",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T00:33:21.161931+00:00"
+  },
+  {
+    "id": 2,
+    "execution_id": "exec_1758501200728",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T00:33:22.243856+00:00"
+  },
+  {
+    "id": 3,
+    "execution_id": "exec_1758501200728",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T00:33:22.359831+00:00"
+  },
+  {
+    "id": 4,
+    "execution_id": "exec_1758501200728",
+    "step": "DOWNLOAD_HITSS",
+    "status": "ERRO",
+    "message": "timeout of 30000ms exceeded",
+    "created_at": "2025-09-22T00:33:52.623874+00:00"
+  },
+  {
+    "id": 5,
+    "execution_id": "exec_1758501200728",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "1/5 etapas concluídas em 32s",
+    "created_at": "2025-09-22T00:33:52.753765+00:00"
+  },
+  {
+    "id": 6,
+    "execution_id": "exec_1758501254548",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T00:34:14.972669+00:00"
+  },
+  {
+    "id": 7,
+    "execution_id": "exec_1758501254548",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T00:34:16.0553+00:00"
+  },
+  {
+    "id": 8,
+    "execution_id": "exec_1758501254548",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T00:34:16.201225+00:00"
+  },
+  {
+    "id": 9,
+    "execution_id": "exec_1758501254548",
+    "step": "DOWNLOAD_HITSS",
+    "status": "ERRO",
+    "message": "timeout of 60000ms exceeded",
+    "created_at": "2025-09-22T00:35:16.675754+00:00"
+  },
+  {
+    "id": 10,
+    "execution_id": "exec_1758501254548",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "1/5 etapas concluídas em 62s",
+    "created_at": "2025-09-22T00:35:16.816304+00:00"
+  },
+  {
+    "id": 12,
+    "execution_id": "setup_1758501767.418198",
+    "step": "CRON_SETUP",
+    "status": "SUCESSO",
+    "message": "Cron job DRE configurado - Nome: dre-automation-daily - Schedule: 0 8 * * 1-5",
+    "created_at": "2025-09-22T00:42:47.418198+00:00"
+  },
+  {
+    "id": 13,
+    "execution_id": "test_1758501833.566659",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:43:53.566659+00:00"
+  },
+  {
+    "id": 14,
+    "execution_id": "cron_error_1758501833.566659",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: missing FROM-clause entry for table \"vault\"",
+    "created_at": "2025-09-22T00:43:53.566659+00:00"
+  },
+  {
+    "id": 15,
+    "execution_id": "test_1758501889.235853",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:44:49.235853+00:00"
+  },
+  {
+    "id": 16,
+    "execution_id": "cron_error_1758501889.235853",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: missing FROM-clause entry for table \"vault\"",
+    "created_at": "2025-09-22T00:44:49.235853+00:00"
+  },
+  {
+    "id": 17,
+    "execution_id": "setup_1758501913.465225",
+    "step": "CRON_SETUP",
+    "status": "SUCESSO",
+    "message": "Cron job DRE configurado - Nome: dre-automation-daily - Schedule: 0 8 * * 1-5",
+    "created_at": "2025-09-22T00:45:13.465225+00:00"
+  },
+  {
+    "id": 18,
+    "execution_id": "test_1758501956.258513",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:45:56.258513+00:00"
+  },
+  {
+    "id": 19,
+    "execution_id": "cron_error_1758501956.258513",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: missing FROM-clause entry for table \"vault\"",
+    "created_at": "2025-09-22T00:45:56.258513+00:00"
+  },
+  {
+    "id": 20,
+    "execution_id": "setup_1758501980.508629",
+    "step": "CRON_SETUP",
+    "status": "SUCESSO",
+    "message": "Cron job DRE configurado - Nome: dre-automation-daily - Schedule: 0 8 * * 1-5",
+    "created_at": "2025-09-22T00:46:20.508629+00:00"
+  },
+  {
+    "id": 21,
+    "execution_id": "test_1758501992.502954",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:46:32.502954+00:00"
+  },
+  {
+    "id": 22,
+    "execution_id": "cron_error_1758501992.502954",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: missing FROM-clause entry for table \"vault\"",
+    "created_at": "2025-09-22T00:46:32.502954+00:00"
+  },
+  {
+    "id": 23,
+    "execution_id": "test_1758502026.412076",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:47:06.412076+00:00"
+  },
+  {
+    "id": 24,
+    "execution_id": "cron_error_1758502026.412076",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: missing FROM-clause entry for table \"vault\"",
+    "created_at": "2025-09-22T00:47:06.412076+00:00"
+  },
+  {
+    "id": 25,
+    "execution_id": "test_1758502055.829647",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:47:35.829647+00:00"
+  },
+  {
+    "id": 26,
+    "execution_id": "cron_error_1758502055.829647",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: missing FROM-clause entry for table \"vault\"",
+    "created_at": "2025-09-22T00:47:35.829647+00:00"
+  },
+  {
+    "id": 27,
+    "execution_id": "setup_1758502097.528959",
+    "step": "CRON_SETUP",
+    "status": "SUCESSO",
+    "message": "Cron job DRE configurado - Nome: dre-automation-daily - Schedule: 0 8 * * 1-5",
+    "created_at": "2025-09-22T00:48:17.528959+00:00"
+  },
+  {
+    "id": 28,
+    "execution_id": "test_1758502105.488878",
+    "step": "MANUAL_TEST",
+    "status": "INICIADO",
+    "message": "Teste manual da automação DRE iniciado",
+    "created_at": "2025-09-22T00:48:25.488878+00:00"
+  },
+  {
+    "id": 29,
+    "execution_id": "config_1758502105.488878",
+    "step": "CONFIG",
+    "status": "INFO",
+    "message": "Usando configuração hardcoded para teste - URL: https://oomhhhfahdvavnhlbioa.supabase.co",
+    "created_at": "2025-09-22T00:48:25.488878+00:00"
+  },
+  {
+    "id": 30,
+    "execution_id": "cron_1758502105.488878",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Cron job executado - Status HTTP: 404 - Response: {\"code\":\"NOT_FOUND\",\"message\":\"Requested function was not found\"}",
+    "created_at": "2025-09-22T00:48:25.488878+00:00"
+  },
+  {
+    "id": 31,
+    "execution_id": "exec_1758502478435",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-22T00:54:38.897745+00:00"
+  },
+  {
+    "id": 32,
+    "execution_id": "exec_1758502478435",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-22T00:54:39.027833+00:00"
+  },
+  {
+    "id": 33,
+    "execution_id": "exec_1758502478435",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T00:54:39.128231+00:00"
+  },
+  {
+    "id": 34,
+    "execution_id": "exec_1758502478435",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758502479759.xlsx (2 registros)",
+    "created_at": "2025-09-22T00:54:39.825527+00:00"
+  },
+  {
+    "id": 35,
+    "execution_id": "exec_1758502478435",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T00:54:39.894411+00:00"
+  },
+  {
+    "id": 36,
+    "execution_id": "exec_1758502478435",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758502479759.xlsx",
+    "created_at": "2025-09-22T00:54:40.826136+00:00"
+  },
+  {
+    "id": 37,
+    "execution_id": "exec_1758502478435",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-22T00:54:40.88509+00:00"
+  },
+  {
+    "id": 38,
+    "execution_id": "exec_1758502478435",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-22T00:54:42.102975+00:00"
+  },
+  {
+    "id": 39,
+    "execution_id": "exec_1758502478435",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T00:54:42.155088+00:00"
+  },
+  {
+    "id": 40,
+    "execution_id": "exec_1758502478435",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-22T00:54:42.189159+00:00"
+  },
+  {
+    "id": 41,
+    "execution_id": "exec_1758502478435",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 4s",
+    "created_at": "2025-09-22T00:54:42.254277+00:00"
+  },
+  {
+    "id": 42,
+    "execution_id": "exec_1758502580846",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-22T00:56:20.954396+00:00"
+  },
+  {
+    "id": 43,
+    "execution_id": "exec_1758502580846",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-22T00:56:20.993755+00:00"
+  },
+  {
+    "id": 44,
+    "execution_id": "exec_1758502580846",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T00:56:21.051757+00:00"
+  },
+  {
+    "id": 45,
+    "execution_id": "exec_1758502580846",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758502581675.xlsx (2 registros)",
+    "created_at": "2025-09-22T00:56:21.719985+00:00"
+  },
+  {
+    "id": 46,
+    "execution_id": "exec_1758502580846",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T00:56:21.773902+00:00"
+  },
+  {
+    "id": 47,
+    "execution_id": "exec_1758502580846",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758502581675.xlsx",
+    "created_at": "2025-09-22T00:56:21.895361+00:00"
+  },
+  {
+    "id": 48,
+    "execution_id": "exec_1758502580846",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-22T00:56:21.959189+00:00"
+  },
+  {
+    "id": 49,
+    "execution_id": "exec_1758502580846",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-22T00:56:22.133336+00:00"
+  },
+  {
+    "id": 50,
+    "execution_id": "exec_1758502580846",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T00:56:22.187063+00:00"
+  },
+  {
+    "id": 51,
+    "execution_id": "exec_1758502580846",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-22T00:56:22.231471+00:00"
+  },
+  {
+    "id": 52,
+    "execution_id": "exec_1758502580846",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 1s",
+    "created_at": "2025-09-22T00:56:22.286149+00:00"
+  },
+  {
+    "id": 53,
+    "execution_id": "config_1758502878.462611",
+    "step": "CONFIG",
+    "status": "INFO",
+    "message": "Usando configuração hardcoded para teste - URL: https://oomhhhfahdvavnhlbioa.supabase.co",
+    "created_at": "2025-09-22T01:01:18.462611+00:00"
+  },
+  {
+    "id": 54,
+    "execution_id": "exec_1758502878837",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-22T01:01:19.265429+00:00"
+  },
+  {
+    "id": 55,
+    "execution_id": "exec_1758502878837",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-22T01:01:19.383627+00:00"
+  },
+  {
+    "id": 56,
+    "execution_id": "exec_1758502878837",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:01:19.445261+00:00"
+  },
+  {
+    "id": 57,
+    "execution_id": "exec_1758502878837",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758502880071.xlsx (2 registros)",
+    "created_at": "2025-09-22T01:01:20.106514+00:00"
+  },
+  {
+    "id": 58,
+    "execution_id": "exec_1758502878837",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:01:20.15701+00:00"
+  },
+  {
+    "id": 59,
+    "execution_id": "exec_1758502878837",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758502880071.xlsx",
+    "created_at": "2025-09-22T01:01:20.273949+00:00"
+  },
+  {
+    "id": 60,
+    "execution_id": "exec_1758502878837",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-22T01:01:20.319008+00:00"
+  },
+  {
+    "id": 61,
+    "execution_id": "exec_1758502878837",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-22T01:01:20.450204+00:00"
+  },
+  {
+    "id": 62,
+    "execution_id": "exec_1758502878837",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T01:01:20.490047+00:00"
+  },
+  {
+    "id": 63,
+    "execution_id": "exec_1758502878837",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-22T01:01:20.537239+00:00"
+  },
+  {
+    "id": 64,
+    "execution_id": "exec_1758502878837",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 2s",
+    "created_at": "2025-09-22T01:01:20.568331+00:00"
+  },
+  {
+    "id": 65,
+    "execution_id": "cron_1758502878.462611",
+    "step": "CRON_EXECUTION",
+    "status": "SUCESSO",
+    "message": "Cron job executado - Status HTTP: 200 - Response: {\"success\":true,\"message\":\"Automação DRE executada com sucesso\",\"data\":{\"executionId\":\"exec_1758502878837\",\"success\":true,\"stepsCompleted\":5,\"totalSteps\":5,\"duration\":2,\"results\":{\"cronTrigger\":{\"job_name\":\"dre-automation-edge-function\",\"schedule\":\"0 8 * * 1-5\",\"last_run\":\"2025-09-22T01:01:19.314Z\",\"status\":\"TRIGGERED_VIA_EDGE_FUNCTION\",\"trigger_type\":\"CRON_JOB\"},\"download\":{\"fileName\":\"dre_hitss_1758502880071.xlsx\",\"recordCount\":2,\"data\":{\"empresa\":\"HITSS DO BRASIL SERVIÇOS TECNOLÓGICOS LTDA\",\"cnpj\":\"12.345.678/0001-90\",\"periodo\":\"2025-09\",\"data_geracao\":\"2025-09-22T01:01:20.071Z\",\"registros\":[{\"conta\":\"1.1.01.001\",\"descricao\":\"Receita de Vendas\",\"valor\":150000,\"tipo\":\"RECEITA\"},{\"conta\":\"3.1.01.001\",\"descricao\":\"Custo dos Produtos Vendidos\",\"valor\":-80000,\"tipo\":\"CUSTO\"}]}},\"upload\":{\"storagePath\":\"uploads/dre_hitss_1758502880071.xlsx\",\"fileName\":\"dre_hitss_1758502880071.xlsx\"},\"processing\":{\"recordsProcessed\":2,\"method\":\"simulated\"},\"notification\":{\"to\":\"fabricio.lima@globalhitss.com.br\",\"from\":\"noreply@hitss.com.br\",\"subject\":\"[DRE HITSS] Processamento Concluído - exec_1758502878837\",\"html\":\"\\n          <div style=\\\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\\\">\\n            <h2 style=\\\"color: #2563eb;\\\">🎯 Processamento DRE HITSS Finalizado</h2>\\n            \\n            <div style=\\\"background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p><strong>ID da Execução:</strong> exec_1758502878837</p>\\n              <p><strong>Data/Hora:</strong> 22/09/2025, 01:01:20</p>\\n              <p><strong>Duração Total:</strong> 2 segundos</p>\\n            </div>\\n            \\n            <h3 style=\\\"color: #059669;\\\">✅ Resultados do Processamento:</h3>\\n            <ul style=\\\"line-height: 1.6;\\\">\\n              <li><strong>Cron Job:</strong> ✅ Executado via Edge Function</li>\\n              <li><strong>Download HITSS:</strong> ✅ 2 registros baixados</li>\\n              <li><strong>Upload Storage:</strong> ✅ Arquivo enviado para uploads/dre_hitss_1758502880071.xlsx</li>\\n              <li><strong>Processamento:</strong> ✅ 2 registros importados</li>\\n              <li><strong>Notificação:</strong> ✅ Email enviado com sucesso</li>\\n            </ul>\\n            \\n            <div style=\\\"background: #ecfdf5; padding: 15px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p style=\\\"margin: 0; color: #059669;\\\"><strong>🎉 Sistema de automação DRE funcionando corretamente!</strong></p>\\n            </div>\\n            \\n            <hr style=\\\"margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;\\\">\\n            <p style=\\\"font-size: 12px; color: #6b7280;\\\">Este email foi gerado automaticamente pelo sistema de automação DRE da HITSS.</p>\\n          </div>\\n        \",\"method\":\"preview_fallback\"}}}}",
+    "created_at": "2025-09-22T01:01:18.462611+00:00"
+  },
+  {
+    "id": 66,
+    "execution_id": "exec_1758503243455",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:07:24.190825+00:00"
+  },
+  {
+    "id": 67,
+    "execution_id": "exec_1758503243455",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:07:25.295348+00:00"
+  },
+  {
+    "id": 68,
+    "execution_id": "exec_1758503243455",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:07:25.428249+00:00"
+  },
+  {
+    "id": 69,
+    "execution_id": "exec_1758503243455",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758503396461.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:09:59.868353+00:00"
+  },
+  {
+    "id": 70,
+    "execution_id": "exec_1758503243455",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:09:59.978105+00:00"
+  },
+  {
+    "id": 71,
+    "execution_id": "exec_1758503243455",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758503396461.xlsx",
+    "created_at": "2025-09-22T01:10:00.395938+00:00"
+  },
+  {
+    "id": 72,
+    "execution_id": "exec_1758503243455",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:10:00.450329+00:00"
+  },
+  {
+    "id": 73,
+    "execution_id": "exec_1758503243455",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 22297 registros",
+    "created_at": "2025-09-22T01:10:07.3096+00:00"
+  },
+  {
+    "id": 74,
+    "execution_id": "exec_1758503243455",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T01:10:07.366391+00:00"
+  },
+  {
+    "id": 75,
+    "execution_id": "exec_1758503243455",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T01:10:08.281504+00:00"
+  },
+  {
+    "id": 76,
+    "execution_id": "exec_1758503243455",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 165s",
+    "created_at": "2025-09-22T01:10:08.364254+00:00"
+  },
+  {
+    "id": 77,
+    "execution_id": "exec_1758503495397",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:11:36.180315+00:00"
+  },
+  {
+    "id": 78,
+    "execution_id": "exec_1758503495397",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:11:37.346583+00:00"
+  },
+  {
+    "id": 79,
+    "execution_id": "exec_1758503495397",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:11:37.511377+00:00"
+  },
+  {
+    "id": 80,
+    "execution_id": "exec_1758503495397",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758503678473.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:14:40.335395+00:00"
+  },
+  {
+    "id": 81,
+    "execution_id": "exec_1758503495397",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:14:40.662077+00:00"
+  },
+  {
+    "id": 82,
+    "execution_id": "exec_1758503495397",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758503678473.xlsx",
+    "created_at": "2025-09-22T01:14:41.111012+00:00"
+  },
+  {
+    "id": 83,
+    "execution_id": "exec_1758503495397",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:14:41.20673+00:00"
+  },
+  {
+    "id": 84,
+    "execution_id": "exec_1758503495397",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 22297 registros",
+    "created_at": "2025-09-22T01:14:48.066913+00:00"
+  },
+  {
+    "id": 85,
+    "execution_id": "exec_1758503495397",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T01:14:48.159891+00:00"
+  },
+  {
+    "id": 86,
+    "execution_id": "exec_1758503495397",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T01:14:49.450872+00:00"
+  },
+  {
+    "id": 87,
+    "execution_id": "exec_1758503495397",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 194s",
+    "created_at": "2025-09-22T01:14:49.559781+00:00"
+  },
+  {
+    "id": 88,
+    "execution_id": "exec_1758504222922",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:23:43.415682+00:00"
+  },
+  {
+    "id": 89,
+    "execution_id": "exec_1758504222922",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:23:44.518758+00:00"
+  },
+  {
+    "id": 90,
+    "execution_id": "exec_1758504222922",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:23:44.65512+00:00"
+  },
+  {
+    "id": 91,
+    "execution_id": "exec_1758504222922",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758504375542.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:26:18.027721+00:00"
+  },
+  {
+    "id": 92,
+    "execution_id": "exec_1758504222922",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:26:18.225807+00:00"
+  },
+  {
+    "id": 93,
+    "execution_id": "exec_1758504222922",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758504375542.xlsx",
+    "created_at": "2025-09-22T01:26:18.651682+00:00"
+  },
+  {
+    "id": 94,
+    "execution_id": "exec_1758504222922",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:26:18.718217+00:00"
+  },
+  {
+    "id": 95,
+    "execution_id": "exec_1758504222922",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 22297 registros",
+    "created_at": "2025-09-22T01:26:26.154631+00:00"
+  },
+  {
+    "id": 96,
+    "execution_id": "exec_1758504222922",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T01:26:26.244666+00:00"
+  },
+  {
+    "id": 97,
+    "execution_id": "exec_1758504222922",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T01:26:27.124396+00:00"
+  },
+  {
+    "id": 98,
+    "execution_id": "exec_1758504222922",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 164s",
+    "created_at": "2025-09-22T01:26:27.184005+00:00"
+  },
+  {
+    "id": 99,
+    "execution_id": "exec_1758504429582",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:27:10.058135+00:00"
+  },
+  {
+    "id": 100,
+    "execution_id": "exec_1758504429582",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:27:11.159509+00:00"
+  },
+  {
+    "id": 101,
+    "execution_id": "exec_1758504429582",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:27:11.31161+00:00"
+  },
+  {
+    "id": 102,
+    "execution_id": "exec_1758504429582",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758504595588.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:29:57.932443+00:00"
+  },
+  {
+    "id": 103,
+    "execution_id": "exec_1758504429582",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:29:58.073083+00:00"
+  },
+  {
+    "id": 104,
+    "execution_id": "exec_1758504429582",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758504595588.xlsx",
+    "created_at": "2025-09-22T01:29:58.601667+00:00"
+  },
+  {
+    "id": 105,
+    "execution_id": "exec_1758504429582",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:29:58.67512+00:00"
+  },
+  {
+    "id": 106,
+    "execution_id": "exec_1758504429582",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 22297 registros",
+    "created_at": "2025-09-22T01:30:05.832464+00:00"
+  },
+  {
+    "id": 107,
+    "execution_id": "exec_1758504429582",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T01:30:05.911273+00:00"
+  },
+  {
+    "id": 108,
+    "execution_id": "exec_1758504429582",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T01:30:06.830341+00:00"
+  },
+  {
+    "id": 109,
+    "execution_id": "exec_1758504429582",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 177s",
+    "created_at": "2025-09-22T01:30:06.890722+00:00"
+  },
+  {
+    "id": 110,
+    "execution_id": "exec_1758504791704",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:33:12.191135+00:00"
+  },
+  {
+    "id": 111,
+    "execution_id": "exec_1758504791704",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:33:13.262893+00:00"
+  },
+  {
+    "id": 112,
+    "execution_id": "exec_1758504791704",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:33:13.390457+00:00"
+  },
+  {
+    "id": 113,
+    "execution_id": "exec_1758504791704",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758504956181.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:35:58.232921+00:00"
+  },
+  {
+    "id": 114,
+    "execution_id": "exec_1758504791704",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:35:58.413966+00:00"
+  },
+  {
+    "id": 115,
+    "execution_id": "exec_1758504791704",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758504956181.xlsx",
+    "created_at": "2025-09-22T01:35:59.195075+00:00"
+  },
+  {
+    "id": 116,
+    "execution_id": "exec_1758504791704",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:35:59.287264+00:00"
+  },
+  {
+    "id": 117,
+    "execution_id": "exec_1758504791704",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'cnpj' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T01:36:05.937829+00:00"
+  },
+  {
+    "id": 118,
+    "execution_id": "exec_1758504791704",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'cnpj' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T01:36:06.01624+00:00"
+  },
+  {
+    "id": 119,
+    "execution_id": "exec_1758504791704",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 174s",
+    "created_at": "2025-09-22T01:36:06.101014+00:00"
+  },
+  {
+    "id": 120,
+    "execution_id": "exec_1758505019417",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:36:59.908728+00:00"
+  },
+  {
+    "id": 121,
+    "execution_id": "exec_1758505019417",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:37:01.002942+00:00"
+  },
+  {
+    "id": 122,
+    "execution_id": "exec_1758505019417",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:37:01.115531+00:00"
+  },
+  {
+    "id": 123,
+    "execution_id": "exec_1758505019417",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758505186787.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:39:48.809233+00:00"
+  },
+  {
+    "id": 124,
+    "execution_id": "exec_1758505019417",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:39:48.966785+00:00"
+  },
+  {
+    "id": 125,
+    "execution_id": "exec_1758505019417",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758505186787.xlsx",
+    "created_at": "2025-09-22T01:39:49.73751+00:00"
+  },
+  {
+    "id": 126,
+    "execution_id": "exec_1758505019417",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:39:49.82256+00:00"
+  },
+  {
+    "id": 127,
+    "execution_id": "exec_1758505019417",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'conta' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T01:39:55.885106+00:00"
+  },
+  {
+    "id": 128,
+    "execution_id": "exec_1758505019417",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'conta' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T01:39:55.970953+00:00"
+  },
+  {
+    "id": 129,
+    "execution_id": "exec_1758505019417",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 176s",
+    "created_at": "2025-09-22T01:39:56.038521+00:00"
+  },
+  {
+    "id": 130,
+    "execution_id": "exec_1758505526935",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:45:27.638179+00:00"
+  },
+  {
+    "id": 131,
+    "execution_id": "exec_1758505526935",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:45:28.713882+00:00"
+  },
+  {
+    "id": 132,
+    "execution_id": "exec_1758505526935",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:45:28.860617+00:00"
+  },
+  {
+    "id": 133,
+    "execution_id": "exec_1758505526935",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758505691272.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:48:14.415098+00:00"
+  },
+  {
+    "id": 134,
+    "execution_id": "exec_1758505526935",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:48:14.566728+00:00"
+  },
+  {
+    "id": 135,
+    "execution_id": "exec_1758505526935",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758505691272.xlsx",
+    "created_at": "2025-09-22T01:48:15.12763+00:00"
+  },
+  {
+    "id": 136,
+    "execution_id": "exec_1758505526935",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:48:15.178538+00:00"
+  },
+  {
+    "id": 137,
+    "execution_id": "exec_1758505526935",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'conta' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T01:48:22.675517+00:00"
+  },
+  {
+    "id": 138,
+    "execution_id": "exec_1758505526935",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'conta' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T01:48:22.722483+00:00"
+  },
+  {
+    "id": 139,
+    "execution_id": "exec_1758505526935",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 176s",
+    "created_at": "2025-09-22T01:48:22.769028+00:00"
+  },
+  {
+    "id": 140,
+    "execution_id": "exec_1758506002246",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:53:23.144598+00:00"
+  },
+  {
+    "id": 141,
+    "execution_id": "exec_1758506002246",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:53:24.314724+00:00"
+  },
+  {
+    "id": 142,
+    "execution_id": "exec_1758506002246",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:53:24.490562+00:00"
+  },
+  {
+    "id": 143,
+    "execution_id": "exec_1758506002246",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758506166256.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:56:08.230823+00:00"
+  },
+  {
+    "id": 144,
+    "execution_id": "exec_1758506002246",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:56:08.389237+00:00"
+  },
+  {
+    "id": 145,
+    "execution_id": "exec_1758506002246",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758506166256.xlsx",
+    "created_at": "2025-09-22T01:56:09.13944+00:00"
+  },
+  {
+    "id": 146,
+    "execution_id": "exec_1758506002246",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:56:09.215561+00:00"
+  },
+  {
+    "id": 147,
+    "execution_id": "exec_1758506002246",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: invalid input syntax for type uuid: \"exec_1758506002246\"",
+    "created_at": "2025-09-22T01:56:23.904552+00:00"
+  },
+  {
+    "id": 148,
+    "execution_id": "exec_1758506002246",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: invalid input syntax for type uuid: \"exec_1758506002246\"",
+    "created_at": "2025-09-22T01:56:23.956706+00:00"
+  },
+  {
+    "id": 149,
+    "execution_id": "exec_1758506002246",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 181s",
+    "created_at": "2025-09-22T01:56:24.008681+00:00"
+  },
+  {
+    "id": 150,
+    "execution_id": "exec_1758506206671",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T01:56:47.154512+00:00"
+  },
+  {
+    "id": 151,
+    "execution_id": "exec_1758506206671",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T01:56:48.245208+00:00"
+  },
+  {
+    "id": 152,
+    "execution_id": "exec_1758506206671",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T01:56:48.382806+00:00"
+  },
+  {
+    "id": 153,
+    "execution_id": "exec_1758506206671",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758506357092.xlsx (22297 registros)",
+    "created_at": "2025-09-22T01:59:19.698429+00:00"
+  },
+  {
+    "id": 154,
+    "execution_id": "exec_1758506206671",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T01:59:19.833126+00:00"
+  },
+  {
+    "id": 155,
+    "execution_id": "exec_1758506206671",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758506357092.xlsx",
+    "created_at": "2025-09-22T01:59:20.631992+00:00"
+  },
+  {
+    "id": 156,
+    "execution_id": "exec_1758506206671",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T01:59:20.712636+00:00"
+  },
+  {
+    "id": 157,
+    "execution_id": "exec_1758506206671",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_natureza_check\"",
+    "created_at": "2025-09-22T01:59:37.985913+00:00"
+  },
+  {
+    "id": 158,
+    "execution_id": "exec_1758506206671",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_natureza_check\"",
+    "created_at": "2025-09-22T01:59:38.236737+00:00"
+  },
+  {
+    "id": 159,
+    "execution_id": "exec_1758506206671",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 171s",
+    "created_at": "2025-09-22T01:59:38.32835+00:00"
+  },
+  {
+    "id": 160,
+    "execution_id": "exec_1758506400513",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T02:00:00.983333+00:00"
+  },
+  {
+    "id": 161,
+    "execution_id": "exec_1758506400513",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T02:00:02.082448+00:00"
+  },
+  {
+    "id": 162,
+    "execution_id": "exec_1758506400513",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T02:00:02.215747+00:00"
+  },
+  {
+    "id": 163,
+    "execution_id": "exec_1758506400513",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758506553201.xlsx (22297 registros)",
+    "created_at": "2025-09-22T02:02:35.629517+00:00"
+  },
+  {
+    "id": 164,
+    "execution_id": "exec_1758506400513",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T02:02:35.871493+00:00"
+  },
+  {
+    "id": 165,
+    "execution_id": "exec_1758506400513",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758506553201.xlsx",
+    "created_at": "2025-09-22T02:02:36.707243+00:00"
+  },
+  {
+    "id": 166,
+    "execution_id": "exec_1758506400513",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T02:02:36.79209+00:00"
+  },
+  {
+    "id": 167,
+    "execution_id": "exec_1758506400513",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_natureza_check\"",
+    "created_at": "2025-09-22T02:02:55.559858+00:00"
+  },
+  {
+    "id": 168,
+    "execution_id": "exec_1758506400513",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_natureza_check\"",
+    "created_at": "2025-09-22T02:02:55.819358+00:00"
+  },
+  {
+    "id": 169,
+    "execution_id": "exec_1758506400513",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 175s",
+    "created_at": "2025-09-22T02:02:55.928514+00:00"
+  },
+  {
+    "id": 170,
+    "execution_id": "exec_1758506618471",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T02:03:38.969518+00:00"
+  },
+  {
+    "id": 171,
+    "execution_id": "exec_1758506618471",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T02:03:40.101456+00:00"
+  },
+  {
+    "id": 172,
+    "execution_id": "exec_1758506618471",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T02:03:40.26428+00:00"
+  },
+  {
+    "id": 173,
+    "execution_id": "exec_1758506618471",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758506767234.xlsx (22297 registros)",
+    "created_at": "2025-09-22T02:06:10.255034+00:00"
+  },
+  {
+    "id": 174,
+    "execution_id": "exec_1758506618471",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T02:06:10.440892+00:00"
+  },
+  {
+    "id": 175,
+    "execution_id": "exec_1758506618471",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758506767234.xlsx",
+    "created_at": "2025-09-22T02:06:11.31816+00:00"
+  },
+  {
+    "id": 176,
+    "execution_id": "exec_1758506618471",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T02:06:11.409033+00:00"
+  },
+  {
+    "id": 177,
+    "execution_id": "exec_1758506618471",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T02:06:29.682257+00:00"
+  },
+  {
+    "id": 178,
+    "execution_id": "exec_1758506618471",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T02:06:29.77298+00:00"
+  },
+  {
+    "id": 179,
+    "execution_id": "exec_1758506618471",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T02:06:30.808392+00:00"
+  },
+  {
+    "id": 180,
+    "execution_id": "exec_1758506618471",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 172s",
+    "created_at": "2025-09-22T02:06:30.865082+00:00"
+  },
+  {
+    "id": 181,
+    "execution_id": "exec_1758508466398",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T02:34:27.192759+00:00"
+  },
+  {
+    "id": 182,
+    "execution_id": "exec_1758508466398",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T02:34:28.325289+00:00"
+  },
+  {
+    "id": 183,
+    "execution_id": "exec_1758508466398",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T02:34:28.467341+00:00"
+  },
+  {
+    "id": 184,
+    "execution_id": "exec_1758508466398",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758508616049.xlsx (22297 registros)",
+    "created_at": "2025-09-22T02:36:58.275413+00:00"
+  },
+  {
+    "id": 185,
+    "execution_id": "exec_1758508466398",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T02:36:58.411025+00:00"
+  },
+  {
+    "id": 186,
+    "execution_id": "exec_1758508466398",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758508616049.xlsx",
+    "created_at": "2025-09-22T02:36:58.988974+00:00"
+  },
+  {
+    "id": 187,
+    "execution_id": "exec_1758508466398",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T02:36:59.07621+00:00"
+  },
+  {
+    "id": 188,
+    "execution_id": "exec_1758508466398",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'categoria' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T02:37:13.58529+00:00"
+  },
+  {
+    "id": 189,
+    "execution_id": "exec_1758508466398",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'categoria' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T02:37:13.649232+00:00"
+  },
+  {
+    "id": 190,
+    "execution_id": "exec_1758508466398",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 167s",
+    "created_at": "2025-09-22T02:37:13.704257+00:00"
+  },
+  {
+    "id": 191,
+    "execution_id": "exec_1758508688735",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T02:38:09.229417+00:00"
+  },
+  {
+    "id": 192,
+    "execution_id": "exec_1758508688735",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T02:38:10.298779+00:00"
+  },
+  {
+    "id": 193,
+    "execution_id": "exec_1758508688735",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T02:38:10.414288+00:00"
+  },
+  {
+    "id": 194,
+    "execution_id": "exec_1758508688735",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758508834559.xlsx (22297 registros)",
+    "created_at": "2025-09-22T02:40:36.61886+00:00"
+  },
+  {
+    "id": 195,
+    "execution_id": "exec_1758508688735",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T02:40:36.729881+00:00"
+  },
+  {
+    "id": 196,
+    "execution_id": "exec_1758508688735",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758508834559.xlsx",
+    "created_at": "2025-09-22T02:40:37.38916+00:00"
+  },
+  {
+    "id": 197,
+    "execution_id": "exec_1758508688735",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T02:40:37.447339+00:00"
+  },
+  {
+    "id": 198,
+    "execution_id": "exec_1758508688735",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T02:40:51.294942+00:00"
+  },
+  {
+    "id": 199,
+    "execution_id": "exec_1758508688735",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T02:40:51.426244+00:00"
+  },
+  {
+    "id": 200,
+    "execution_id": "exec_1758508688735",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T02:40:52.548266+00:00"
+  },
+  {
+    "id": 201,
+    "execution_id": "exec_1758508688735",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 164s",
+    "created_at": "2025-09-22T02:40:52.622094+00:00"
+  },
+  {
+    "id": 203,
+    "execution_id": "exec_1758528000871",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-22T08:00:01.622771+00:00"
+  },
+  {
+    "id": 204,
+    "execution_id": "exec_1758528000871",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-22T08:00:01.805815+00:00"
+  },
+  {
+    "id": 205,
+    "execution_id": "exec_1758528000871",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T08:00:01.869269+00:00"
+  },
+  {
+    "id": 206,
+    "execution_id": "exec_1758528000871",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758528004850.xlsx (2 registros)",
+    "created_at": "2025-09-22T08:00:04.90166+00:00"
+  },
+  {
+    "id": 207,
+    "execution_id": "exec_1758528000871",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T08:00:04.955683+00:00"
+  },
+  {
+    "id": 208,
+    "execution_id": "exec_1758528000871",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758528004850.xlsx",
+    "created_at": "2025-09-22T08:00:05.204414+00:00"
+  },
+  {
+    "id": 209,
+    "execution_id": "exec_1758528000871",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-22T08:00:05.264291+00:00"
+  },
+  {
+    "id": 210,
+    "execution_id": "cron_error_1758528000.180503",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: Operation timed out after 5002 milliseconds with 0 bytes received",
+    "created_at": "2025-09-22T08:00:00.180503+00:00"
+  },
+  {
+    "id": 211,
+    "execution_id": "exec_1758528000871",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-22T08:00:05.375944+00:00"
+  },
+  {
+    "id": 212,
+    "execution_id": "exec_1758528000871",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T08:00:05.403778+00:00"
+  },
+  {
+    "id": 213,
+    "execution_id": "exec_1758528000871",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-22T08:00:05.442045+00:00"
+  },
+  {
+    "id": 214,
+    "execution_id": "exec_1758528000871",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 5s",
+    "created_at": "2025-09-22T08:00:05.480964+00:00"
+  },
+  {
+    "id": 215,
+    "execution_id": "exec_1758547007681",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T13:16:48.742152+00:00"
+  },
+  {
+    "id": 216,
+    "execution_id": "exec_1758547007681",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T13:16:49.975164+00:00"
+  },
+  {
+    "id": 217,
+    "execution_id": "exec_1758547007681",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T13:16:50.132667+00:00"
+  },
+  {
+    "id": 218,
+    "execution_id": "exec_1758547007681",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758547156246.xlsx (22297 registros)",
+    "created_at": "2025-09-22T13:19:19.379294+00:00"
+  },
+  {
+    "id": 219,
+    "execution_id": "exec_1758547007681",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T13:19:19.576931+00:00"
+  },
+  {
+    "id": 220,
+    "execution_id": "exec_1758547007681",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758547156246.xlsx",
+    "created_at": "2025-09-22T13:19:20.261669+00:00"
+  },
+  {
+    "id": 221,
+    "execution_id": "exec_1758547007681",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T13:19:20.352911+00:00"
+  },
+  {
+    "id": 222,
+    "execution_id": "exec_1758547007681",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T13:19:43.908298+00:00"
+  },
+  {
+    "id": 223,
+    "execution_id": "exec_1758547007681",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T13:19:44.142458+00:00"
+  },
+  {
+    "id": 224,
+    "execution_id": "exec_1758547007681",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T13:19:45.164637+00:00"
+  },
+  {
+    "id": 225,
+    "execution_id": "exec_1758547007681",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 177s",
+    "created_at": "2025-09-22T13:19:45.289515+00:00"
+  },
+  {
+    "id": 226,
+    "execution_id": "exec_1758548885757",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T13:48:06.782266+00:00"
+  },
+  {
+    "id": 227,
+    "execution_id": "exec_1758548885757",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T13:48:07.981996+00:00"
+  },
+  {
+    "id": 228,
+    "execution_id": "exec_1758548885757",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T13:48:08.129987+00:00"
+  },
+  {
+    "id": 229,
+    "execution_id": "exec_1758548885757",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758549047353.xlsx (22297 registros)",
+    "created_at": "2025-09-22T13:50:54.076312+00:00"
+  },
+  {
+    "id": 230,
+    "execution_id": "exec_1758548885757",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T13:50:54.219108+00:00"
+  },
+  {
+    "id": 231,
+    "execution_id": "exec_1758548885757",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758549047353.xlsx",
+    "created_at": "2025-09-22T13:50:54.761125+00:00"
+  },
+  {
+    "id": 232,
+    "execution_id": "exec_1758548885757",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T13:50:54.850198+00:00"
+  },
+  {
+    "id": 233,
+    "execution_id": "exec_1758548885757",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'categoria' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T13:51:42.332949+00:00"
+  },
+  {
+    "id": 234,
+    "execution_id": "exec_1758548885757",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'categoria' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T13:51:42.397367+00:00"
+  },
+  {
+    "id": 235,
+    "execution_id": "exec_1758548885757",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 216s",
+    "created_at": "2025-09-22T13:51:42.448134+00:00"
+  },
+  {
+    "id": 236,
+    "execution_id": "exec_1758549236919",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T13:53:57.645561+00:00"
+  },
+  {
+    "id": 237,
+    "execution_id": "exec_1758549236919",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T13:53:58.879909+00:00"
+  },
+  {
+    "id": 238,
+    "execution_id": "exec_1758549236919",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T13:53:59.002009+00:00"
+  },
+  {
+    "id": 239,
+    "execution_id": "exec_1758549236919",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758549398338.xlsx (22297 registros)",
+    "created_at": "2025-09-22T13:56:45.470208+00:00"
+  },
+  {
+    "id": 240,
+    "execution_id": "exec_1758549236919",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T13:56:45.61244+00:00"
+  },
+  {
+    "id": 241,
+    "execution_id": "exec_1758549236919",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758549398338.xlsx",
+    "created_at": "2025-09-22T13:56:46.29045+00:00"
+  },
+  {
+    "id": 242,
+    "execution_id": "exec_1758549236919",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T13:56:46.37916+00:00"
+  },
+  {
+    "id": 243,
+    "execution_id": "exec_1758549236919",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'conta_resumo' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T13:57:32.673891+00:00"
+  },
+  {
+    "id": 244,
+    "execution_id": "exec_1758549236919",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'conta_resumo' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T13:57:32.763511+00:00"
+  },
+  {
+    "id": 245,
+    "execution_id": "exec_1758549236919",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 216s",
+    "created_at": "2025-09-22T13:57:32.859601+00:00"
+  },
+  {
+    "id": 246,
+    "execution_id": "exec_1758549486831",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T13:58:07.340734+00:00"
+  },
+  {
+    "id": 247,
+    "execution_id": "exec_1758549486831",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T13:58:08.472822+00:00"
+  },
+  {
+    "id": 248,
+    "execution_id": "exec_1758549486831",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T13:58:08.597466+00:00"
+  },
+  {
+    "id": 249,
+    "execution_id": "exec_1758549486831",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758549652695.xlsx (22297 registros)",
+    "created_at": "2025-09-22T14:00:59.845216+00:00"
+  },
+  {
+    "id": 250,
+    "execution_id": "exec_1758549486831",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T14:01:00.01475+00:00"
+  },
+  {
+    "id": 251,
+    "execution_id": "exec_1758549486831",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758549652695.xlsx",
+    "created_at": "2025-09-22T14:01:00.721271+00:00"
+  },
+  {
+    "id": 252,
+    "execution_id": "exec_1758549486831",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T14:01:00.800077+00:00"
+  },
+  {
+    "id": 253,
+    "execution_id": "exec_1758549486831",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'data' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T14:01:37.360322+00:00"
+  },
+  {
+    "id": 254,
+    "execution_id": "exec_1758549486831",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'data' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T14:01:37.429132+00:00"
+  },
+  {
+    "id": 255,
+    "execution_id": "exec_1758549486831",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 210s",
+    "created_at": "2025-09-22T14:01:37.477156+00:00"
+  },
+  {
+    "id": 256,
+    "execution_id": "exec_1758549736922",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T14:02:17.475862+00:00"
+  },
+  {
+    "id": 257,
+    "execution_id": "exec_1758549736922",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T14:02:18.564625+00:00"
+  },
+  {
+    "id": 258,
+    "execution_id": "exec_1758549736922",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T14:02:18.65637+00:00"
+  },
+  {
+    "id": 259,
+    "execution_id": "exec_1758549736922",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758549894468.xlsx (22297 registros)",
+    "created_at": "2025-09-22T14:05:00.199713+00:00"
+  },
+  {
+    "id": 260,
+    "execution_id": "exec_1758549736922",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T14:05:00.348756+00:00"
+  },
+  {
+    "id": 261,
+    "execution_id": "exec_1758549736922",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758549894468.xlsx",
+    "created_at": "2025-09-22T14:05:04.472731+00:00"
+  },
+  {
+    "id": 262,
+    "execution_id": "exec_1758549736922",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T14:05:04.576819+00:00"
+  },
+  {
+    "id": 263,
+    "execution_id": "exec_1758549736922",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'file_name' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T14:05:23.926184+00:00"
+  },
+  {
+    "id": 264,
+    "execution_id": "exec_1758549736922",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'file_name' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T14:05:24.00624+00:00"
+  },
+  {
+    "id": 265,
+    "execution_id": "exec_1758549736922",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 187s",
+    "created_at": "2025-09-22T14:05:24.09173+00:00"
+  },
+  {
+    "id": 266,
+    "execution_id": "exec_1758559482160",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T16:44:44.094049+00:00"
+  },
+  {
+    "id": 267,
+    "execution_id": "exec_1758559482160",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T16:44:45.31899+00:00"
+  },
+  {
+    "id": 268,
+    "execution_id": "exec_1758559482160",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T16:44:45.418144+00:00"
+  },
+  {
+    "id": 269,
+    "execution_id": "exec_1758559482160",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758559640851.xlsx (22297 registros)",
+    "created_at": "2025-09-22T16:47:26.661564+00:00"
+  },
+  {
+    "id": 270,
+    "execution_id": "exec_1758559482160",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T16:47:26.785195+00:00"
+  },
+  {
+    "id": 271,
+    "execution_id": "exec_1758559482160",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758559640851.xlsx",
+    "created_at": "2025-09-22T16:47:27.591277+00:00"
+  },
+  {
+    "id": 272,
+    "execution_id": "exec_1758559482160",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T16:47:27.647999+00:00"
+  },
+  {
+    "id": 273,
+    "execution_id": "exec_1758559482160",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: Could not find the 'file_name' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T16:47:46.821212+00:00"
+  },
+  {
+    "id": 274,
+    "execution_id": "exec_1758559482160",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: Could not find the 'file_name' column of 'dre_hitss' in the schema cache",
+    "created_at": "2025-09-22T16:47:46.876345+00:00"
+  },
+  {
+    "id": 275,
+    "execution_id": "exec_1758559482160",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/5 etapas concluídas em 184s",
+    "created_at": "2025-09-22T16:47:46.951011+00:00"
+  },
+  {
+    "id": 276,
+    "execution_id": "exec_1758559739281",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T16:49:00.625051+00:00"
+  },
+  {
+    "id": 277,
+    "execution_id": "exec_1758559739281",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T16:49:01.709453+00:00"
+  },
+  {
+    "id": 278,
+    "execution_id": "exec_1758559739281",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T16:49:01.795106+00:00"
+  },
+  {
+    "id": 279,
+    "execution_id": "exec_1758559739281",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758559886200.xlsx (22297 registros)",
+    "created_at": "2025-09-22T16:51:33.993936+00:00"
+  },
+  {
+    "id": 280,
+    "execution_id": "exec_1758559739281",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T16:51:34.095107+00:00"
+  },
+  {
+    "id": 281,
+    "execution_id": "exec_1758559739281",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758559886200.xlsx",
+    "created_at": "2025-09-22T16:51:34.565537+00:00"
+  },
+  {
+    "id": 282,
+    "execution_id": "exec_1758559739281",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T16:51:34.623894+00:00"
+  },
+  {
+    "id": 283,
+    "execution_id": "exec_1758559739281",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T16:52:07.582486+00:00"
+  },
+  {
+    "id": 284,
+    "execution_id": "exec_1758559739281",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T16:52:07.687553+00:00"
+  },
+  {
+    "id": 285,
+    "execution_id": "exec_1758559739281",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T16:52:08.474963+00:00"
+  },
+  {
+    "id": 286,
+    "execution_id": "exec_1758559739281",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 188s",
+    "created_at": "2025-09-22T16:52:08.531352+00:00"
+  },
+  {
+    "id": 287,
+    "execution_id": "exec_1758576562044",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T21:29:23.397234+00:00"
+  },
+  {
+    "id": 288,
+    "execution_id": "exec_1758576562044",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T21:29:24.535969+00:00"
+  },
+  {
+    "id": 289,
+    "execution_id": "exec_1758576562044",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T21:29:24.691033+00:00"
+  },
+  {
+    "id": 290,
+    "execution_id": "exec_1758576562044",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758576721501.xlsx (22297 registros)",
+    "created_at": "2025-09-22T21:32:06.802425+00:00"
+  },
+  {
+    "id": 291,
+    "execution_id": "exec_1758576562044",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T21:32:07.078233+00:00"
+  },
+  {
+    "id": 292,
+    "execution_id": "exec_1758576562044",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758576721501.xlsx",
+    "created_at": "2025-09-22T21:32:07.891776+00:00"
+  },
+  {
+    "id": 293,
+    "execution_id": "exec_1758576562044",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T21:32:08.045209+00:00"
+  },
+  {
+    "id": 294,
+    "execution_id": "exec_1758576562044",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T21:32:23.780129+00:00"
+  },
+  {
+    "id": 295,
+    "execution_id": "exec_1758576562044",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T21:32:23.99685+00:00"
+  },
+  {
+    "id": 296,
+    "execution_id": "exec_1758576562044",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T21:32:25.231594+00:00"
+  },
+  {
+    "id": 297,
+    "execution_id": "exec_1758576562044",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 182s",
+    "created_at": "2025-09-22T21:32:25.358716+00:00"
+  },
+  {
+    "id": 298,
+    "execution_id": "exec_1758577457685",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T21:44:19.089072+00:00"
+  },
+  {
+    "id": 299,
+    "execution_id": "exec_1758577457685",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T21:44:20.238301+00:00"
+  },
+  {
+    "id": 300,
+    "execution_id": "exec_1758577457685",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T21:44:20.424293+00:00"
+  },
+  {
+    "id": 301,
+    "execution_id": "exec_1758577457685",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758577613480.xlsx (22297 registros)",
+    "created_at": "2025-09-22T21:46:56.187646+00:00"
+  },
+  {
+    "id": 302,
+    "execution_id": "exec_1758577457685",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T21:46:56.345955+00:00"
+  },
+  {
+    "id": 303,
+    "execution_id": "exec_1758577457685",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758577613480.xlsx",
+    "created_at": "2025-09-22T21:46:56.992328+00:00"
+  },
+  {
+    "id": 304,
+    "execution_id": "exec_1758577457685",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T21:46:57.106309+00:00"
+  },
+  {
+    "id": 305,
+    "execution_id": "exec_1758577457685",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T21:47:10.999093+00:00"
+  },
+  {
+    "id": 306,
+    "execution_id": "exec_1758577457685",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T21:47:11.22485+00:00"
+  },
+  {
+    "id": 307,
+    "execution_id": "exec_1758577457685",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T21:47:12.982087+00:00"
+  },
+  {
+    "id": 308,
+    "execution_id": "exec_1758577457685",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 175s",
+    "created_at": "2025-09-22T21:47:13.17974+00:00"
+  },
+  {
+    "id": 309,
+    "execution_id": "exec_1758577976391",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-22T21:52:57.571599+00:00"
+  },
+  {
+    "id": 310,
+    "execution_id": "exec_1758577976391",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-22T21:52:58.704971+00:00"
+  },
+  {
+    "id": 311,
+    "execution_id": "exec_1758577976391",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-22T21:52:58.852505+00:00"
+  },
+  {
+    "id": 312,
+    "execution_id": "exec_1758577976391",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758578124618.xlsx (22297 registros)",
+    "created_at": "2025-09-22T21:55:27.183598+00:00"
+  },
+  {
+    "id": 313,
+    "execution_id": "exec_1758577976391",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-22T21:55:27.391631+00:00"
+  },
+  {
+    "id": 314,
+    "execution_id": "exec_1758577976391",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758578124618.xlsx",
+    "created_at": "2025-09-22T21:55:28.23402+00:00"
+  },
+  {
+    "id": 315,
+    "execution_id": "exec_1758577976391",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-22T21:55:28.339942+00:00"
+  },
+  {
+    "id": 316,
+    "execution_id": "exec_1758577976391",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-22T21:55:42.914455+00:00"
+  },
+  {
+    "id": 317,
+    "execution_id": "exec_1758577976391",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-22T21:55:43.096569+00:00"
+  },
+  {
+    "id": 318,
+    "execution_id": "exec_1758577976391",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-22T21:55:44.269773+00:00"
+  },
+  {
+    "id": 319,
+    "execution_id": "exec_1758577976391",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 167s",
+    "created_at": "2025-09-22T21:55:44.472291+00:00"
+  },
+  {
+    "id": 320,
+    "execution_id": "config_1758614400.197532",
+    "step": "CONFIG",
+    "status": "INFO",
+    "message": "Usando configuração hardcoded para teste - URL: https://oomhhhfahdvavnhlbioa.supabase.co",
+    "created_at": "2025-09-23T08:00:00.197532+00:00"
+  },
+  {
+    "id": 321,
+    "execution_id": "exec_1758614400778",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-23T08:00:01.74646+00:00"
+  },
+  {
+    "id": 322,
+    "execution_id": "exec_1758614400778",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-23T08:00:01.900907+00:00"
+  },
+  {
+    "id": 323,
+    "execution_id": "exec_1758614400778",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-23T08:00:01.961803+00:00"
+  },
+  {
+    "id": 324,
+    "execution_id": "exec_1758614400778",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758614402639.xlsx (2 registros)",
+    "created_at": "2025-09-23T08:00:02.702624+00:00"
+  },
+  {
+    "id": 325,
+    "execution_id": "exec_1758614400778",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-23T08:00:02.754856+00:00"
+  },
+  {
+    "id": 326,
+    "execution_id": "exec_1758614400778",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758614402639.xlsx",
+    "created_at": "2025-09-23T08:00:02.954787+00:00"
+  },
+  {
+    "id": 327,
+    "execution_id": "exec_1758614400778",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-23T08:00:02.997615+00:00"
+  },
+  {
+    "id": 328,
+    "execution_id": "exec_1758614400778",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-23T08:00:03.117153+00:00"
+  },
+  {
+    "id": 329,
+    "execution_id": "exec_1758614400778",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-23T08:00:03.143618+00:00"
+  },
+  {
+    "id": 330,
+    "execution_id": "exec_1758614400778",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-23T08:00:03.174867+00:00"
+  },
+  {
+    "id": 331,
+    "execution_id": "exec_1758614400778",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 2s",
+    "created_at": "2025-09-23T08:00:03.219517+00:00"
+  },
+  {
+    "id": 379,
+    "execution_id": "exec_1758662360181",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-23T21:22:28.794188+00:00"
+  },
+  {
+    "id": 380,
+    "execution_id": "exec_1758662360181",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "6/6 etapas concluídas em 189s",
+    "created_at": "2025-09-23T21:22:28.852897+00:00"
+  },
+  {
+    "id": 381,
+    "execution_id": "config_1758700800.169104",
+    "step": "CONFIG",
+    "status": "INFO",
+    "message": "Usando configuração hardcoded para teste - URL: https://oomhhhfahdvavnhlbioa.supabase.co",
+    "created_at": "2025-09-24T08:00:00.169104+00:00"
+  },
+  {
+    "id": 382,
+    "execution_id": "exec_1758700800597",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-24T08:00:01.472163+00:00"
+  },
+  {
+    "id": 383,
+    "execution_id": "exec_1758700800597",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-24T08:00:01.620843+00:00"
+  },
+  {
+    "id": 384,
+    "execution_id": "exec_1758700800597",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-24T08:00:01.783011+00:00"
+  },
+  {
+    "id": 385,
+    "execution_id": "exec_1758700800597",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758700803612.xlsx (2 registros)",
+    "created_at": "2025-09-24T08:00:03.64929+00:00"
+  },
+  {
+    "id": 386,
+    "execution_id": "exec_1758700800597",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-24T08:00:03.715608+00:00"
+  },
+  {
+    "id": 387,
+    "execution_id": "exec_1758700800597",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758700803612.xlsx",
+    "created_at": "2025-09-24T08:00:03.911589+00:00"
+  },
+  {
+    "id": 388,
+    "execution_id": "exec_1758700800597",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-24T08:00:03.9789+00:00"
+  },
+  {
+    "id": 389,
+    "execution_id": "exec_1758700800597",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-24T08:00:04.139198+00:00"
+  },
+  {
+    "id": 390,
+    "execution_id": "exec_1758700800597",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-24T08:00:04.178079+00:00"
+  },
+  {
+    "id": 332,
+    "execution_id": "cron_1758614400.197532",
+    "step": "CRON_EXECUTION",
+    "status": "SUCESSO",
+    "message": "Cron job executado - Status HTTP: 200 - Response: {\"success\":true,\"message\":\"Automação DRE executada com sucesso\",\"data\":{\"executionId\":\"exec_1758614400778\",\"success\":true,\"stepsCompleted\":5,\"totalSteps\":5,\"duration\":2,\"results\":{\"cronTrigger\":{\"job_name\":\"dre-automation-edge-function\",\"schedule\":\"0 8 * * 1-5\",\"last_run\":\"2025-09-23T08:00:01.856Z\",\"status\":\"TRIGGERED_VIA_EDGE_FUNCTION\",\"trigger_type\":\"CRON_JOB\"},\"download\":{\"fileName\":\"dre_hitss_1758614402639.xlsx\",\"recordCount\":2,\"data\":{\"empresa\":\"HITSS DO BRASIL SERVIÇOS TECNOLÓGICOS LTDA\",\"cnpj\":\"12.345.678/0001-90\",\"periodo\":\"2025-09\",\"data_geracao\":\"2025-09-23T08:00:02.639Z\",\"registros\":[{\"conta\":\"1.1.01.001\",\"descricao\":\"Receita de Vendas\",\"valor\":150000,\"tipo\":\"RECEITA\"},{\"conta\":\"3.1.01.001\",\"descricao\":\"Custo dos Produtos Vendidos\",\"valor\":-80000,\"tipo\":\"CUSTO\"}]}},\"upload\":{\"storagePath\":\"uploads/dre_hitss_1758614402639.xlsx\",\"fileName\":\"dre_hitss_1758614402639.xlsx\"},\"processing\":{\"recordsProcessed\":2,\"method\":\"simulated\"},\"notification\":{\"to\":\"fabricio.lima@globalhitss.com.br\",\"from\":\"noreply@hitss.com.br\",\"subject\":\"[DRE HITSS] Processamento Concluído - exec_1758614400778\",\"html\":\"\\n          <div style=\\\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\\\">\\n            <h2 style=\\\"color: #2563eb;\\\">🎯 Processamento DRE HITSS Finalizado</h2>\\n            \\n            <div style=\\\"background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p><strong>ID da Execução:</strong> exec_1758614400778</p>\\n              <p><strong>Data/Hora:</strong> 23/09/2025, 08:00:03</p>\\n              <p><strong>Duração Total:</strong> 2 segundos</p>\\n            </div>\\n            \\n            <h3 style=\\\"color: #059669;\\\">✅ Resultados do Processamento:</h3>\\n            <ul style=\\\"line-height: 1.6;\\\">\\n              <li><strong>Cron Job:</strong> ✅ Executado via Edge Function</li>\\n              <li><strong>Download HITSS:</strong> ✅ 2 registros baixados</li>\\n              <li><strong>Upload Storage:</strong> ✅ Arquivo enviado para uploads/dre_hitss_1758614402639.xlsx</li>\\n              <li><strong>Processamento:</strong> ✅ 2 registros importados</li>\\n              <li><strong>Notificação:</strong> ✅ Email enviado com sucesso</li>\\n            </ul>\\n            \\n            <div style=\\\"background: #ecfdf5; padding: 15px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p style=\\\"margin: 0; color: #059669;\\\"><strong>🎉 Sistema de automação DRE funcionando corretamente!</strong></p>\\n            </div>\\n            \\n            <hr style=\\\"margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;\\\">\\n            <p style=\\\"font-size: 12px; color: #6b7280;\\\">Este email foi gerado automaticamente pelo sistema de automação DRE da HITSS.</p>\\n          </div>\\n        \",\"method\":\"preview_fallback\"}}}}",
+    "created_at": "2025-09-23T08:00:00.197532+00:00"
+  },
+  {
+    "id": 333,
+    "execution_id": "exec_1758646289763",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-23T16:51:32.116487+00:00"
+  },
+  {
+    "id": 334,
+    "execution_id": "exec_1758646289763",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-23T16:51:33.358608+00:00"
+  },
+  {
+    "id": 335,
+    "execution_id": "exec_1758646289763",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-23T16:51:33.455677+00:00"
+  },
+  {
+    "id": 336,
+    "execution_id": "exec_1758646289763",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758646445740.xlsx (22297 registros)",
+    "created_at": "2025-09-23T16:54:11.556927+00:00"
+  },
+  {
+    "id": 337,
+    "execution_id": "exec_1758646289763",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-23T16:54:11.693054+00:00"
+  },
+  {
+    "id": 338,
+    "execution_id": "exec_1758646289763",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758646445740.xlsx",
+    "created_at": "2025-09-23T16:54:12.333425+00:00"
+  },
+  {
+    "id": 339,
+    "execution_id": "exec_1758646289763",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-23T16:54:12.404239+00:00"
+  },
+  {
+    "id": 340,
+    "execution_id": "exec_1758646289763",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-23T16:54:32.38263+00:00"
+  },
+  {
+    "id": 341,
+    "execution_id": "exec_1758646289763",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-23T16:54:32.646834+00:00"
+  },
+  {
+    "id": 342,
+    "execution_id": "exec_1758646289763",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-23T16:54:33.527076+00:00"
+  },
+  {
+    "id": 343,
+    "execution_id": "exec_1758646289763",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 182s",
+    "created_at": "2025-09-23T16:54:33.620595+00:00"
+  },
+  {
+    "id": 344,
+    "execution_id": "exec_1758648277390",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-23T17:24:40.120562+00:00"
+  },
+  {
+    "id": 345,
+    "execution_id": "exec_1758648277390",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-23T17:24:41.307909+00:00"
+  },
+  {
+    "id": 346,
+    "execution_id": "exec_1758648277390",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-23T17:24:41.471342+00:00"
+  },
+  {
+    "id": 347,
+    "execution_id": "exec_1758648277390",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758648427004.xlsx (22297 registros)",
+    "created_at": "2025-09-23T17:27:12.538869+00:00"
+  },
+  {
+    "id": 348,
+    "execution_id": "exec_1758648277390",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-23T17:27:12.646683+00:00"
+  },
+  {
+    "id": 349,
+    "execution_id": "exec_1758648277390",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758648427004.xlsx",
+    "created_at": "2025-09-23T17:27:13.399554+00:00"
+  },
+  {
+    "id": 350,
+    "execution_id": "exec_1758648277390",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-23T17:27:13.467633+00:00"
+  },
+  {
+    "id": 351,
+    "execution_id": "exec_1758648277390",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-23T17:27:31.278305+00:00"
+  },
+  {
+    "id": 352,
+    "execution_id": "exec_1758648277390",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-23T17:27:31.451597+00:00"
+  },
+  {
+    "id": 353,
+    "execution_id": "exec_1758648277390",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-23T17:27:32.319538+00:00"
+  },
+  {
+    "id": 354,
+    "execution_id": "exec_1758648277390",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 173s",
+    "created_at": "2025-09-23T17:27:32.390418+00:00"
+  },
+  {
+    "id": 355,
+    "execution_id": "exec_1758661971725",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-23T21:12:51.992819+00:00"
+  },
+  {
+    "id": 356,
+    "execution_id": "exec_1758661971725",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-23T21:12:53.127736+00:00"
+  },
+  {
+    "id": 357,
+    "execution_id": "exec_1758661971725",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-23T21:12:53.258333+00:00"
+  },
+  {
+    "id": 358,
+    "execution_id": "exec_1758661971725",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758662122941.xlsx (22297 registros)",
+    "created_at": "2025-09-23T21:15:24.946301+00:00"
+  },
+  {
+    "id": 359,
+    "execution_id": "exec_1758661971725",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-23T21:15:25.089352+00:00"
+  },
+  {
+    "id": 360,
+    "execution_id": "exec_1758661971725",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758662122941.xlsx",
+    "created_at": "2025-09-23T21:15:25.900251+00:00"
+  },
+  {
+    "id": 361,
+    "execution_id": "exec_1758661971725",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-23T21:15:25.97617+00:00"
+  },
+  {
+    "id": 362,
+    "execution_id": "exec_1758661971725",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-23T21:15:44.668155+00:00"
+  },
+  {
+    "id": 363,
+    "execution_id": "exec_1758661971725",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-23T21:15:44.969531+00:00"
+  },
+  {
+    "id": 364,
+    "execution_id": "exec_1758661971725",
+    "step": "ETL_DIMENSIONAL",
+    "status": "SUCESSO",
+    "message": "ETL processado: undefined registros em undefinedms",
+    "created_at": "2025-09-23T21:15:50.103387+00:00"
+  },
+  {
+    "id": 365,
+    "execution_id": "exec_1758661971725",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-23T21:15:50.174882+00:00"
+  },
+  {
+    "id": 366,
+    "execution_id": "exec_1758661971725",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-23T21:15:51.15839+00:00"
+  },
+  {
+    "id": 367,
+    "execution_id": "exec_1758661971725",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "6/6 etapas concluídas em 179s",
+    "created_at": "2025-09-23T21:15:51.21714+00:00"
+  },
+  {
+    "id": 368,
+    "execution_id": "exec_1758662360181",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-23T21:19:20.439733+00:00"
+  },
+  {
+    "id": 369,
+    "execution_id": "exec_1758662360181",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-23T21:19:21.564681+00:00"
+  },
+  {
+    "id": 370,
+    "execution_id": "exec_1758662360181",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-23T21:19:21.698493+00:00"
+  },
+  {
+    "id": 371,
+    "execution_id": "exec_1758662360181",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758662512822.xlsx (22297 registros)",
+    "created_at": "2025-09-23T21:21:58.430002+00:00"
+  },
+  {
+    "id": 372,
+    "execution_id": "exec_1758662360181",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-23T21:21:58.710011+00:00"
+  },
+  {
+    "id": 373,
+    "execution_id": "exec_1758662360181",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758662512822.xlsx",
+    "created_at": "2025-09-23T21:21:59.837977+00:00"
+  },
+  {
+    "id": 374,
+    "execution_id": "exec_1758662360181",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-23T21:21:59.90771+00:00"
+  },
+  {
+    "id": 375,
+    "execution_id": "exec_1758662360181",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-23T21:22:23.848898+00:00"
+  },
+  {
+    "id": 376,
+    "execution_id": "exec_1758662360181",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-23T21:22:24.072078+00:00"
+  },
+  {
+    "id": 377,
+    "execution_id": "exec_1758662360181",
+    "step": "ETL_DIMENSIONAL",
+    "status": "SUCESSO",
+    "message": "ETL processado: undefined registros em undefinedms",
+    "created_at": "2025-09-23T21:22:27.544916+00:00"
+  },
+  {
+    "id": 378,
+    "execution_id": "exec_1758662360181",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-23T21:22:27.601493+00:00"
+  },
+  {
+    "id": 391,
+    "execution_id": "exec_1758700800597",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-24T08:00:04.216684+00:00"
+  },
+  {
+    "id": 392,
+    "execution_id": "exec_1758700800597",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 4s",
+    "created_at": "2025-09-24T08:00:04.260116+00:00"
+  },
+  {
+    "id": 393,
+    "execution_id": "cron_1758700800.169104",
+    "step": "CRON_EXECUTION",
+    "status": "SUCESSO",
+    "message": "Cron job executado - Status HTTP: 200 - Response: {\"success\":true,\"message\":\"Automação DRE executada com sucesso\",\"data\":{\"executionId\":\"exec_1758700800597\",\"success\":true,\"stepsCompleted\":5,\"totalSteps\":5,\"duration\":4,\"results\":{\"cronTrigger\":{\"job_name\":\"dre-automation-edge-function\",\"schedule\":\"0 8 * * 1-5\",\"last_run\":\"2025-09-24T08:00:01.575Z\",\"status\":\"TRIGGERED_VIA_EDGE_FUNCTION\",\"trigger_type\":\"CRON_JOB\"},\"download\":{\"fileName\":\"dre_hitss_1758700803612.xlsx\",\"recordCount\":2,\"data\":{\"empresa\":\"HITSS DO BRASIL SERVIÇOS TECNOLÓGICOS LTDA\",\"cnpj\":\"12.345.678/0001-90\",\"periodo\":\"2025-09\",\"data_geracao\":\"2025-09-24T08:00:03.612Z\",\"registros\":[{\"conta\":\"1.1.01.001\",\"descricao\":\"Receita de Vendas\",\"valor\":150000,\"tipo\":\"RECEITA\"},{\"conta\":\"3.1.01.001\",\"descricao\":\"Custo dos Produtos Vendidos\",\"valor\":-80000,\"tipo\":\"CUSTO\"}]}},\"upload\":{\"storagePath\":\"uploads/dre_hitss_1758700803612.xlsx\",\"fileName\":\"dre_hitss_1758700803612.xlsx\"},\"processing\":{\"recordsProcessed\":2,\"method\":\"simulated\"},\"notification\":{\"to\":\"fabricio.lima@globalhitss.com.br\",\"from\":\"noreply@hitss.com.br\",\"subject\":\"[DRE HITSS] Processamento Concluído - exec_1758700800597\",\"html\":\"\\n          <div style=\\\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\\\">\\n            <h2 style=\\\"color: #2563eb;\\\">🎯 Processamento DRE HITSS Finalizado</h2>\\n            \\n            <div style=\\\"background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p><strong>ID da Execução:</strong> exec_1758700800597</p>\\n              <p><strong>Data/Hora:</strong> 24/09/2025, 08:00:04</p>\\n              <p><strong>Duração Total:</strong> 4 segundos</p>\\n            </div>\\n            \\n            <h3 style=\\\"color: #059669;\\\">✅ Resultados do Processamento:</h3>\\n            <ul style=\\\"line-height: 1.6;\\\">\\n              <li><strong>Cron Job:</strong> ✅ Executado via Edge Function</li>\\n              <li><strong>Download HITSS:</strong> ✅ 2 registros baixados</li>\\n              <li><strong>Upload Storage:</strong> ✅ Arquivo enviado para uploads/dre_hitss_1758700803612.xlsx</li>\\n              <li><strong>Processamento:</strong> ✅ 2 registros importados</li>\\n              <li><strong>Notificação:</strong> ✅ Email enviado com sucesso</li>\\n            </ul>\\n            \\n            <div style=\\\"background: #ecfdf5; padding: 15px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p style=\\\"margin: 0; color: #059669;\\\"><strong>🎉 Sistema de automação DRE funcionando corretamente!</strong></p>\\n            </div>\\n            \\n            <hr style=\\\"margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;\\\">\\n            <p style=\\\"font-size: 12px; color: #6b7280;\\\">Este email foi gerado automaticamente pelo sistema de automação DRE da HITSS.</p>\\n          </div>\\n        \",\"method\":\"preview_fallback\"}}}}",
+    "created_at": "2025-09-24T08:00:00.169104+00:00"
+  },
+  {
+    "id": 394,
+    "execution_id": "exec_1758744309608",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-24T20:05:11.690416+00:00"
+  },
+  {
+    "id": 395,
+    "execution_id": "exec_1758744309608",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-24T20:05:12.913682+00:00"
+  },
+  {
+    "id": 396,
+    "execution_id": "exec_1758744309608",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-24T20:05:13.157678+00:00"
+  },
+  {
+    "id": 397,
+    "execution_id": "exec_1758744309608",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758744462888.xlsx (22297 registros)",
+    "created_at": "2025-09-24T20:07:47.354724+00:00"
+  },
+  {
+    "id": 398,
+    "execution_id": "exec_1758744309608",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-24T20:07:47.531172+00:00"
+  },
+  {
+    "id": 399,
+    "execution_id": "exec_1758744309608",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758744462888.xlsx",
+    "created_at": "2025-09-24T20:07:48.307894+00:00"
+  },
+  {
+    "id": 400,
+    "execution_id": "exec_1758744309608",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-24T20:07:48.600647+00:00"
+  },
+  {
+    "id": 401,
+    "execution_id": "exec_1758744309608",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-24T20:08:05.470706+00:00"
+  },
+  {
+    "id": 402,
+    "execution_id": "exec_1758744309608",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-24T20:08:05.614358+00:00"
+  },
+  {
+    "id": 403,
+    "execution_id": "exec_1758744309608",
+    "step": "ETL_DIMENSIONAL",
+    "status": "SUCESSO",
+    "message": "ETL processado: undefined registros em undefinedms",
+    "created_at": "2025-09-24T20:08:09.364066+00:00"
+  },
+  {
+    "id": 404,
+    "execution_id": "exec_1758744309608",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-24T20:08:09.417246+00:00"
+  },
+  {
+    "id": 405,
+    "execution_id": "exec_1758744309608",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-24T20:08:10.374533+00:00"
+  },
+  {
+    "id": 406,
+    "execution_id": "exec_1758744309608",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "6/6 etapas concluídas em 179s",
+    "created_at": "2025-09-24T20:08:10.419616+00:00"
+  },
+  {
+    "id": 407,
+    "execution_id": "exec_1758745284868",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-24T20:21:27.304353+00:00"
+  },
+  {
+    "id": 408,
+    "execution_id": "exec_1758745284868",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-24T20:21:28.496613+00:00"
+  },
+  {
+    "id": 409,
+    "execution_id": "exec_1758745284868",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-24T20:21:28.639807+00:00"
+  },
+  {
+    "id": 410,
+    "execution_id": "exec_1758745284868",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758745443056.xlsx (22297 registros)",
+    "created_at": "2025-09-24T20:24:06.586387+00:00"
+  },
+  {
+    "id": 411,
+    "execution_id": "exec_1758745284868",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-24T20:24:06.809902+00:00"
+  },
+  {
+    "id": 412,
+    "execution_id": "exec_1758745284868",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758745443056.xlsx",
+    "created_at": "2025-09-24T20:24:07.732445+00:00"
+  },
+  {
+    "id": 413,
+    "execution_id": "exec_1758745284868",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-24T20:24:07.815906+00:00"
+  },
+  {
+    "id": 414,
+    "execution_id": "exec_1758745284868",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-24T20:24:24.524654+00:00"
+  },
+  {
+    "id": 415,
+    "execution_id": "exec_1758745284868",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-24T20:24:24.694069+00:00"
+  },
+  {
+    "id": 416,
+    "execution_id": "exec_1758745284868",
+    "step": "ETL_DIMENSIONAL",
+    "status": "SUCESSO",
+    "message": "ETL processado: undefined registros em undefinedms",
+    "created_at": "2025-09-24T20:24:29.013383+00:00"
+  },
+  {
+    "id": 417,
+    "execution_id": "exec_1758745284868",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-24T20:24:29.066195+00:00"
+  },
+  {
+    "id": 418,
+    "execution_id": "exec_1758745284868",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-24T20:24:30.021977+00:00"
+  },
+  {
+    "id": 419,
+    "execution_id": "exec_1758745284868",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "6/6 etapas concluídas em 184s",
+    "created_at": "2025-09-24T20:24:30.088172+00:00"
+  },
+  {
+    "id": 420,
+    "execution_id": "exec_1758745511215",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-24T20:25:13.157714+00:00"
+  },
+  {
+    "id": 421,
+    "execution_id": "exec_1758745511215",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-24T20:25:14.287088+00:00"
+  },
+  {
+    "id": 422,
+    "execution_id": "exec_1758745511215",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-24T20:25:14.402189+00:00"
+  },
+  {
+    "id": 423,
+    "execution_id": "exec_1758745511215",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758745694529.xlsx (22297 registros)",
+    "created_at": "2025-09-24T20:28:17.781545+00:00"
+  },
+  {
+    "id": 424,
+    "execution_id": "exec_1758745511215",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-24T20:28:17.947779+00:00"
+  },
+  {
+    "id": 425,
+    "execution_id": "exec_1758745511215",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758745694529.xlsx",
+    "created_at": "2025-09-24T20:28:18.755143+00:00"
+  },
+  {
+    "id": 426,
+    "execution_id": "exec_1758745511215",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-24T20:28:18.841785+00:00"
+  },
+  {
+    "id": 427,
+    "execution_id": "exec_1758745511215",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-24T20:28:33.223237+00:00"
+  },
+  {
+    "id": 428,
+    "execution_id": "exec_1758745511215",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-24T20:28:33.401708+00:00"
+  },
+  {
+    "id": 429,
+    "execution_id": "exec_1758745511215",
+    "step": "ETL_DIMENSIONAL",
+    "status": "SUCESSO",
+    "message": "ETL processado: undefined registros em undefinedms",
+    "created_at": "2025-09-24T20:28:37.104048+00:00"
+  },
+  {
+    "id": 430,
+    "execution_id": "exec_1758745511215",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-24T20:28:37.165787+00:00"
+  },
+  {
+    "id": 431,
+    "execution_id": "exec_1758745511215",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido para fabricio.lima@globalhitss.com.br (Erro Resend: Request failed with status code 403)",
+    "created_at": "2025-09-24T20:28:38.012487+00:00"
+  },
+  {
+    "id": 432,
+    "execution_id": "exec_1758745511215",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "6/6 etapas concluídas em 205s",
+    "created_at": "2025-09-24T20:28:38.07778+00:00"
+  },
+  {
+    "id": 433,
+    "execution_id": "exec_1758745836383",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-24T20:30:38.68628+00:00"
+  },
+  {
+    "id": 434,
+    "execution_id": "exec_1758745836383",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-24T20:30:39.914849+00:00"
+  },
+  {
+    "id": 435,
+    "execution_id": "exec_1758745836383",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-24T20:30:40.073174+00:00"
+  },
+  {
+    "id": 436,
+    "execution_id": "exec_1758745836383",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758745989865.xlsx (22297 registros)",
+    "created_at": "2025-09-24T20:33:13.073483+00:00"
+  },
+  {
+    "id": 437,
+    "execution_id": "exec_1758745836383",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-24T20:33:13.283995+00:00"
+  },
+  {
+    "id": 438,
+    "execution_id": "exec_1758745836383",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758745989865.xlsx",
+    "created_at": "2025-09-24T20:33:14.13497+00:00"
+  },
+  {
+    "id": 439,
+    "execution_id": "exec_1758745836383",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-24T20:33:14.22695+00:00"
+  },
+  {
+    "id": 440,
+    "execution_id": "exec_1758745836383",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_tipo_check\"",
+    "created_at": "2025-09-24T20:33:35.290579+00:00"
+  },
+  {
+    "id": 441,
+    "execution_id": "exec_1758745836383",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_tipo_check\"",
+    "created_at": "2025-09-24T20:33:35.553714+00:00"
+  },
+  {
+    "id": 442,
+    "execution_id": "exec_1758745836383",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/6 etapas concluídas em 178s",
+    "created_at": "2025-09-24T20:33:35.666108+00:00"
+  },
+  {
+    "id": 443,
+    "execution_id": "exec_1758746051713",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-24T20:34:13.67704+00:00"
+  },
+  {
+    "id": 444,
+    "execution_id": "exec_1758746051713",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-24T20:34:14.81949+00:00"
+  },
+  {
+    "id": 445,
+    "execution_id": "exec_1758746051713",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-24T20:34:14.962293+00:00"
+  },
+  {
+    "id": 446,
+    "execution_id": "exec_1758746051713",
+    "step": "DOWNLOAD_HITSS",
+    "status": "ERRO",
+    "message": "Request failed with status code 502",
+    "created_at": "2025-09-24T20:39:15.768722+00:00"
+  },
+  {
+    "id": 447,
+    "execution_id": "exec_1758746051713",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "1/6 etapas concluídas em 303s",
+    "created_at": "2025-09-24T20:39:15.946454+00:00"
+  },
+  {
+    "id": 449,
+    "execution_id": "exec_1758787200732",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-25T08:00:01.516541+00:00"
+  },
+  {
+    "id": 450,
+    "execution_id": "exec_1758787200732",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-25T08:00:01.671358+00:00"
+  },
+  {
+    "id": 451,
+    "execution_id": "exec_1758787200732",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-25T08:00:01.767485+00:00"
+  },
+  {
+    "id": 452,
+    "execution_id": "cron_error_1758787200.176199",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: Operation timed out after 5002 milliseconds with 0 bytes received",
+    "created_at": "2025-09-25T08:00:00.176199+00:00"
+  },
+  {
+    "id": 453,
+    "execution_id": "exec_1758787200732",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758787206755.xlsx (2 registros)",
+    "created_at": "2025-09-25T08:00:06.787569+00:00"
+  },
+  {
+    "id": 454,
+    "execution_id": "exec_1758787200732",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-25T08:00:06.831112+00:00"
+  },
+  {
+    "id": 455,
+    "execution_id": "exec_1758787200732",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758787206755.xlsx",
+    "created_at": "2025-09-25T08:00:07.052476+00:00"
+  },
+  {
+    "id": 456,
+    "execution_id": "exec_1758787200732",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-25T08:00:07.116854+00:00"
+  },
+  {
+    "id": 457,
+    "execution_id": "exec_1758787200732",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-25T08:00:07.257442+00:00"
+  },
+  {
+    "id": 458,
+    "execution_id": "exec_1758787200732",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-25T08:00:07.282233+00:00"
+  },
+  {
+    "id": 459,
+    "execution_id": "exec_1758787200732",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-25T08:00:07.307336+00:00"
+  },
+  {
+    "id": 460,
+    "execution_id": "exec_1758787200732",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 7s",
+    "created_at": "2025-09-25T08:00:07.3489+00:00"
+  },
+  {
+    "id": 461,
+    "execution_id": "config_1758873600.208539",
+    "step": "CONFIG",
+    "status": "INFO",
+    "message": "Usando configuração hardcoded para teste - URL: https://oomhhhfahdvavnhlbioa.supabase.co",
+    "created_at": "2025-09-26T08:00:00.208539+00:00"
+  },
+  {
+    "id": 462,
+    "execution_id": "exec_1758873600959",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-26T08:00:01.627092+00:00"
+  },
+  {
+    "id": 463,
+    "execution_id": "exec_1758873600959",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-26T08:00:01.804907+00:00"
+  },
+  {
+    "id": 464,
+    "execution_id": "exec_1758873600959",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-26T08:00:01.911041+00:00"
+  },
+  {
+    "id": 465,
+    "execution_id": "exec_1758873600959",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758873603185.xlsx (2 registros)",
+    "created_at": "2025-09-26T08:00:03.228507+00:00"
+  },
+  {
+    "id": 466,
+    "execution_id": "exec_1758873600959",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-26T08:00:03.298185+00:00"
+  },
+  {
+    "id": 467,
+    "execution_id": "exec_1758873600959",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1758873603185.xlsx",
+    "created_at": "2025-09-26T08:00:03.551683+00:00"
+  },
+  {
+    "id": 468,
+    "execution_id": "exec_1758873600959",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-26T08:00:03.615097+00:00"
+  },
+  {
+    "id": 469,
+    "execution_id": "exec_1758873600959",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-26T08:00:03.832229+00:00"
+  },
+  {
+    "id": 470,
+    "execution_id": "exec_1758873600959",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-26T08:00:03.878029+00:00"
+  },
+  {
+    "id": 471,
+    "execution_id": "exec_1758873600959",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-26T08:00:03.906519+00:00"
+  },
+  {
+    "id": 472,
+    "execution_id": "exec_1758873600959",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 3s",
+    "created_at": "2025-09-26T08:00:03.948384+00:00"
+  },
+  {
+    "id": 473,
+    "execution_id": "cron_1758873600.208539",
+    "step": "CRON_EXECUTION",
+    "status": "SUCESSO",
+    "message": "Cron job executado - Status HTTP: 200 - Response: {\"success\":true,\"message\":\"Automação DRE executada com sucesso\",\"data\":{\"executionId\":\"exec_1758873600959\",\"success\":true,\"stepsCompleted\":5,\"totalSteps\":5,\"duration\":3,\"results\":{\"cronTrigger\":{\"job_name\":\"dre-automation-edge-function\",\"schedule\":\"0 8 * * 1-5\",\"last_run\":\"2025-09-26T08:00:01.746Z\",\"status\":\"TRIGGERED_VIA_EDGE_FUNCTION\",\"trigger_type\":\"CRON_JOB\"},\"download\":{\"fileName\":\"dre_hitss_1758873603185.xlsx\",\"recordCount\":2,\"data\":{\"empresa\":\"HITSS DO BRASIL SERVIÇOS TECNOLÓGICOS LTDA\",\"cnpj\":\"12.345.678/0001-90\",\"periodo\":\"2025-09\",\"data_geracao\":\"2025-09-26T08:00:03.185Z\",\"registros\":[{\"conta\":\"1.1.01.001\",\"descricao\":\"Receita de Vendas\",\"valor\":150000,\"tipo\":\"RECEITA\"},{\"conta\":\"3.1.01.001\",\"descricao\":\"Custo dos Produtos Vendidos\",\"valor\":-80000,\"tipo\":\"CUSTO\"}]}},\"upload\":{\"storagePath\":\"uploads/dre_hitss_1758873603185.xlsx\",\"fileName\":\"dre_hitss_1758873603185.xlsx\"},\"processing\":{\"recordsProcessed\":2,\"method\":\"simulated\"},\"notification\":{\"to\":\"fabricio.lima@globalhitss.com.br\",\"from\":\"noreply@hitss.com.br\",\"subject\":\"[DRE HITSS] Processamento Concluído - exec_1758873600959\",\"html\":\"\\n          <div style=\\\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\\\">\\n            <h2 style=\\\"color: #2563eb;\\\">🎯 Processamento DRE HITSS Finalizado</h2>\\n            \\n            <div style=\\\"background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p><strong>ID da Execução:</strong> exec_1758873600959</p>\\n              <p><strong>Data/Hora:</strong> 26/09/2025, 08:00:03</p>\\n              <p><strong>Duração Total:</strong> 3 segundos</p>\\n            </div>\\n            \\n            <h3 style=\\\"color: #059669;\\\">✅ Resultados do Processamento:</h3>\\n            <ul style=\\\"line-height: 1.6;\\\">\\n              <li><strong>Cron Job:</strong> ✅ Executado via Edge Function</li>\\n              <li><strong>Download HITSS:</strong> ✅ 2 registros baixados</li>\\n              <li><strong>Upload Storage:</strong> ✅ Arquivo enviado para uploads/dre_hitss_1758873603185.xlsx</li>\\n              <li><strong>Processamento:</strong> ✅ 2 registros importados</li>\\n              <li><strong>Notificação:</strong> ✅ Email enviado com sucesso</li>\\n            </ul>\\n            \\n            <div style=\\\"background: #ecfdf5; padding: 15px; border-radius: 8px; margin: 20px 0;\\\">\\n              <p style=\\\"margin: 0; color: #059669;\\\"><strong>🎉 Sistema de automação DRE funcionando corretamente!</strong></p>\\n            </div>\\n            \\n            <hr style=\\\"margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;\\\">\\n            <p style=\\\"font-size: 12px; color: #6b7280;\\\">Este email foi gerado automaticamente pelo sistema de automação DRE da HITSS.</p>\\n          </div>\\n        \",\"method\":\"preview_fallback\"}}}}",
+    "created_at": "2025-09-26T08:00:00.208539+00:00"
+  },
+  {
+    "id": 474,
+    "execution_id": "exec_1758889491094",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-26T12:24:54.075243+00:00"
+  },
+  {
+    "id": 475,
+    "execution_id": "exec_1758889491094",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-26T12:24:55.327103+00:00"
+  },
+  {
+    "id": 476,
+    "execution_id": "exec_1758889491094",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-26T12:24:55.557788+00:00"
+  },
+  {
+    "id": 477,
+    "execution_id": "exec_1758889491094",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758889659536.xlsx (22297 registros)",
+    "created_at": "2025-09-26T12:27:44.661017+00:00"
+  },
+  {
+    "id": 478,
+    "execution_id": "exec_1758889491094",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-26T12:27:44.825528+00:00"
+  },
+  {
+    "id": 479,
+    "execution_id": "exec_1758889491094",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758889659536.xlsx",
+    "created_at": "2025-09-26T12:27:45.659222+00:00"
+  },
+  {
+    "id": 480,
+    "execution_id": "exec_1758889491094",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-26T12:27:45.756382+00:00"
+  },
+  {
+    "id": 481,
+    "execution_id": "exec_1758889491094",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: canceling statement due to statement timeout",
+    "created_at": "2025-09-26T12:31:10.921524+00:00"
+  },
+  {
+    "id": 482,
+    "execution_id": "exec_1758889491094",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: canceling statement due to statement timeout",
+    "created_at": "2025-09-26T12:31:11.273877+00:00"
+  },
+  {
+    "id": 483,
+    "execution_id": "exec_1758889491094",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/6 etapas concluídas em 378s",
+    "created_at": "2025-09-26T12:31:11.386886+00:00"
+  },
+  {
+    "id": 484,
+    "execution_id": "exec_1758890136676",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-26T12:35:39.615917+00:00"
+  },
+  {
+    "id": 485,
+    "execution_id": "exec_1758890136676",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-26T12:35:40.863023+00:00"
+  },
+  {
+    "id": 486,
+    "execution_id": "exec_1758890136676",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-26T12:35:41.032097+00:00"
+  },
+  {
+    "id": 487,
+    "execution_id": "exec_1758890136676",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1758890305239.xlsx (22297 registros)",
+    "created_at": "2025-09-26T12:38:31.954461+00:00"
+  },
+  {
+    "id": 488,
+    "execution_id": "exec_1758890136676",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-26T12:38:32.209203+00:00"
+  },
+  {
+    "id": 489,
+    "execution_id": "exec_1758890136676",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1758890305239.xlsx",
+    "created_at": "2025-09-26T12:38:33.040503+00:00"
+  },
+  {
+    "id": 490,
+    "execution_id": "exec_1758890136676",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-26T12:38:33.172131+00:00"
+  },
+  {
+    "id": 491,
+    "execution_id": "exec_1758890136676",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: canceling statement due to statement timeout",
+    "created_at": "2025-09-26T12:41:56.552806+00:00"
+  },
+  {
+    "id": 492,
+    "execution_id": "exec_1758890136676",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: canceling statement due to statement timeout",
+    "created_at": "2025-09-26T12:41:56.887958+00:00"
+  },
+  {
+    "id": 493,
+    "execution_id": "exec_1758890136676",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/6 etapas concluídas em 378s",
+    "created_at": "2025-09-26T12:41:57.067286+00:00"
+  },
+  {
+    "id": 495,
+    "execution_id": "exec_1759132800787",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-29T08:00:01.595782+00:00"
+  },
+  {
+    "id": 496,
+    "execution_id": "exec_1759132800787",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-29T08:00:01.737995+00:00"
+  },
+  {
+    "id": 497,
+    "execution_id": "exec_1759132800787",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T08:00:01.8149+00:00"
+  },
+  {
+    "id": 498,
+    "execution_id": "exec_1759132800787",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759132805047.xlsx (2 registros)",
+    "created_at": "2025-09-29T08:00:05.07283+00:00"
+  },
+  {
+    "id": 499,
+    "execution_id": "exec_1759132800787",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-29T08:00:05.097839+00:00"
+  },
+  {
+    "id": 500,
+    "execution_id": "cron_error_1759132800.165808",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: Operation timed out after 5002 milliseconds with 0 bytes received",
+    "created_at": "2025-09-29T08:00:00.165808+00:00"
+  },
+  {
+    "id": 501,
+    "execution_id": "exec_1759132800787",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1759132805047.xlsx",
+    "created_at": "2025-09-29T08:00:05.31556+00:00"
+  },
+  {
+    "id": 502,
+    "execution_id": "exec_1759132800787",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-29T08:00:05.351747+00:00"
+  },
+  {
+    "id": 503,
+    "execution_id": "exec_1759132800787",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-29T08:00:05.46115+00:00"
+  },
+  {
+    "id": 504,
+    "execution_id": "exec_1759132800787",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-29T08:00:05.483129+00:00"
+  },
+  {
+    "id": 505,
+    "execution_id": "exec_1759132800787",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-29T08:00:05.509104+00:00"
+  },
+  {
+    "id": 506,
+    "execution_id": "exec_1759132800787",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 5s",
+    "created_at": "2025-09-29T08:00:05.538355+00:00"
+  },
+  {
+    "id": 507,
+    "execution_id": "exec_1759158651228",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-29T15:10:53.850929+00:00"
+  },
+  {
+    "id": 508,
+    "execution_id": "exec_1759158651228",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-29T15:10:55.013053+00:00"
+  },
+  {
+    "id": 509,
+    "execution_id": "exec_1759158651228",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T15:10:55.13019+00:00"
+  },
+  {
+    "id": 510,
+    "execution_id": "exec_1759158651228",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T15:10:55.170562+00:00"
+  },
+  {
+    "id": 511,
+    "execution_id": "exec_1759158651228",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759158824928.xlsx (22297 registros)",
+    "created_at": "2025-09-29T15:13:53.417239+00:00"
+  },
+  {
+    "id": 512,
+    "execution_id": "exec_1759158651228",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-29T15:13:53.56325+00:00"
+  },
+  {
+    "id": 513,
+    "execution_id": "exec_1759158651228",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1759158824928.xlsx",
+    "created_at": "2025-09-29T15:13:54.088941+00:00"
+  },
+  {
+    "id": 514,
+    "execution_id": "exec_1759158651228",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-29T15:13:54.164945+00:00"
+  },
+  {
+    "id": 515,
+    "execution_id": "exec_1759158651228",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção: canceling statement due to statement timeout",
+    "created_at": "2025-09-29T15:17:18.475588+00:00"
+  },
+  {
+    "id": 516,
+    "execution_id": "exec_1759158651228",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção no banco de dados: canceling statement due to statement timeout",
+    "created_at": "2025-09-29T15:17:18.851798+00:00"
+  },
+  {
+    "id": 517,
+    "execution_id": "exec_1759158651228",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/6 etapas concluídas em 386s",
+    "created_at": "2025-09-29T15:17:18.954384+00:00"
+  },
+  {
+    "id": 518,
+    "execution_id": "exec_1759159111564",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-29T15:18:34.287837+00:00"
+  },
+  {
+    "id": 519,
+    "execution_id": "exec_1759159111564",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-29T15:18:35.42314+00:00"
+  },
+  {
+    "id": 520,
+    "execution_id": "exec_1759159111564",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T15:18:35.563268+00:00"
+  },
+  {
+    "id": 521,
+    "execution_id": "exec_1759159111564",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T15:18:35.647389+00:00"
+  },
+  {
+    "id": 522,
+    "execution_id": "exec_1759159111564",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759159283716.xlsx (22297 registros)",
+    "created_at": "2025-09-29T15:21:30.271154+00:00"
+  },
+  {
+    "id": 523,
+    "execution_id": "exec_1759159111564",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-29T15:21:30.473193+00:00"
+  },
+  {
+    "id": 524,
+    "execution_id": "exec_1759159111564",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1759159283716.xlsx",
+    "created_at": "2025-09-29T15:21:31.20726+00:00"
+  },
+  {
+    "id": 525,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-29T15:21:31.282087+00:00"
+  },
+  {
+    "id": 526,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "🗑️ Limpando dados existentes da tabela dre_hitss...",
+    "created_at": "2025-09-29T15:24:01.80606+00:00"
+  },
+  {
+    "id": 527,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Tabela dre_hitss limpa com sucesso",
+    "created_at": "2025-09-29T15:24:02.085393+00:00"
+  },
+  {
+    "id": 528,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📝 Inserindo 22297 registros em 23 lotes de 1000 registros...",
+    "created_at": "2025-09-29T15:24:02.181509+00:00"
+  },
+  {
+    "id": 529,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 1/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:02.249814+00:00"
+  },
+  {
+    "id": 530,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 1/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:02.945289+00:00"
+  },
+  {
+    "id": 531,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 2/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:03.136617+00:00"
+  },
+  {
+    "id": 532,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 2/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:03.958757+00:00"
+  },
+  {
+    "id": 533,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 3/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:04.132501+00:00"
+  },
+  {
+    "id": 534,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 3/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:04.727536+00:00"
+  },
+  {
+    "id": 535,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 4/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:04.95915+00:00"
+  },
+  {
+    "id": 536,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 4/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:05.617822+00:00"
+  },
+  {
+    "id": 537,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 5/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:05.767159+00:00"
+  },
+  {
+    "id": 538,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 5/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:06.283839+00:00"
+  },
+  {
+    "id": 539,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 6/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:06.449884+00:00"
+  },
+  {
+    "id": 540,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 6/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:07.040537+00:00"
+  },
+  {
+    "id": 541,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 7/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:07.19397+00:00"
+  },
+  {
+    "id": 542,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 7/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:07.786779+00:00"
+  },
+  {
+    "id": 543,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 8/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:07.934867+00:00"
+  },
+  {
+    "id": 544,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 8/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:08.42564+00:00"
+  },
+  {
+    "id": 545,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 9/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:08.579824+00:00"
+  },
+  {
+    "id": 546,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 9/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:09.070022+00:00"
+  },
+  {
+    "id": 547,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 10/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:09.235626+00:00"
+  },
+  {
+    "id": 548,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 10/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:09.679095+00:00"
+  },
+  {
+    "id": 549,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 11/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:09.820376+00:00"
+  },
+  {
+    "id": 550,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 11/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:10.227411+00:00"
+  },
+  {
+    "id": 551,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 12/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:10.368374+00:00"
+  },
+  {
+    "id": 552,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 12/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:10.83334+00:00"
+  },
+  {
+    "id": 553,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 13/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:10.986425+00:00"
+  },
+  {
+    "id": 554,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 13/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:11.467004+00:00"
+  },
+  {
+    "id": 555,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 14/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:11.612832+00:00"
+  },
+  {
+    "id": 556,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 14/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:12.034343+00:00"
+  },
+  {
+    "id": 557,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 15/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:12.19091+00:00"
+  },
+  {
+    "id": 558,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 15/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:12.532185+00:00"
+  },
+  {
+    "id": 559,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 16/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:12.687473+00:00"
+  },
+  {
+    "id": 560,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 16/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:13.005487+00:00"
+  },
+  {
+    "id": 561,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 17/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:13.218687+00:00"
+  },
+  {
+    "id": 562,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 17/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:13.535872+00:00"
+  },
+  {
+    "id": 563,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 18/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:13.686259+00:00"
+  },
+  {
+    "id": 564,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 18/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:14.054616+00:00"
+  },
+  {
+    "id": 565,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 19/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:14.201845+00:00"
+  },
+  {
+    "id": 566,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 19/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:14.657712+00:00"
+  },
+  {
+    "id": 567,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 20/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:14.804089+00:00"
+  },
+  {
+    "id": 568,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 20/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:15.169116+00:00"
+  },
+  {
+    "id": 569,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 21/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:15.477144+00:00"
+  },
+  {
+    "id": 570,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 21/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:16.173171+00:00"
+  },
+  {
+    "id": 571,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 22/23 (1000 registros)...",
+    "created_at": "2025-09-29T15:24:16.368841+00:00"
+  },
+  {
+    "id": 572,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 22/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:16.912542+00:00"
+  },
+  {
+    "id": 573,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 23/23 (297 registros)...",
+    "created_at": "2025-09-29T15:24:17.088108+00:00"
+  },
+  {
+    "id": 574,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 23/23 inserido com sucesso",
+    "created_at": "2025-09-29T15:24:17.428881+00:00"
+  },
+  {
+    "id": 575,
+    "execution_id": "exec_1759159111564",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-29T15:24:17.532329+00:00"
+  },
+  {
+    "id": 576,
+    "execution_id": "exec_1759159111564",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-29T15:24:17.611806+00:00"
+  },
+  {
+    "id": 577,
+    "execution_id": "exec_1759159111564",
+    "step": "ETL_DIMENSIONAL",
+    "status": "ERRO",
+    "message": "Edge Function returned a non-2xx status code",
+    "created_at": "2025-09-29T15:26:48.436787+00:00"
+  },
+  {
+    "id": 578,
+    "execution_id": "exec_1759159111564",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "4/6 etapas concluídas em 495s",
+    "created_at": "2025-09-29T15:26:48.601849+00:00"
+  },
+  {
+    "id": 579,
+    "execution_id": "exec_1759178258124",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-29T20:37:39.422611+00:00"
+  },
+  {
+    "id": 580,
+    "execution_id": "exec_1759178258124",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-29T20:37:40.682462+00:00"
+  },
+  {
+    "id": 581,
+    "execution_id": "exec_1759178258124",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T20:37:40.9165+00:00"
+  },
+  {
+    "id": 582,
+    "execution_id": "exec_1759178258124",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T20:37:41.032863+00:00"
+  },
+  {
+    "id": 583,
+    "execution_id": "exec_1759178258124",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759178415401.xlsx (22297 registros)",
+    "created_at": "2025-09-29T20:40:18.467725+00:00"
+  },
+  {
+    "id": 584,
+    "execution_id": "exec_1759178258124",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-29T20:40:18.641089+00:00"
+  },
+  {
+    "id": 585,
+    "execution_id": "exec_1759178258124",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1759178415401.xlsx",
+    "created_at": "2025-09-29T20:40:19.462886+00:00"
+  },
+  {
+    "id": 586,
+    "execution_id": "exec_1759178258124",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-29T20:40:19.532532+00:00"
+  },
+  {
+    "id": 587,
+    "execution_id": "exec_1759178258124",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "currentDate is not defined",
+    "created_at": "2025-09-29T20:42:50.411279+00:00"
+  },
+  {
+    "id": 588,
+    "execution_id": "exec_1759178258124",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/6 etapas concluídas em 312s",
+    "created_at": "2025-09-29T20:42:50.679396+00:00"
+  },
+  {
+    "id": 589,
+    "execution_id": "exec_1759178667249",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-29T20:44:27.592188+00:00"
+  },
+  {
+    "id": 590,
+    "execution_id": "exec_1759178667249",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-29T20:44:28.747628+00:00"
+  },
+  {
+    "id": 591,
+    "execution_id": "exec_1759178667249",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T20:44:28.909793+00:00"
+  },
+  {
+    "id": 592,
+    "execution_id": "exec_1759178667249",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T20:44:29.046342+00:00"
+  },
+  {
+    "id": 593,
+    "execution_id": "exec_1759178667249",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759178842177.xlsx (22297 registros)",
+    "created_at": "2025-09-29T20:47:24.575712+00:00"
+  },
+  {
+    "id": 594,
+    "execution_id": "exec_1759178667249",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-29T20:47:24.8442+00:00"
+  },
+  {
+    "id": 595,
+    "execution_id": "exec_1759178667249",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1759178842177.xlsx",
+    "created_at": "2025-09-29T20:47:25.781554+00:00"
+  },
+  {
+    "id": 596,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-29T20:47:25.884894+00:00"
+  },
+  {
+    "id": 597,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "🗑️ Limpando dados existentes da tabela dre_hitss...",
+    "created_at": "2025-09-29T20:49:56.463869+00:00"
+  },
+  {
+    "id": 598,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Tabela dre_hitss limpa com sucesso",
+    "created_at": "2025-09-29T20:49:59.260689+00:00"
+  },
+  {
+    "id": 599,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📝 Inserindo 22297 registros em 23 lotes de 1000 registros...",
+    "created_at": "2025-09-29T20:49:59.379863+00:00"
+  },
+  {
+    "id": 600,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 1/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:49:59.484259+00:00"
+  },
+  {
+    "id": 601,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "❌ Erro na inserção do lote 1: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_mes_check\"",
+    "created_at": "2025-09-29T20:50:00.512656+00:00"
+  },
+  {
+    "id": 657,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 21/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:25.486597+00:00"
+  },
+  {
+    "id": 658,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 22/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:25.646742+00:00"
+  },
+  {
+    "id": 659,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 22/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:26.304583+00:00"
+  },
+  {
+    "id": 660,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 23/23 (297 registros)...",
+    "created_at": "2025-09-29T20:56:26.454569+00:00"
+  },
+  {
+    "id": 661,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 23/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:26.732222+00:00"
+  },
+  {
+    "id": 662,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "SUCESSO_FALLBACK",
+    "message": "Dados inseridos diretamente: 22297 registros",
+    "created_at": "2025-09-29T20:56:26.788754+00:00"
+  },
+  {
+    "id": 663,
+    "execution_id": "exec_1759179054080",
+    "step": "ETL_DIMENSIONAL",
+    "status": "INICIADO",
+    "message": "Executando Edge Function dre-etl-dimensional",
+    "created_at": "2025-09-29T20:56:26.835891+00:00"
+  },
+  {
+    "id": 602,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "📋 Detalhes do erro: {\n  \"code\": \"23514\",\n  \"details\": \"Failing row contains (74e192b7-4467-48f5-b420-8cca533f685f, NSPALL002 - FIELD SERVICE, 6, 2019, Receita Devengada, Receita Devengada, RECEITA, OPERACIONAL, 6933.05, Importação automática HITSS - Execução: exec_1759178667249 ..., 2025-09-29 20:50:00.129553+00, 2025-09-29 20:50:00.129553+00, null, null, t, {\\\"source\\\": \\\"hitss_automation\\\", \\\"empresa\\\": \\\"HITSS DO BRASIL SERVI..., null, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, Realizado, ALL AMERICA LATINA LOGISTICA MALHA SUL S.A., ITO (SERVICIOS Y PRODUCTOS DE TECNOLOGIA), CARLOS FREDERICO CARVALHO COLUCCI, FABRICIO CARDOSO DE LIMA, FERNANDO HAERTEL, 64342, NSPALL002, Campinas, 5.65, Receita Devengada, Receita Devengada, null, , 6933.05, 6/2019, null, null, null, null, null).\",\n  \"hint\": null,\n  \"message\": \"new row for relation \\\"dre_hitss\\\" violates check constraint \\\"dre_hitss_mes_check\\\"\"\n}",
+    "created_at": "2025-09-29T20:50:00.594605+00:00"
+  },
+  {
+    "id": 603,
+    "execution_id": "exec_1759178667249",
+    "step": "EDGE_FUNCTION",
+    "status": "ERRO",
+    "message": "Falha na inserção do lote 1 no banco de dados: new row for relation \"dre_hitss\" violates check constraint \"dre_hitss_mes_check\"",
+    "created_at": "2025-09-29T20:50:00.685247+00:00"
+  },
+  {
+    "id": 604,
+    "execution_id": "exec_1759178667249",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "3/6 etapas concluídas em 333s",
+    "created_at": "2025-09-29T20:50:00.770869+00:00"
+  },
+  {
+    "id": 605,
+    "execution_id": "exec_1759179054080",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Simulando trigger manual do cron job",
+    "created_at": "2025-09-29T20:50:54.44055+00:00"
+  },
+  {
+    "id": 606,
+    "execution_id": "exec_1759179054080",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Cron job ativado: dre-hitss-automation",
+    "created_at": "2025-09-29T20:50:55.546031+00:00"
+  },
+  {
+    "id": 607,
+    "execution_id": "exec_1759179054080",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T20:50:55.687049+00:00"
+  },
+  {
+    "id": 608,
+    "execution_id": "exec_1759179054080",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-29T20:50:55.77374+00:00"
+  },
+  {
+    "id": 609,
+    "execution_id": "exec_1759179054080",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759179213474.xlsx (22297 registros)",
+    "created_at": "2025-09-29T20:53:36.018715+00:00"
+  },
+  {
+    "id": 610,
+    "execution_id": "exec_1759179054080",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-29T20:53:36.296227+00:00"
+  },
+  {
+    "id": 611,
+    "execution_id": "exec_1759179054080",
+    "step": "UPLOAD_STORAGE",
+    "status": "SUCESSO",
+    "message": "Arquivo enviado para: uploads/dre_hitss_1759179213474.xlsx",
+    "created_at": "2025-09-29T20:53:37.158075+00:00"
+  },
+  {
+    "id": 612,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando Edge Function process-dre-upload",
+    "created_at": "2025-09-29T20:53:37.263997+00:00"
+  },
+  {
+    "id": 613,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "🗑️ Limpando dados existentes da tabela dre_hitss...",
+    "created_at": "2025-09-29T20:56:07.86172+00:00"
+  },
+  {
+    "id": 614,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Tabela dre_hitss limpa com sucesso",
+    "created_at": "2025-09-29T20:56:08.155781+00:00"
+  },
+  {
+    "id": 615,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📝 Inserindo 22297 registros em 23 lotes de 1000 registros...",
+    "created_at": "2025-09-29T20:56:08.256822+00:00"
+  },
+  {
+    "id": 616,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 1/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:08.346503+00:00"
+  },
+  {
+    "id": 617,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 1/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:09.43217+00:00"
+  },
+  {
+    "id": 618,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 2/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:09.617356+00:00"
+  },
+  {
+    "id": 619,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 2/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:10.442194+00:00"
+  },
+  {
+    "id": 620,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 3/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:10.617168+00:00"
+  },
+  {
+    "id": 621,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 3/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:11.374545+00:00"
+  },
+  {
+    "id": 622,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 4/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:11.527873+00:00"
+  },
+  {
+    "id": 623,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 4/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:12.273751+00:00"
+  },
+  {
+    "id": 624,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 5/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:12.425939+00:00"
+  },
+  {
+    "id": 625,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 5/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:12.997879+00:00"
+  },
+  {
+    "id": 626,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 6/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:13.164544+00:00"
+  },
+  {
+    "id": 627,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 6/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:13.770743+00:00"
+  },
+  {
+    "id": 628,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 7/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:13.923158+00:00"
+  },
+  {
+    "id": 629,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 7/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:14.550305+00:00"
+  },
+  {
+    "id": 630,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 8/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:14.713227+00:00"
+  },
+  {
+    "id": 631,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 8/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:15.388308+00:00"
+  },
+  {
+    "id": 632,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 9/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:15.547918+00:00"
+  },
+  {
+    "id": 633,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 9/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:16.273665+00:00"
+  },
+  {
+    "id": 634,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 10/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:16.426817+00:00"
+  },
+  {
+    "id": 635,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 10/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:17.089641+00:00"
+  },
+  {
+    "id": 636,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 11/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:17.247531+00:00"
+  },
+  {
+    "id": 637,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 11/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:17.803933+00:00"
+  },
+  {
+    "id": 638,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 12/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:17.961491+00:00"
+  },
+  {
+    "id": 639,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 12/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:18.549082+00:00"
+  },
+  {
+    "id": 640,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 13/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:18.692953+00:00"
+  },
+  {
+    "id": 641,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 13/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:19.338786+00:00"
+  },
+  {
+    "id": 642,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 14/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:19.498496+00:00"
+  },
+  {
+    "id": 643,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 14/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:20.168294+00:00"
+  },
+  {
+    "id": 644,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 15/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:20.358879+00:00"
+  },
+  {
+    "id": 645,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 15/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:20.905554+00:00"
+  },
+  {
+    "id": 646,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 16/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:21.061073+00:00"
+  },
+  {
+    "id": 647,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 16/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:21.582618+00:00"
+  },
+  {
+    "id": 648,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 17/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:21.73401+00:00"
+  },
+  {
+    "id": 649,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 17/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:22.318082+00:00"
+  },
+  {
+    "id": 650,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 18/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:22.466973+00:00"
+  },
+  {
+    "id": 651,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 18/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:23.063218+00:00"
+  },
+  {
+    "id": 652,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 19/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:23.211175+00:00"
+  },
+  {
+    "id": 653,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 19/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:23.801839+00:00"
+  },
+  {
+    "id": 654,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 20/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:23.941062+00:00"
+  },
+  {
+    "id": 655,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "✅ Lote 20/23 inserido com sucesso",
+    "created_at": "2025-09-29T20:56:24.668279+00:00"
+  },
+  {
+    "id": 656,
+    "execution_id": "exec_1759179054080",
+    "step": "EDGE_FUNCTION",
+    "status": "INFO",
+    "message": "📦 Inserindo lote 21/23 (1000 registros)...",
+    "created_at": "2025-09-29T20:56:24.819977+00:00"
+  },
+  {
+    "id": 664,
+    "execution_id": "exec_1759179054080",
+    "step": "ETL_DIMENSIONAL",
+    "status": "ERRO",
+    "message": "Edge Function returned a non-2xx status code",
+    "created_at": "2025-09-29T20:58:57.465466+00:00"
+  },
+  {
+    "id": 665,
+    "execution_id": "exec_1759179054080",
+    "step": "EXECUTION_SUMMARY",
+    "status": "PARCIAL",
+    "message": "4/6 etapas concluídas em 483s",
+    "created_at": "2025-09-29T20:58:57.604585+00:00"
+  },
+  {
+    "id": 667,
+    "execution_id": "exec_1759219200927",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-09-30T08:00:01.733213+00:00"
+  },
+  {
+    "id": 668,
+    "execution_id": "exec_1759219200927",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-09-30T08:00:01.896118+00:00"
+  },
+  {
+    "id": 669,
+    "execution_id": "exec_1759219200927",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-09-30T08:00:01.975762+00:00"
+  },
+  {
+    "id": 670,
+    "execution_id": "cron_error_1759219200.220455",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: Operation timed out after 5002 milliseconds with 0 bytes received",
+    "created_at": "2025-09-30T08:00:00.220455+00:00"
+  },
+  {
+    "id": 671,
+    "execution_id": "exec_1759219200927",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759219223066.xlsx (2 registros)",
+    "created_at": "2025-09-30T08:00:23.084003+00:00"
+  },
+  {
+    "id": 672,
+    "execution_id": "exec_1759219200927",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-09-30T08:00:23.115108+00:00"
+  },
+  {
+    "id": 673,
+    "execution_id": "exec_1759219200927",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1759219223066.xlsx",
+    "created_at": "2025-09-30T08:00:23.32128+00:00"
+  },
+  {
+    "id": 674,
+    "execution_id": "exec_1759219200927",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-09-30T08:00:23.360013+00:00"
+  },
+  {
+    "id": 675,
+    "execution_id": "exec_1759219200927",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-09-30T08:00:23.515978+00:00"
+  },
+  {
+    "id": 676,
+    "execution_id": "exec_1759219200927",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-09-30T08:00:23.575964+00:00"
+  },
+  {
+    "id": 677,
+    "execution_id": "exec_1759219200927",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-09-30T08:00:23.618048+00:00"
+  },
+  {
+    "id": 678,
+    "execution_id": "exec_1759219200927",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 23s",
+    "created_at": "2025-09-30T08:00:23.692612+00:00"
+  },
+  {
+    "id": 680,
+    "execution_id": "exec_1759305600918",
+    "step": "CRON_TRIGGER",
+    "status": "INICIADO",
+    "message": "Executando via Edge Function",
+    "created_at": "2025-10-01T08:00:01.758791+00:00"
+  },
+  {
+    "id": 681,
+    "execution_id": "exec_1759305600918",
+    "step": "CRON_TRIGGER",
+    "status": "SUCESSO",
+    "message": "Edge Function ativada: dre-automation-edge-function",
+    "created_at": "2025-10-01T08:00:01.927552+00:00"
+  },
+  {
+    "id": 682,
+    "execution_id": "exec_1759305600918",
+    "step": "DOWNLOAD_HITSS",
+    "status": "INICIADO",
+    "message": "Baixando arquivo de dados da HITSS",
+    "created_at": "2025-10-01T08:00:02.00258+00:00"
+  },
+  {
+    "id": 683,
+    "execution_id": "exec_1759305600918",
+    "step": "DOWNLOAD_HITSS",
+    "status": "SUCESSO",
+    "message": "Arquivo baixado: dre_hitss_1759305604560.xlsx (2 registros)",
+    "created_at": "2025-10-01T08:00:04.59182+00:00"
+  },
+  {
+    "id": 684,
+    "execution_id": "exec_1759305600918",
+    "step": "UPLOAD_STORAGE",
+    "status": "INICIADO",
+    "message": "Fazendo upload para bucket dre-files",
+    "created_at": "2025-10-01T08:00:04.626358+00:00"
+  },
+  {
+    "id": 685,
+    "execution_id": "cron_error_1759305600.193818",
+    "step": "CRON_EXECUTION",
+    "status": "ERRO",
+    "message": "Erro na execução do cron job DRE: Operation timed out after 5002 milliseconds with 0 bytes received",
+    "created_at": "2025-10-01T08:00:00.193818+00:00"
+  },
+  {
+    "id": 686,
+    "execution_id": "exec_1759305600918",
+    "step": "UPLOAD_STORAGE",
+    "status": "SIMULADO",
+    "message": "Upload simulado para: uploads/dre_hitss_1759305604560.xlsx",
+    "created_at": "2025-10-01T08:00:05.444451+00:00"
+  },
+  {
+    "id": 687,
+    "execution_id": "exec_1759305600918",
+    "step": "EDGE_FUNCTION",
+    "status": "INICIADO",
+    "message": "Executando processamento de dados",
+    "created_at": "2025-10-01T08:00:05.468181+00:00"
+  },
+  {
+    "id": 688,
+    "execution_id": "exec_1759305600918",
+    "step": "EDGE_FUNCTION",
+    "status": "SIMULADO",
+    "message": "Inserção simulada: 2 registros",
+    "created_at": "2025-10-01T08:00:05.565719+00:00"
+  },
+  {
+    "id": 689,
+    "execution_id": "exec_1759305600918",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "INICIADO",
+    "message": "Enviando notificação por email",
+    "created_at": "2025-10-01T08:00:05.591528+00:00"
+  },
+  {
+    "id": 690,
+    "execution_id": "exec_1759305600918",
+    "step": "EMAIL_NOTIFICATION",
+    "status": "FALLBACK",
+    "message": "Preview exibido (Chave Resend não encontrada)",
+    "created_at": "2025-10-01T08:00:05.6153+00:00"
+  },
+  {
+    "id": 691,
+    "execution_id": "exec_1759305600918",
+    "step": "EXECUTION_SUMMARY",
+    "status": "SUCESSO",
+    "message": "5/5 etapas concluídas em 5s",
+    "created_at": "2025-10-01T08:00:05.655928+00:00"
+  }
+]

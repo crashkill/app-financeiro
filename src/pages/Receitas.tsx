@@ -1,17 +1,37 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Container, Row, Col, Card, Table, Button, Modal, Form, Spinner } from 'react-bootstrap'
 import { useTransacoes } from '../hooks/useTransacoes'
 import { Transacao } from '../db/database'
 import { useConfig } from '../contexts/ConfigContext'
-import { YearFilter, ProjectFilter } from '../components/filters'
+import ProjectFilterReusable from '../components/filters/ProjectFilterReusable'
+import YearFilterReusable from '../components/filters/YearFilterReusable'
 
 const Receitas = () => {
   const { config } = useConfig()
   const { transacoes, total, adicionarTransacao, editarTransacao, excluirTransacao, isLoading } = useTransacoes({ tipo: 'receita' })
   const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString())
   const [selectedProjects, setSelectedProjects] = useState<string[]>([])
+  const [projects, setProjects] = useState<string[]>([])
+  const [years, setYears] = useState<number[]>([])
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
+
+  // Extrair projetos e anos únicos das transações
+  useEffect(() => {
+    if (transacoes.length > 0) {
+      // Extrair projetos únicos
+      const uniqueProjects = Array.from(new Set(transacoes.map(t => t.projeto || 'Sem Projeto').filter(Boolean)))
+      setProjects(uniqueProjects)
+
+      // Extrair anos únicos
+      const uniqueYears = Array.from(new Set(transacoes.map(t => {
+        const year = t.periodo ? parseInt(t.periodo.split('/')[1]) : new Date(t.data).getFullYear()
+        return year
+      }))).filter(year => !isNaN(year)).sort((a, b) => b - a)
+      
+      setYears(uniqueYears)
+    }
+  }, [transacoes])
 
   // Filtrar transações por ano e projetos selecionados
   const filteredTransactions = useMemo(() => {
@@ -129,18 +149,21 @@ const Receitas = () => {
         <Card.Body>
           <Row>
             <Col md={6} className="mb-3">
-              <YearFilter
-                selectedYear={selectedYear}
-                onChange={setSelectedYear}
+              <YearFilterReusable
+                years={years}
+                selectedYear={parseInt(selectedYear)}
+                onChange={(year) => setSelectedYear(year.toString())}
+                isLoading={isLoading}
                 label="Filtrar por Ano"
               />
             </Col>
             <Col md={6} className="mb-3">
-              <ProjectFilter
+              <ProjectFilterReusable
+                projects={projects}
                 selectedProjects={selectedProjects}
                 onChange={setSelectedProjects}
+                isLoading={isLoading}
                 label="Filtrar por Projetos"
-                dataSource="transactions"
               />
             </Col>
           </Row>

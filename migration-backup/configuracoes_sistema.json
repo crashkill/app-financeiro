@@ -1,0 +1,62 @@
+[
+  {
+    "id": "9fe34948-558d-4ddc-adb9-b6d41d6f65b7",
+    "chave": "forecast_default_algorithm",
+    "valor": "linear_regression",
+    "descricao": "Algoritmo padrão para previsões financeiras",
+    "categoria": "forecast",
+    "usuario_id": null,
+    "criado_em": "2025-09-01T16:52:27.183625+00:00",
+    "atualizado_em": "2025-09-01T16:52:27.183625+00:00"
+  },
+  {
+    "id": "29eefb01-76c6-4c6c-8ef5-cfc2cd9a2119",
+    "chave": "forecast_default_periods",
+    "valor": 12,
+    "descricao": "Número padrão de períodos para previsão",
+    "categoria": "forecast",
+    "usuario_id": null,
+    "criado_em": "2025-09-01T16:52:27.183625+00:00",
+    "atualizado_em": "2025-09-01T16:52:27.183625+00:00"
+  },
+  {
+    "id": "9f97ce8f-9f81-4101-b886-6bbc564c0bb7",
+    "chave": "forecast_confidence_level",
+    "valor": 0.95,
+    "descricao": "Nível de confiança padrão para intervalos",
+    "categoria": "forecast",
+    "usuario_id": null,
+    "criado_em": "2025-09-01T16:52:27.183625+00:00",
+    "atualizado_em": "2025-09-01T16:52:27.183625+00:00"
+  },
+  {
+    "id": "9078fed6-e9ca-49ee-ac45-bb4ee37798f6",
+    "chave": "upload_max_file_size",
+    "valor": 52428800,
+    "descricao": "Tamanho máximo de arquivo em bytes (50MB)",
+    "categoria": "upload",
+    "usuario_id": null,
+    "criado_em": "2025-09-01T16:52:27.183625+00:00",
+    "atualizado_em": "2025-09-01T16:52:27.183625+00:00"
+  },
+  {
+    "id": "69a0d204-aa0a-4936-906e-2cf06738f504",
+    "chave": "sync_batch_size",
+    "valor": 100,
+    "descricao": "Tamanho do lote para sincronização de profissionais",
+    "categoria": "sync",
+    "usuario_id": null,
+    "criado_em": "2025-09-01T16:52:27.183625+00:00",
+    "atualizado_em": "2025-09-01T16:52:27.183625+00:00"
+  },
+  {
+    "id": "ae4ce98f-b732-4164-903c-8e2fe88a6598",
+    "chave": "audit_retention_days",
+    "valor": 365,
+    "descricao": "Dias de retenção para logs de auditoria",
+    "categoria": "audit",
+    "usuario_id": null,
+    "criado_em": "2025-09-01T16:52:27.183625+00:00",
+    "atualizado_em": "2025-09-01T16:52:27.183625+00:00"
+  }
+]

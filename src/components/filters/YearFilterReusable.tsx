@@ -1,86 +1,101 @@
-import React, { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
-import { useTransacoes } from '../../hooks/useTransacoes';
+import React from 'react';
+import { Card, Form } from 'react-bootstrap';
 
-interface YearFilterProps {
+interface YearFilterReusableProps {
+  years: number[];
   selectedYear: number;
   onChange: (year: number) => void;
-  years?: number[];
   label?: string;
   className?: string;
-  disabled?: boolean;
-  defaultToCurrentYear?: boolean;
+  showMonthFilter?: boolean;
+  selectedMonth?: string;
+  onMonthChange?: (month: string) => void;
+  isLoading?: boolean;
 }
 
-/**
- * Componente reutilizável para filtro de ano
- * Sempre exibe o ano atual como padrão se defaultToCurrentYear for true
- */
-const YearFilterReusable: React.FC<YearFilterProps> = ({ 
-  selectedYear, 
-  onChange, 
-  years: providedYears,
-  label = 'Ano',
-  className = '',
-  disabled = false,
-  defaultToCurrentYear = true
+const YearFilterReusable: React.FC<YearFilterReusableProps> = ({
+  years,
+  selectedYear,
+  onChange,
+  label = "Filtrar Ano",
+  className = "",
+  showMonthFilter = false,
+  selectedMonth = "",
+  onMonthChange,
+  isLoading = false
 }) => {
-  const { transacoes, loading } = useTransacoes({});
-  const [availableYears, setAvailableYears] = useState<number[]>([]);
-  
-  // Inicializar com o ano atual se necessário
-  useEffect(() => {
-    const currentYear = new Date().getFullYear();
-    
-    if (defaultToCurrentYear && !selectedYear) {
-      onChange(currentYear);
-    }
-  }, [defaultToCurrentYear, selectedYear, onChange]);
+  // Handler para mudança na seleção do ano
+  const handleYearSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onChange(parseInt(event.target.value));
+  };
 
-  // Extrair anos únicos das transações ou usar os fornecidos
-  useEffect(() => {
-    if (providedYears && providedYears.length > 0) {
-      setAvailableYears(providedYears.sort((a, b) => b - a));
-      return;
+  // Handler para mudança na seleção do mês
+  const handleMonthSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (onMonthChange) {
+      onMonthChange(event.target.value);
     }
-    
-    const yearsSet = new Set<number>();
-    const currentYear = new Date().getFullYear();
-    
-    // Garantir que o ano atual esteja sempre disponível
-    yearsSet.add(currentYear);
-    
-    transacoes.forEach(t => {
-      const [, ano] = (t.periodo || '').split('/');
-      const year = parseInt(ano);
-      if (!isNaN(year)) yearsSet.add(year);
-    });
-    
-    setAvailableYears(Array.from(yearsSet).sort((a, b) => b - a));
-  }, [transacoes, providedYears]);
+  };
+
+  const months = [
+    { value: '', label: 'Todos os meses' },
+    { value: '01', label: 'Janeiro' },
+    { value: '02', label: 'Fevereiro' },
+    { value: '03', label: 'Março' },
+    { value: '04', label: 'Abril' },
+    { value: '05', label: 'Maio' },
+    { value: '06', label: 'Junho' },
+    { value: '07', label: 'Julho' },
+    { value: '08', label: 'Agosto' },
+    { value: '09', label: 'Setembro' },
+    { value: '10', label: 'Outubro' },
+    { value: '11', label: 'Novembro' },
+    { value: '12', label: 'Dezembro' }
+  ];
 
   return (
-    <Form.Group className={className}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Select
-        value={selectedYear || new Date().getFullYear()}
-        onChange={(e) => onChange(parseInt(e.target.value))}
-        disabled={disabled || loading}
-      >
-        {availableYears.length === 0 ? (
-          <option value={new Date().getFullYear()}>
-            {new Date().getFullYear()}
-          </option>
-        ) : (
-          availableYears.map(year => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))
+    <Card className={`shadow bg-card text-card-foreground border border-border ${className}`}>
+      <Card.Body>
+        <div className="mb-3">
+          <Form.Label><strong>{label}</strong></Form.Label>
+          <Form.Select
+            onChange={handleYearSelection}
+            value={selectedYear}
+            className="form-control bg-input text-foreground border-border focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <option disabled>Carregando anos...</option>
+            ) : years.length === 0 ? (
+              <option disabled>Nenhum ano disponível</option>
+            ) : (
+              years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))
+            )}
+          </Form.Select>
+        </div>
+        
+        {showMonthFilter && onMonthChange && (
+          <div>
+            <Form.Label><strong>Filtrar Mês</strong></Form.Label>
+            <Form.Select
+              onChange={handleMonthSelection}
+              value={selectedMonth}
+              className="form-control bg-input text-foreground border-border focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              {months.map((month) => (
+                <option key={month.value} value={month.value}>
+                  {month.label}
+                </option>
+              ))}
+            </Form.Select>
+          </div>
         )}
-      </Form.Select>
-    </Form.Group>
+      </Card.Body>
+    </Card>
   );
 };
 
-export default React.memo(YearFilterReusable);
+export default YearFilterReusable;

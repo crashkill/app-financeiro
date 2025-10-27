@@ -1,98 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
-import { useTransacoes } from '../../hooks/useTransacoes';
+import React from 'react';
+import { Card, Form } from 'react-bootstrap';
 
-interface ProjectFilterProps {
+interface ProjectFilterReusableProps {
+  projects: string[];
   selectedProjects: string[];
   onChange: (projects: string[]) => void;
   label?: string;
+  helpText?: string;
   className?: string;
-  disabled?: boolean;
-  maxHeight?: string;
-  placeholder?: string;
-  showSelectAll?: boolean;
+  isLoading?: boolean;
 }
 
-/**
- * Componente reutilizável para filtro de projetos
- */
-const ProjectFilterReusable: React.FC<ProjectFilterProps> = ({ 
-  selectedProjects, 
-  onChange, 
-  label = 'Projetos',
-  className = '',
-  disabled = false,
-  maxHeight = '200px',
-  placeholder = 'Selecione os projetos',
-  showSelectAll = true
+const ProjectFilterReusable: React.FC<ProjectFilterReusableProps> = ({
+  projects,
+  selectedProjects,
+  onChange,
+  label = "Filtrar Projetos",
+  helpText = "Segure Ctrl para selecionar múltiplos projetos. Nenhuma seleção mostra todos os projetos.",
+  className = "",
+  isLoading = false
 }) => {
-  const { transacoes, loading } = useTransacoes({});
-  const [allProjects, setAllProjects] = useState<string[]>([]);
-
-  // Extrair projetos únicos das transações
-  useEffect(() => {
-    const projects = new Set<string>();
-    transacoes.forEach(t => {
-      if (t.projeto) projects.add(t.projeto);
-    });
-    setAllProjects(Array.from(projects).sort());
-  }, [transacoes]);
-
-  // Função para selecionar todos os projetos
-  const handleSelectAll = () => {
-    onChange(allProjects);
-  };
-
-  // Função para limpar a seleção
-  const handleClearSelection = () => {
-    onChange([]);
+  // Handler para mudança na seleção de projetos
+  const handleProjectSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const options = event.target.options;
+    const selected: string[] = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selected.push(options[i].value);
+      }
+    }
+    onChange(selected);
   };
 
   return (
-    <Form.Group className={className}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Select
-        multiple
-        value={selectedProjects}
-        onChange={(e) => {
-          const options = Array.from(e.target.selectedOptions);
-          onChange(options.map(option => option.value));
-        }}
-        disabled={disabled || loading}
-        style={{ maxHeight, overflow: 'auto' }}
-      >
-        {allProjects.length === 0 && (
-          <option disabled value="">
-            {loading ? 'Carregando projetos...' : 'Nenhum projeto disponível'}
-          </option>
-        )}
-        {allProjects.map(project => (
-          <option key={project} value={project}>
-            {project}
-          </option>
-        ))}
-      </Form.Select>
-      
-      {showSelectAll && allProjects.length > 0 && (
-        <div className="d-flex justify-content-between mt-1">
-          <small 
-            className="text-primary cursor-pointer" 
-            onClick={handleSelectAll}
-            style={{ cursor: 'pointer' }}
+    <Card className={`shadow bg-card text-card-foreground border border-border ${className}`}>
+      <Card.Body>
+        <div>
+          <Form.Label><strong>{label}</strong></Form.Label>
+          <Form.Select 
+            multiple 
+            onChange={handleProjectSelection}
+            value={selectedProjects}
+            className="form-control bg-input text-foreground border-border focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            style={{ minHeight: '200px' }}
+            disabled={isLoading}
           >
-            Selecionar todos
-          </small>
-          <small 
-            className="text-danger cursor-pointer" 
-            onClick={handleClearSelection}
-            style={{ cursor: 'pointer' }}
-          >
-            Limpar seleção
-          </small>
+            {isLoading ? (
+              <option disabled>Carregando projetos...</option>
+            ) : projects.length === 0 ? (
+              <option disabled>Nenhum projeto disponível</option>
+            ) : (
+              projects.map((project) => (
+                <option key={project} value={project} className="text-slate-900 dark:text-white">
+                  {project}
+                </option>
+              ))
+            )}
+          </Form.Select>
+          <Form.Text className="text-slate-500 dark:text-slate-400">
+            {helpText}
+          </Form.Text>
         </div>
-      )}
-    </Form.Group>
+      </Card.Body>
+    </Card>
   );
 };
 
-export default React.memo(ProjectFilterReusable);
+export default ProjectFilterReusable;

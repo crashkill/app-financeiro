@@ -1,0 +1,185 @@
+{
+  "timestamp": "2025-10-02T00:02:26.525Z",
+  "verificacoes": [
+    {
+      "tabela": "colaboradores",
+      "esperado": 7,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "transacoes_financeiras",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "dados_dre",
+      "esperado": 10,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "previsoes_financeiras",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "logs_auditoria",
+      "esperado": 4,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "uploads_arquivos",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "configuracoes_sistema",
+      "esperado": 6,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "hitss_data",
+      "esperado": 10,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "hitss_automation_executions",
+      "esperado": 3,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "hitss_automation_logs",
+      "esperado": 35,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "automation_executions",
+      "esperado": 52,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dre_categories",
+      "esperado": 10,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dre_reports",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "dre_items",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "dre_execution_logs",
+      "esperado": 685,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dashboard_metrics",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "planilhas_metrics",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "forecast_metrics",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "profissionais_metrics",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "dim_projeto",
+      "esperado": 1,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dim_cliente",
+      "esperado": 1,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dim_conta",
+      "esperado": 4,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dim_periodo",
+      "esperado": 134,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dim_recurso",
+      "esperado": 1,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "fact_dre_lancamentos",
+      "esperado": 4,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "dre_hitss",
+      "esperado": 1000,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "stg_dre_hitss_raw",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    },
+    {
+      "tabela": "projetos",
+      "esperado": 88,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "app_secrets",
+      "esperado": 3,
+      "encontrado": 0,
+      "status": "DIVERGENCIA"
+    },
+    {
+      "tabela": "profissional_projeto",
+      "esperado": 0,
+      "encontrado": 0,
+      "status": "OK"
+    }
+  ]
+}

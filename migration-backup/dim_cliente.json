@@ -1,0 +1,10 @@
+[
+  {
+    "id_cliente": 1,
+    "nome_cliente": "HITSS",
+    "tipo_cliente": "Mercado",
+    "ativo": true,
+    "data_criacao": "2025-09-23T18:46:34.907826+00:00",
+    "data_atualizacao": "2025-09-23T18:46:34.907826+00:00"
+  }
+]

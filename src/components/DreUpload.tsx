@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import * as XLSX from 'xlsx';
-import { supabase } from '../services/supabaseClient';
+import { supabase } from '../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 
 interface DreRow {

@@ -1,0 +1,62 @@
+[
+  {
+    "id_lancamento": 1,
+    "id_projeto": 1,
+    "id_cliente": 1,
+    "id_conta": 1,
+    "id_periodo": 133,
+    "id_recurso": 1,
+    "valor_lancamento": 1500000,
+    "relatorio_origem": "DRE_HITSS",
+    "hash_linha": "06507ecae7d6cc24e20e517ca803ea41",
+    "ativo": true,
+    "data_processamento": "2025-09-23T20:42:50.729865+00:00",
+    "data_criacao": "2025-09-23T20:42:50.729865+00:00",
+    "data_atualizacao": "2025-09-23T20:42:50.729865+00:00"
+  },
+  {
+    "id_lancamento": 2,
+    "id_projeto": 1,
+    "id_cliente": 1,
+    "id_conta": 2,
+    "id_periodo": 134,
+    "id_recurso": 1,
+    "valor_lancamento": 850000,
+    "relatorio_origem": "DRE_HITSS",
+    "hash_linha": "7892d3816f6df60d51e6bada43a61ecc",
+    "ativo": true,
+    "data_processamento": "2025-09-23T20:42:50.729865+00:00",
+    "data_criacao": "2025-09-23T20:42:50.729865+00:00",
+    "data_atualizacao": "2025-09-23T20:42:50.729865+00:00"
+  },
+  {
+    "id_lancamento": 3,
+    "id_projeto": 1,
+    "id_cliente": 1,
+    "id_conta": 3,
+    "id_periodo": 134,
+    "id_recurso": 1,
+    "valor_lancamento": 650000,
+    "relatorio_origem": "DRE_HITSS",
+    "hash_linha": "2dd50679c538845650419402e80e6b93",
+    "ativo": true,
+    "data_processamento": "2025-09-23T20:42:50.729865+00:00",
+    "data_criacao": "2025-09-23T20:42:50.729865+00:00",
+    "data_atualizacao": "2025-09-23T20:42:50.729865+00:00"
+  },
+  {
+    "id_lancamento": 4,
+    "id_projeto": 1,
+    "id_cliente": 1,
+    "id_conta": 4,
+    "id_periodo": 134,
+    "id_recurso": 1,
+    "valor_lancamento": 320000,
+    "relatorio_origem": "DRE_HITSS",
+    "hash_linha": "2837cafef02daf149eb98f973c17f996",
+    "ativo": true,
+    "data_processamento": "2025-09-23T20:42:50.729865+00:00",
+    "data_criacao": "2025-09-23T20:42:50.729865+00:00",
+    "data_atualizacao": "2025-09-23T20:42:50.729865+00:00"
+  }
+]

@@ -1,0 +1,497 @@
+[
+  {
+    "id": "bcdaeb27-592d-4e86-8f3b-624f5214b2e5",
+    "execution_id": "148d2d34-7813-4478-963d-fafbc5e3ca20",
+    "level": "info",
+    "message": "Cron job configurado com sucesso",
+    "context": {
+      "command": "SELECT call_hitss_automation();",
+      "job_name": "hitss-automation-daily",
+      "schedule": "0 8 * * *",
+      "configured_at": "2025-09-05T22:01:35.230594+00:00"
+    },
+    "timestamp": "2025-09-05T22:01:35.230594+00:00",
+    "created_at": "2025-09-05T22:01:35.230594+00:00"
+  },
+  {
+    "id": "c6838ada-ed0a-47c0-a263-39662326189b",
+    "execution_id": "223cbbab-5acc-4f2b-908d-a41221d78945",
+    "level": "error",
+    "message": "Erro na execução do cron job: service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-06T08:00:00.203541+00:00",
+      "error_code": "P0001",
+      "error_message": "service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';"
+    },
+    "timestamp": "2025-09-06T08:00:00.203541+00:00",
+    "created_at": "2025-09-06T08:00:00.203541+00:00"
+  },
+  {
+    "id": "b5b1f36a-e9c7-4341-8d36-7ccc654e6218",
+    "execution_id": "a54f13ea-6241-4d48-b7e6-671d1a9d52a7",
+    "level": "error",
+    "message": "Erro na execução do cron job: service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T08:00:00.174872+00:00",
+      "error_code": "P0001",
+      "error_message": "service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';"
+    },
+    "timestamp": "2025-09-07T08:00:00.174872+00:00",
+    "created_at": "2025-09-07T08:00:00.174872+00:00"
+  },
+  {
+    "id": "e47f2784-3214-41e0-ab62-d7c84630c5dd",
+    "execution_id": "06d8b8ad-444e-434f-9b93-975b5762eec5",
+    "level": "error",
+    "message": "Erro na execução do cron job: service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:13:30.981565+00:00",
+      "error_code": "P0001",
+      "error_message": "service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';"
+    },
+    "timestamp": "2025-09-07T16:13:30.981565+00:00",
+    "created_at": "2025-09-07T16:13:30.981565+00:00"
+  },
+  {
+    "id": "ff34494d-db6d-4218-9e0a-32f0fce510f9",
+    "execution_id": "df9abb0d-84cd-4f95-a8a8-9d64157a1796",
+    "level": "error",
+    "message": "Erro na execução do cron job: service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:14:12.420546+00:00",
+      "error_code": "P0001",
+      "error_message": "service_role_key não configurado. Configure via: ALTER DATABASE postgres SET app.service_role_key = 'sua_chave';"
+    },
+    "timestamp": "2025-09-07T16:14:12.420546+00:00",
+    "created_at": "2025-09-07T16:14:12.420546+00:00"
+  },
+  {
+    "id": "7ba25cea-9e48-43f8-8cff-2bc2a3ee2f5c",
+    "execution_id": "f8403f83-c471-4a2b-9bd5-0d98ef4a999f",
+    "level": "error",
+    "message": "Erro na automação HITSS: missing FROM-clause entry for table \"vault\"",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:15:00.829266+00:00",
+      "error_code": "42P01",
+      "error_message": "missing FROM-clause entry for table \"vault\""
+    },
+    "timestamp": "2025-09-07T16:15:00.829266+00:00",
+    "created_at": "2025-09-07T16:15:00.829266+00:00"
+  },
+  {
+    "id": "ae0d5c36-6975-41b3-9956-bde856911e4d",
+    "execution_id": "4f83401c-a20c-43b2-b63b-22df82503a2f",
+    "level": "error",
+    "message": "Erro na automação HITSS: missing FROM-clause entry for table \"vault\"",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:15:20.745219+00:00",
+      "error_code": "42P01",
+      "error_message": "missing FROM-clause entry for table \"vault\""
+    },
+    "timestamp": "2025-09-07T16:15:20.745219+00:00",
+    "created_at": "2025-09-07T16:15:20.745219+00:00"
+  },
+  {
+    "id": "04f73dfb-c572-45d4-87db-4662e83a1da3",
+    "execution_id": "dc6f7b0f-02b2-4882-97fb-9d9ed5045e1c",
+    "level": "error",
+    "message": "Erro na automação HITSS: function http_header(unknown, text) does not exist",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:15:52.712694+00:00",
+      "error_code": "42883",
+      "error_message": "function http_header(unknown, text) does not exist"
+    },
+    "timestamp": "2025-09-07T16:15:52.712694+00:00",
+    "created_at": "2025-09-07T16:15:52.712694+00:00"
+  },
+  {
+    "id": "4094b06b-9572-4ae6-897d-bf352c18dc48",
+    "execution_id": "ee7f8925-da3e-450b-a999-f57a3e442f4d",
+    "level": "error",
+    "message": "Erro na automação HITSS: cannot cast type record to http_request",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:16:23.930968+00:00",
+      "error_code": "42846",
+      "error_message": "cannot cast type record to http_request"
+    },
+    "timestamp": "2025-09-07T16:16:23.930968+00:00",
+    "created_at": "2025-09-07T16:16:23.930968+00:00"
+  },
+  {
+    "id": "7bb9347b-63b8-458c-9415-914ccf35346b",
+    "execution_id": "71fd64b3-78e1-4474-beef-d2dc2d690b7b",
+    "level": "error",
+    "message": "Erro na automação HITSS: function http_post(text, unknown, unknown, http_header[]) does not exist",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-07T16:16:43.696369+00:00",
+      "error_code": "42883",
+      "error_message": "function http_post(text, unknown, unknown, http_header[]) does not exist"
+    },
+    "timestamp": "2025-09-07T16:16:43.696369+00:00",
+    "created_at": "2025-09-07T16:16:43.696369+00:00"
+  },
+  {
+    "id": "54e01429-a93d-49eb-92dc-17d62867fc02",
+    "execution_id": "4a359926-c8d4-4d38-b130-b3650fd79e7e",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"code\":401,\"message\":\"Missing authorization header\"}",
+      "timestamp": "2025-09-07T16:17:16.065044+00:00",
+      "status_code": 401
+    },
+    "timestamp": "2025-09-07T16:17:16.065044+00:00",
+    "created_at": "2025-09-07T16:17:16.065044+00:00"
+  },
+  {
+    "id": "4c8dac6d-6a1f-4491-8bbd-f3833a8962ab",
+    "execution_id": "0a34eb32-b89b-48f7-a529-f2d36741b67e",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"code\":401,\"message\":\"Missing authorization header\"}",
+      "timestamp": "2025-09-07T16:19:24.257229+00:00",
+      "status_code": 401
+    },
+    "timestamp": "2025-09-07T16:19:24.257229+00:00",
+    "created_at": "2025-09-07T16:19:24.257229+00:00"
+  },
+  {
+    "id": "9be36fb3-5d32-47b2-bc79-d52f934cecb7",
+    "execution_id": "f160348a-c902-46eb-9292-6751de761034",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"code\":401,\"message\":\"Missing authorization header\"}",
+      "timestamp": "2025-09-07T16:20:48.390281+00:00",
+      "status_code": 401
+    },
+    "timestamp": "2025-09-07T16:20:48.390281+00:00",
+    "created_at": "2025-09-07T16:20:48.390281+00:00"
+  },
+  {
+    "id": "e038a6e5-f713-42c6-b917-0f78a1f6e61d",
+    "execution_id": "27f19a77-1d5a-429d-9dc0-0071d4940b00",
+    "level": "info",
+    "message": "Cron job configurado com sucesso",
+    "context": {
+      "command": "SELECT call_hitss_automation();",
+      "job_name": "hitss-automation-daily",
+      "schedule": "0 8 * * *",
+      "configured_at": "2025-09-18T22:30:17.582561+00:00"
+    },
+    "timestamp": "2025-09-18T22:30:17.582561+00:00",
+    "created_at": "2025-09-18T22:30:17.582561+00:00"
+  },
+  {
+    "id": "ae30c9a1-f930-437a-bab2-ae1e89f05019",
+    "execution_id": "a405f2d5-3425-4a1d-9438-db74d3ccc093",
+    "level": "error",
+    "message": "Erro na execução do cron job: SUPABASE_SERVICE_ROLE_KEY não encontrado. Configure no Vault ou nas variáveis do projeto.",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-18T22:32:34.244177+00:00",
+      "error_code": "P0001",
+      "error_detail": "P0001",
+      "error_message": "SUPABASE_SERVICE_ROLE_KEY não encontrado. Configure no Vault ou nas variáveis do projeto."
+    },
+    "timestamp": "2025-09-18T22:32:34.244177+00:00",
+    "created_at": "2025-09-18T22:32:34.244177+00:00"
+  },
+  {
+    "id": "7ae48467-0dd0-44d0-96c2-1b6b45f2f283",
+    "execution_id": "4539c593-4da3-4c5e-a424-14c2b6862ce1",
+    "level": "error",
+    "message": "Erro na execução do cron job: SUPABASE_SERVICE_ROLE_KEY não encontrado. Configure no Vault ou nas variáveis do projeto.",
+    "context": {
+      "trigger": "pg_cron",
+      "timestamp": "2025-09-18T22:33:32.120322+00:00",
+      "error_code": "P0001",
+      "error_detail": "P0001",
+      "error_message": "SUPABASE_SERVICE_ROLE_KEY não encontrado. Configure no Vault ou nas variáveis do projeto."
+    },
+    "timestamp": "2025-09-18T22:33:32.120322+00:00",
+    "created_at": "2025-09-18T22:33:32.120322+00:00"
+  },
+  {
+    "id": "e606df71-35fc-43b2-9b88-270adafd59cf",
+    "execution_id": "c1196a81-30c9-40af-9397-9cde0ddc8710",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":true,\"message\":\"Teste concluído com sucesso\",\"executionId\":\"efdbfbb1-e6bd-4634-b69c-5145efd246f4\",\"recordsProcessed\":1,\"executionTime\":2220}",
+      "timestamp": "2025-09-18T22:34:31.280512+00:00",
+      "status_code": 200
+    },
+    "timestamp": "2025-09-18T22:34:31.280512+00:00",
+    "created_at": "2025-09-18T22:34:31.280512+00:00"
+  },
+  {
+    "id": "4737c6e1-b1ab-4ecb-9afb-bb5f20d11419",
+    "execution_id": "2fd597c0-64e5-44da-b0a2-4b25de4fcd6e",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Could not find the 'function_name' column of 'automation_executions' in the schema cache\",\"phase\":\"initialization\",\"details\":{},\"timestamp\":\"2025-09-19T08:00:01.359Z\"}",
+      "timestamp": "2025-09-19T08:00:00.173144+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-19T08:00:00.173144+00:00",
+    "created_at": "2025-09-19T08:00:00.173144+00:00"
+  },
+  {
+    "id": "03a16431-a4d5-4ba6-a550-8526a2af470a",
+    "execution_id": "2cd73f3a-ae6a-4ae0-b5b6-3bb9a6468409",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-27T08:00:00.163879+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-27T08:00:00.163879+00:00",
+    "created_at": "2025-09-27T08:00:00.163879+00:00"
+  },
+  {
+    "id": "df2a06f1-ebe0-4786-a328-c004fa96d63d",
+    "execution_id": "94379876-5512-4363-b63d-07ecda599aa4",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-28T08:00:00.185897+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-28T08:00:00.185897+00:00",
+    "created_at": "2025-09-28T08:00:00.185897+00:00"
+  },
+  {
+    "id": "010ffa2f-7a60-4a7c-b413-cdec994c56c6",
+    "execution_id": "a8d0d095-25e4-4125-9ab7-b6b7bc02cbb9",
+    "level": "error",
+    "message": "error sending request for url (https://hitss.exemplo.com/api/auth/login): client error (Connect): invalid peer certificate: NotValidForName",
+    "context": {
+      "stack": "TypeError: error sending request for url (https://hitss.exemplo.com/api/auth/login): client error (Connect): invalid peer certificate: NotValidForName\n    at async mainFetch (ext:deno_fetch/26_fetch.js:191:12)\n    at async fetch (ext:deno_fetch/26_fetch.js:465:11)\n    at async HITSSAutomationService.authenticateAndGetSession (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_27/source/supabase/functions/hitss-automation/hitss-automation-service.ts:112:27)\n    at async HITSSAutomationService.downloadFileDirectly (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_27/source/supabase/functions/hitss-automation/hitss-automation-service.ts:74:27)\n    at async HITSSAutomationService.execute (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_27/source/supabase/functions/hitss-automation/hitss-automation-service.ts:33:30)\n    at async Object.handler (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_27/source/supabase/functions/hitss-automation/index.ts:86:20)\n    at async mapped (ext:runtime/http.js:231:18)",
+      "config": {
+        "baseUrl": "https://hitss.exemplo.com",
+        "username": "seu***"
+      }
+    },
+    "timestamp": "2025-09-19T18:27:01.516+00:00",
+    "created_at": "2025-09-19T18:27:01.536593+00:00"
+  },
+  {
+    "id": "5928e0ae-1c3c-4709-b7e2-16632ae0a414",
+    "execution_id": "3d71ba6f-1508-49e1-bfe2-5d6f78586630",
+    "level": "error",
+    "message": "error sending request for url (https://hitss.exemplo.com/api/auth/login): client error (Connect): invalid peer certificate: NotValidForName",
+    "context": {
+      "stack": "TypeError: error sending request for url (https://hitss.exemplo.com/api/auth/login): client error (Connect): invalid peer certificate: NotValidForName\n    at async mainFetch (ext:deno_fetch/26_fetch.js:191:12)\n    at async fetch (ext:deno_fetch/26_fetch.js:465:11)\n    at async HITSSAutomationService.authenticateAndGetSession (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/hitss-automation-service.ts:112:27)\n    at async HITSSAutomationService.downloadFileDirectly (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/hitss-automation-service.ts:74:27)\n    at async HITSSAutomationService.execute (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/hitss-automation-service.ts:33:30)\n    at async Object.handler (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/index.ts:103:20)\n    at async mapped (ext:runtime/http.js:231:18)",
+      "config": {
+        "baseUrl": "https://hitss.exemplo.com",
+        "username": "seu***"
+      }
+    },
+    "timestamp": "2025-09-19T18:30:48.248+00:00",
+    "created_at": "2025-09-19T18:30:48.278014+00:00"
+  },
+  {
+    "id": "6238c67f-c932-4c44-aefd-f29ac3d36234",
+    "execution_id": "8ff7e0a5-8e62-4870-9dbe-c13d87f3cc8e",
+    "level": "error",
+    "message": "error sending request for url (https://hitss.exemplo.com/api/auth/login): client error (Connect): invalid peer certificate: NotValidForName",
+    "context": {
+      "stack": "TypeError: error sending request for url (https://hitss.exemplo.com/api/auth/login): client error (Connect): invalid peer certificate: NotValidForName\n    at async mainFetch (ext:deno_fetch/26_fetch.js:191:12)\n    at async fetch (ext:deno_fetch/26_fetch.js:465:11)\n    at async HITSSAutomationService.authenticateAndGetSession (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/hitss-automation-service.ts:112:27)\n    at async HITSSAutomationService.downloadFileDirectly (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/hitss-automation-service.ts:74:27)\n    at async HITSSAutomationService.execute (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/hitss-automation-service.ts:33:30)\n    at async Object.handler (file:///tmp/user_fn_oomhhhfahdvavnhlbioa_5c57512b-94d9-4ee4-8e80-06a458218e8f_29/source/supabase/functions/hitss-automation/index.ts:103:20)\n    at async mapped (ext:runtime/http.js:231:18)",
+      "config": {
+        "baseUrl": "https://hitss.exemplo.com",
+        "username": "seu***"
+      }
+    },
+    "timestamp": "2025-09-19T18:30:49.143+00:00",
+    "created_at": "2025-09-19T18:30:49.179572+00:00"
+  },
+  {
+    "id": "d72f5c19-603b-43f1-afc9-5b2d72694127",
+    "execution_id": "228906bb-6fc9-415f-9b14-23726a67aee9",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":true,\"message\":\"Automação HITSS executada com sucesso\",\"executionId\":\"7213ef33-aec3-43c8-be88-5ca4f7bc8a48\",\"recordsProcessed\":12,\"recordsFailed\":2,\"credentialsObtained\":true}",
+      "timestamp": "2025-09-19T22:53:48.404345+00:00",
+      "status_code": 200
+    },
+    "timestamp": "2025-09-19T22:53:48.404345+00:00",
+    "created_at": "2025-09-19T22:53:48.404345+00:00"
+  },
+  {
+    "id": "4bd49a4b-78c2-4bf7-941d-15b255fea3b7",
+    "execution_id": "0f21b4b5-df31-4e73-b94a-0e14c565e0de",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":true,\"message\":\"Automação HITSS executada com sucesso\",\"executionId\":\"a15a253e-ef0e-4af1-be1d-6a73e407c08f\",\"recordsProcessed\":33,\"recordsFailed\":2,\"credentialsObtained\":true}",
+      "timestamp": "2025-09-19T22:56:29.710844+00:00",
+      "status_code": 200
+    },
+    "timestamp": "2025-09-19T22:56:29.710844+00:00",
+    "created_at": "2025-09-19T22:56:29.710844+00:00"
+  },
+  {
+    "id": "fdb97541-d961-473f-9e59-afa457cd9de0",
+    "execution_id": "23aabb01-a243-4237-9570-c08b27c590af",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-20T08:00:00.154403+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-20T08:00:00.154403+00:00",
+    "created_at": "2025-09-20T08:00:00.154403+00:00"
+  },
+  {
+    "id": "8734b251-afc5-4937-8f85-8d322182629f",
+    "execution_id": "b5c41654-ff26-41bc-ae2f-e7653748406b",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-21T08:00:00.141944+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-21T08:00:00.141944+00:00",
+    "created_at": "2025-09-21T08:00:00.141944+00:00"
+  },
+  {
+    "id": "6f94d871-5c85-4185-af28-de839043a09d",
+    "execution_id": "6c3e9d0a-477e-45a4-959c-e665514261f2",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-22T08:00:00.178085+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-22T08:00:00.178085+00:00",
+    "created_at": "2025-09-22T08:00:00.178085+00:00"
+  },
+  {
+    "id": "ac78b269-9f10-45ab-9767-7139aa9a26e0",
+    "execution_id": "a4e0b2b9-e07a-42ad-ad28-0cae3475783e",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-23T08:00:00.198687+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-23T08:00:00.198687+00:00",
+    "created_at": "2025-09-23T08:00:00.198687+00:00"
+  },
+  {
+    "id": "fbdd406b-df3a-4929-8ebb-7c521fe7286f",
+    "execution_id": "67647ca1-4bc9-48dc-8f81-b1e4df7c4456",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-24T08:00:00.16794+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-24T08:00:00.16794+00:00",
+    "created_at": "2025-09-24T08:00:00.16794+00:00"
+  },
+  {
+    "id": "03166a21-9a09-4ce1-9a15-7cdf3196744b",
+    "execution_id": "b59b124a-0505-422c-9288-2051e639e03c",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-25T08:00:00.174849+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-25T08:00:00.174849+00:00",
+    "created_at": "2025-09-25T08:00:00.174849+00:00"
+  },
+  {
+    "id": "f6a07544-f6c0-4e49-901e-fcc8f59fada4",
+    "execution_id": "a5713c60-6b28-4c1c-a170-4a6e827998dd",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-26T08:00:00.207842+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-26T08:00:00.207842+00:00",
+    "created_at": "2025-09-26T08:00:00.207842+00:00"
+  },
+  {
+    "id": "e187eacb-8252-4d4f-971c-8bbf78d9bc31",
+    "execution_id": "99312ad3-345d-4fa8-ac66-f36823126761",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-29T08:00:00.164814+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-29T08:00:00.164814+00:00",
+    "created_at": "2025-09-29T08:00:00.164814+00:00"
+  },
+  {
+    "id": "9257d3b9-1d9e-4dc4-b32f-0e1cc7e53923",
+    "execution_id": "233d7a4c-cac7-48d5-8549-4c531d913d44",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-09-30T08:00:00.219878+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-09-30T08:00:00.219878+00:00",
+    "created_at": "2025-09-30T08:00:00.219878+00:00"
+  },
+  {
+    "id": "0ec7ec36-8bbe-4e43-9aa3-076cbdc3c612",
+    "execution_id": "18c7e4db-31e7-46f4-a353-fd0ad851a319",
+    "level": "info",
+    "message": "Cron job executado com sucesso",
+    "context": {
+      "trigger": "pg_cron",
+      "response": "{\"success\":false,\"error\":\"Falha na automação HITSS\",\"message\":\"Erro ao buscar credenciais: Could not find the table 'public.vault.decrypted_secrets' in the schema cache\"}",
+      "timestamp": "2025-10-01T08:00:00.189846+00:00",
+      "status_code": 500
+    },
+    "timestamp": "2025-10-01T08:00:00.189846+00:00",
+    "created_at": "2025-10-01T08:00:00.189846+00:00"
+  }
+]

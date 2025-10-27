@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-10-02T00:14:33.840Z",
+  "projeto_origem": "https://oomhhhfahdvavnhlbioa.supabase.co",
+  "projeto_destino": "https://pwksgdjjkryqryqrvyja.supabase.co",
+  "status": "CONCLUIDA_CORRIGIDA",
+  "logs": [
+    "[2025-10-02T00:14:31.133Z] [INFO] 🚀 Iniciando migração corrigida para projeto HITSS...",
+    "[2025-10-02T00:14:31.150Z] [INFO] 📁 Diretório de backup criado: ./migration-backup",
+    "[2025-10-02T00:14:31.171Z] [INFO] ✅ Conectado ao projeto atual",
+    "[2025-10-02T00:14:32.022Z] [INFO] ✅ Conectado ao projeto HITSS com sucesso",
+    "[2025-10-02T00:14:32.023Z] [INFO] 👥 Migrando dados de profissionais para colaboradores...",
+    "[2025-10-02T00:14:32.565Z] [INFO] 📊 Encontrados 4 profissionais e 3 colaboradores",
+    "[2025-10-02T00:14:32.822Z] [INFO] ✅ Migração de colaboradores concluída - 7 registros",
+    "[2025-10-02T00:14:32.823Z] [INFO] 📋 Migrando tabelas com estruturas compatíveis...",
+    "[2025-10-02T00:14:32.823Z] [INFO] 📊 Migrando tabela: transacoes_financeiras",
+    "[2025-10-02T00:14:32.893Z] [WARN] ⚠️  Tabela transacoes_financeiras vazia, pulando...",
+    "[2025-10-02T00:14:32.893Z] [INFO] 📊 Migrando tabela: previsoes_financeiras",
+    "[2025-10-02T00:14:33.029Z] [WARN] ⚠️  Tabela previsoes_financeiras vazia, pulando...",
+    "[2025-10-02T00:14:33.030Z] [INFO] 📊 Migrando tabela: uploads_arquivos",
+    "[2025-10-02T00:14:33.121Z] [WARN] ⚠️  Tabela uploads_arquivos vazia, pulando...",
+    "[2025-10-02T00:14:33.122Z] [INFO] 📊 Migrando tabela: logs_auditoria",
+    "[2025-10-02T00:14:33.278Z] [ERROR] ❌ Erro na migração da tabela logs_auditoria: undefined",
+    "[2025-10-02T00:14:33.278Z] [INFO] 📊 Migrando tabela: configuracoes_sistema",
+    "[2025-10-02T00:14:33.438Z] [ERROR] ❌ Erro na migração da tabela configuracoes_sistema: undefined",
+    "[2025-10-02T00:14:33.438Z] [INFO] 📊 Migração de tabelas simples: 0 sucessos, 2 falhas",
+    "[2025-10-02T00:14:33.439Z] [INFO] 📈 Migrando dados DRE...",
+    "[2025-10-02T00:14:33.606Z] [ERROR] ❌ Erro na migração de dados DRE: Could not find the 'ano' column of 'dre_hitss' in the schema cache",
+    "[2025-10-02T00:14:33.606Z] [INFO] 🔍 Verificando integridade dos dados migrados...",
+    "[2025-10-02T00:14:33.832Z] [INFO] 📊 Colaboradores migrados: 0",
+    "[2025-10-02T00:14:33.832Z] [INFO] 📊 Registros DRE migrados: 0",
+    "[2025-10-02T00:14:33.835Z] [INFO] ✅ Verificação de integridade concluída",
+    "[2025-10-02T00:14:33.836Z] [INFO] ⚙️  Atualizando configurações do projeto...",
+    "[2025-10-02T00:14:33.839Z] [INFO] ✅ Arquivo .env atualizado",
+    "[2025-10-02T00:14:33.839Z] [INFO] ✅ Configurações atualizadas para projeto HITSS"
+  ],
+  "resumo": {
+    "tipo_migracao": "CORRIGIDA_COM_MAPEAMENTO",
+    "tabelas_principais": [
+      "colaboradores",
+      "dre_hitss",
+      "transacoes_financeiras",
+      "logs_auditoria"
+    ]
+  }
+}

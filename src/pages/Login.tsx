@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, User, Lock, LogIn } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
@@ -14,21 +14,35 @@ const Login = () => {
   const [validationErrors, setValidationErrors] = useState<{email?: string; password?: string}>({})
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  
+  // Ref para evitar múltiplas execuções do debug
+  const debugExecutedRef = useRef(false)
 
-  // Debug completo na inicialização do componente
+  // Debug completo na inicialização do componente (apenas uma vez)
   useEffect(() => {
     const runDebugOnMount = async () => {
+      // Evitar múltiplas execuções devido ao React.StrictMode
+      if (debugExecutedRef.current) {
+        console.log('[LOGIN-COMPONENT] Debug já executado, pulando execução duplicada');
+        return;
+      }
+      
+      debugExecutedRef.current = true;
       console.log('[LOGIN-COMPONENT] Componente de login montado');
       
-      // Executar debug completo apenas em produção (Vercel)
-      const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-      
-      if (isProduction) {
-        console.log('[LOGIN-COMPONENT] Ambiente de produção detectado, executando debug completo');
-        await runFullDebug();
-      } else {
-        console.log('[LOGIN-COMPONENT] Ambiente local detectado, executando teste básico de conectividade');
-        await testSupabaseConnectivity();
+      try {
+        // Executar debug completo apenas em produção (Vercel)
+        const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+        
+        if (isProduction) {
+          console.log('[LOGIN-COMPONENT] Ambiente de produção detectado, executando debug completo');
+          await runFullDebug();
+        } else {
+          console.log('[LOGIN-COMPONENT] Ambiente local detectado, executando teste básico de conectividade');
+          await testSupabaseConnectivity();
+        }
+      } catch (error) {
+        console.error('[LOGIN-COMPONENT] Erro durante inicialização do debug:', error);
       }
     };
 
@@ -61,7 +75,7 @@ const Login = () => {
     setError('')
 
     try {
-      // Debug antes do login
+      // Debug antes do login (apenas se necessário)
       console.log('[LOGIN-SUBMIT] Executando debug de auth antes do login');
       await debugAuth(email);
       
@@ -82,9 +96,13 @@ const Login = () => {
         });
       }
       
-      // Executar debug adicional em caso de erro
-      console.log('[LOGIN-SUBMIT] Executando debug adicional após erro');
-      await debugAuth(email);
+      // Executar debug adicional em caso de erro (com tratamento de erro)
+      try {
+        console.log('[LOGIN-SUBMIT] Executando debug adicional após erro');
+        await debugAuth(email);
+      } catch (debugError) {
+        console.error('[LOGIN-SUBMIT] Erro durante debug adicional:', debugError);
+      }
       
       setError('Email ou senha inválidos')
     } finally {

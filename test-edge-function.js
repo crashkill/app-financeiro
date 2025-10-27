@@ -1,174 +1,123 @@
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
-const path = require('path');
+// Script para testar a Edge Function de gestão de profissionais
+// Usando fetch nativo do Node.js 18+
 
-// Configuração do Supabase
-const supabaseUrl = 'https://oomhhhfahdvavnhlbioa.supabase.co';
-const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vbWhoaGZhaGR2YXZuaGxiaW9hIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NjUwMjY3MSwiZXhwIjoyMDcyMDc4NjcxfQ.PTWwysas7_MjsOwUlWH7CCy3lEtoMAm9iYRjVWutd8E';
+const SUPABASE_URL = 'https://oomhhhfahdvavnhlbioa.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vbWhoaGZhaGR2YXZuaGxiaW9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MDI2NzEsImV4cCI6MjA3MjA3ODY3MX0.VCD-Ei4eHS_AO9L2jGL2lb9Rqv3d6O0B9rqN0HRHab8';
 
-// Cliente Supabase com service role para testes
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+async function testEdgeFunction() {
+  console.log('🧪 Testando Edge Function de gestão de profissionais...\n');
 
-// Função para criar arquivo de teste
-function createTestFile() {
-  const testData = {
-    empresa: 'HITSS Test',
-    periodo: '2024-01',
-    receitas: {
-      vendas: 1000000,
-      servicos: 500000
-    },
-    custos: {
-      materiais: 300000,
-      pessoal: 400000
-    },
-    despesas: {
-      administrativas: 150000,
-      comerciais: 100000
+  // 1. Criar um profissional de teste
+  console.log('1. Criando profissional de teste...');
+  
+  // Primeiro, vamos listar os profissionais existentes
+  console.log('0. Listando profissionais existentes...');
+  const listResponse = await fetch(`${SUPABASE_URL}/functions/v1/gestao-profissionais`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
     }
+  });
+
+  const listResult = await listResponse.text();
+  console.log('Resposta da listagem inicial:', listResult);
+
+  const novoProfissional = {
+    nome: 'João Silva Teste ' + Date.now(),
+    email: 'joao.teste.' + Date.now() + '@exemplo.com',
+    telefone: '(11) 99999-0001',
+    departamento: 'TI',
+    cargo: 'Desenvolvedor',
+    regime_trabalho: 'CLT',
+    local_alocacao: 'Remoto'
   };
-  
-  const fileName = `test-dre-${Date.now()}.json`;
-  const filePath = path.join(process.cwd(), fileName);
-  
-  fs.writeFileSync(filePath, JSON.stringify(testData, null, 2));
-  console.log(`✅ Arquivo de teste criado: ${fileName}`);
-  
-  return { fileName, filePath, testData };
-}
 
-// Função para fazer upload do arquivo
-async function uploadTestFile(fileName, filePath) {
   try {
-    const fileBuffer = fs.readFileSync(filePath);
-    
-    const { data, error } = await supabase.storage
-      .from('dre_reports')
-      .upload(`test/${fileName}`, fileBuffer, {
-        contentType: 'application/json',
-        upsert: true
-      });
-    
-    if (error) {
-      throw error;
-    }
-    
-    console.log(`✅ Upload realizado com sucesso:`, data);
-    return data;
-  } catch (error) {
-    console.error('❌ Erro no upload:', error);
-    throw error;
-  }
-}
+    const createResponse = await fetch(`${SUPABASE_URL}/functions/v1/gestao-profissionais`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(novoProfissional)
+    });
 
-// Função para verificar se os dados foram inseridos na tabela
-async function verifyDataInsertion(fileName, testData) {
-  try {
-    // Aguardar um pouco para o trigger processar
-    console.log('⏳ Aguardando processamento do trigger...');
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    
-    const { data, error } = await supabase
-      .from('dre_hitss')
-      .select('*')
-      .eq('file_name', fileName)
-      .order('created_at', { ascending: false })
-      .limit(1);
-    
-    if (error) {
-      throw error;
-    }
-    
-    if (data && data.length > 0) {
-      console.log('✅ Dados encontrados na tabela dre_hitss:');
-      console.log(JSON.stringify(data[0], null, 2));
+    const createResult = await createResponse.text();
+    console.log('Resposta da criação:', createResult);
+
+    if (createResponse.ok) {
+      console.log('✅ Profissional criado com sucesso!');
       
-      // Verificar se os dados estão corretos
-      const insertedData = data[0];
-      const isDataCorrect = 
-        insertedData.file_name === fileName &&
-        insertedData.upload_batch_id !== null;
-      
-      if (isDataCorrect) {
-        console.log('✅ Dados inseridos corretamente!');
-      } else {
-        console.log('⚠️ Dados inseridos, mas com diferenças do arquivo original');
+      // Tentar extrair o ID do profissional criado
+      let profissionalId = null;
+      try {
+        const parsed = JSON.parse(createResult);
+        if (parsed.data && parsed.data.id) {
+          profissionalId = parsed.data.id;
+          console.log(`ID do profissional criado: ${profissionalId}`);
+        }
+      } catch (e) {
+        console.log('Não foi possível extrair o ID do profissional');
       }
-      
-      return data[0];
+
+      // 2. Listar profissionais
+      console.log('\n2. Listando profissionais...');
+      const listResponse = await fetch(`${SUPABASE_URL}/functions/v1/gestao-profissionais`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        }
+      });
+
+      const listResult = await listResponse.text();
+      console.log('Resposta da listagem:', listResult);
+
+      if (listResponse.ok) {
+        console.log('✅ Listagem realizada com sucesso!');
+        
+        // Tentar extrair profissionais da resposta
+        try {
+          const parsed = JSON.parse(listResult);
+          if (parsed.data && Array.isArray(parsed.data)) {
+            console.log(`📊 Total de profissionais encontrados: ${parsed.data.length}`);
+            
+            // Se temos profissionais e conseguimos extrair um ID, vamos testar a exclusão
+            if (parsed.data.length > 0 && profissionalId) {
+              console.log('\n3. Testando exclusão...');
+              
+              const deleteResponse = await fetch(`${SUPABASE_URL}/functions/v1/gestao-profissionais`, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: profissionalId })
+              });
+
+              const deleteResult = await deleteResponse.text();
+              console.log('Resposta da exclusão:', deleteResult);
+
+              if (deleteResponse.ok) {
+                console.log('✅ Exclusão realizada com sucesso!');
+              } else {
+                console.log('❌ Erro na exclusão');
+              }
+            }
+          }
+        } catch (e) {
+          console.log('Erro ao processar resposta da listagem:', e.message);
+        }
+      } else {
+        console.log('❌ Erro na listagem');
+      }
     } else {
-      console.log('❌ Nenhum dado encontrado na tabela dre_hitss');
-      return null;
+      console.log('❌ Erro na criação');
     }
   } catch (error) {
-    console.error('❌ Erro ao verificar dados:', error);
-    throw error;
+    console.error('❌ Erro na requisição:', error.message);
   }
+
+  console.log('\n🎯 Teste da Edge Function concluído!');
 }
 
-// Função para limpar arquivos de teste
-async function cleanup(fileName, filePath) {
-  try {
-    // Remover arquivo local
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-      console.log('🧹 Arquivo local removido');
-    }
-    
-    // Remover arquivo do storage
-    const { error } = await supabase.storage
-      .from('dre_reports')
-      .remove([`test/${fileName}`]);
-    
-    if (error) {
-      console.warn('⚠️ Erro ao remover arquivo do storage:', error);
-    } else {
-      console.log('🧹 Arquivo removido do storage');
-    }
-  } catch (error) {
-    console.warn('⚠️ Erro durante limpeza:', error);
-  }
-}
-
-// Função principal de teste
-async function runTest() {
-  console.log('🚀 Iniciando teste da Edge Function process-dre-upload\n');
-  
-  let testFile = null;
-  
-  try {
-    // 1. Criar arquivo de teste
-    console.log('1️⃣ Criando arquivo de teste...');
-    testFile = createTestFile();
-    
-    // 2. Fazer upload
-    console.log('\n2️⃣ Fazendo upload do arquivo...');
-    const uploadResult = await uploadTestFile(testFile.fileName, testFile.filePath);
-    
-    // 3. Verificar inserção de dados
-    console.log('\n3️⃣ Verificando inserção de dados...');
-    const insertedData = await verifyDataInsertion(testFile.fileName, testFile.testData);
-    
-    // 4. Resultado final
-    console.log('\n📊 RESULTADO DO TESTE:');
-    if (insertedData) {
-      console.log('✅ SUCESSO: Edge Function funcionando corretamente!');
-      console.log('✅ Trigger acionado com sucesso');
-      console.log('✅ Dados inseridos na tabela dre_hitss');
-    } else {
-      console.log('❌ FALHA: Edge Function não funcionou como esperado');
-    }
-    
-  } catch (error) {
-    console.error('\n❌ ERRO DURANTE O TESTE:', error);
-  } finally {
-    // 5. Limpeza
-    if (testFile) {
-      console.log('\n5️⃣ Limpando arquivos de teste...');
-      await cleanup(testFile.fileName, testFile.filePath);
-    }
-  }
-}
-
-// Executar teste
-runTest().catch(console.error);
+testEdgeFunction().catch(console.error);

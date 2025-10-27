@@ -3,7 +3,8 @@ import { Container, Row, Col, Card, Table } from 'react-bootstrap';
 import { formatCurrency, formatPercent } from '../utils/formatters';
 import { db } from '../db/database';
 import type { Transacao } from '../db/database';
-import FilterPanel from '../components/FilterPanel';
+import ProjectFilterReusable from '../components/filters/ProjectFilterReusable';
+import YearFilterReusable from '../components/filters/YearFilterReusable';
 
 interface DadosMes {
   receita: number;
@@ -219,15 +220,23 @@ const PlanilhasFinanceiras: React.FC = () => {
         </Col>
       </Row>
 
-      <Row>
-        <Col>
-          <FilterPanel
+      <Row className="mb-4">
+        <Col md={8}>
+          <ProjectFilterReusable
             projects={projects}
             selectedProjects={selectedProjects}
+            onChange={setSelectedProjects}
+            isLoading={isLoading}
+            label="Filtrar Projetos"
+          />
+        </Col>
+        <Col md={4}>
+          <YearFilterReusable
             years={years}
             selectedYear={selectedYear}
-            onProjectChange={setSelectedProjects}
-            onYearChange={setSelectedYear}
+            onChange={setSelectedYear}
+            isLoading={isLoading}
+            label="Filtrar Ano"
           />
         </Col>
       </Row>

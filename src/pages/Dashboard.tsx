@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap';
 import { useTransacoes } from '../hooks/useTransacoes';
-import { YearFilter, ProjectFilter } from '../components/filters';
 import { ProjectCharts } from '../components/ProjectCharts';
 import { storageService } from '../services/storageService';
 import { db, Transacao } from '../db/database';
-import Project_Year from '../components/Project_Year';
 import DashboardCharts from '../components/DashboardCharts';
+import ProjectFilterReusable from '../components/filters/ProjectFilterReusable';
+import YearFilterReusable from '../components/filters/YearFilterReusable';
 
 
 const Dashboard = () => {
@@ -167,14 +167,26 @@ const Dashboard = () => {
       </Row>
 
       {/* Filtros */}
-      <Project_Year
-        projects={projects}
-        years={years}
-        selectedProjects={selectedProjects}
-        selectedYear={selectedYear}
-        onProjectsChange={setSelectedProjects}
-        onYearChange={setSelectedYear}
-      />
+      <Row className="mb-4">
+        <Col md={8}>
+          <ProjectFilterReusable
+            projects={projects}
+            selectedProjects={selectedProjects}
+            onChange={setSelectedProjects}
+            isLoading={false}
+            label="Filtrar Projetos"
+          />
+        </Col>
+        <Col md={4}>
+          <YearFilterReusable
+            years={years}
+            selectedYear={parseInt(selectedYear)}
+            onChange={(year) => setSelectedYear(year.toString())}
+            isLoading={false}
+            label="Filtrar Ano"
+          />
+        </Col>
+      </Row>
 
       <Row>
         <Col md={4} className="mb-4">
@@ -236,6 +248,8 @@ const Dashboard = () => {
           </Card>
         </Col>
       </Row>
+
+
     </Container>
   )
 }
