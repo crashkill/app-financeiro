@@ -14,6 +14,12 @@ RUN npm ci --silent
 # Copiar código fonte
 COPY . .
 
+# Variáveis de ambiente de build (injetadas pelo Coolify como build args)
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+ENV VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+
 # Gerar build de produção
 RUN npm run build
 
