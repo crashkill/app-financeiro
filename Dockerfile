@@ -1,73 +1,40 @@
-# Dockerfile para App Financeiro - React + Vite
-# Imagem base para build
+# Multi-stage build para otimizar o tamanho da imagem final
+
+# Estágio 1: Build da aplicação
 FROM node:18-alpine AS builder
 
-# Definir diretório de trabalho
 WORKDIR /app
 
 # Copiar arquivos de dependências
 COPY package*.json ./
 
-# Instalar dependências
-RUN npm ci --only=production
+# Instalar dependências (inclui devDependencies para build)
+RUN npm ci --silent
 
 # Copiar código fonte
 COPY . .
 
-# Argumentos de build para variáveis de ambiente
-ARG VITE_SUPABASE_URL
-ARG VITE_SUPABASE_ANON_KEY
-ARG VITE_SUPABASE_SERVICE_ROLE_KEY
-ARG VITE_APP_NAME
-ARG VITE_APP_VERSION
-ARG VITE_APP_ENVIRONMENT
-ARG VITE_DEBUG
-ARG VITE_LOG_LEVEL
-ARG VITE_GRAPHQL_ENDPOINT
-ARG VITE_ENABLE_GRAPHQL_PLAYGROUND
-ARG VITE_MAX_FILE_SIZE
-ARG VITE_ALLOWED_FILE_TYPES
-ARG VITE_CACHE_TTL
-ARG VITE_ENABLE_OFFLINE
-ARG RESEND_API_KEY
-ARG NOTIFICATION_EMAIL
-ARG EMAIL_FROM_NAME
-ARG EMAIL_FROM_ADDRESS
-
-# Definir variáveis de ambiente para o build
-ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
-ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
-ENV VITE_SUPABASE_SERVICE_ROLE_KEY=$VITE_SUPABASE_SERVICE_ROLE_KEY
-ENV VITE_APP_NAME=$VITE_APP_NAME
-ENV VITE_APP_VERSION=$VITE_APP_VERSION
-ENV VITE_APP_ENVIRONMENT=$VITE_APP_ENVIRONMENT
-ENV VITE_DEBUG=$VITE_DEBUG
-ENV VITE_LOG_LEVEL=$VITE_LOG_LEVEL
-ENV VITE_GRAPHQL_ENDPOINT=$VITE_GRAPHQL_ENDPOINT
-ENV VITE_ENABLE_GRAPHQL_PLAYGROUND=$VITE_ENABLE_GRAPHQL_PLAYGROUND
-ENV VITE_MAX_FILE_SIZE=$VITE_MAX_FILE_SIZE
-ENV VITE_ALLOWED_FILE_TYPES=$VITE_ALLOWED_FILE_TYPES
-ENV VITE_CACHE_TTL=$VITE_CACHE_TTL
-ENV VITE_ENABLE_OFFLINE=$VITE_ENABLE_OFFLINE
-ENV RESEND_API_KEY=$RESEND_API_KEY
-ENV NOTIFICATION_EMAIL=$NOTIFICATION_EMAIL
-ENV EMAIL_FROM_NAME=$EMAIL_FROM_NAME
-ENV EMAIL_FROM_ADDRESS=$EMAIL_FROM_ADDRESS
-
-# Build da aplicação
+# Gerar build de produção
 RUN npm run build
 
-# Imagem de produção com Nginx
+# Estágio 2: Servir com Nginx
 FROM nginx:alpine AS production
 
-# Copiar configuração customizada do Nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+# Remover configuração padrão e usar a customizada
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copiar arquivos buildados
+# Copiar arquivos gerados do build
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expor porta 80
+# Healthcheck simples
+RUN apk add --no-cache curl \
+ && echo '#!/bin/sh\ncurl -f http://localhost:80/health || exit 1' > /usr/local/bin/healthcheck.sh \
+ && chmod +x /usr/local/bin/healthcheck.sh
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD /usr/local/bin/healthcheck.sh
+
 EXPOSE 80
 
-# Comando para iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
