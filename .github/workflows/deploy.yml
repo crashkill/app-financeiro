@@ -1,0 +1,41 @@
+name: Deploy via Coolify (multi-env)
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select environment
+        id: select-env
+        shell: bash
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          if [ "$BRANCH" = "main" ]; then
+            echo "resource_id=${{ secrets.COOLIFY_RESOURCE_ID_PROD }}" >> $GITHUB_OUTPUT
+          else
+            echo "resource_id=${{ secrets.COOLIFY_RESOURCE_ID_STAGING }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update commit SHA in Coolify (optional)
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.COOLIFY_URL }}/api/v1/applications/${{ steps.select-env.outputs.resource_id }}
+          method: PATCH
+          bearerToken: ${{ secrets.COOLIFY_TOKEN }}
+          data: |
+            {"git_commit_sha":"${{ github.sha }}"}
+
+      - name: Trigger Coolify deployment
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.COOLIFY_URL }}/api/v1/deploy?uuid=${{ steps.select-env.outputs.resource_id }}&force=false
+          method: GET
+          bearerToken: ${{ secrets.COOLIFY_TOKEN }}
