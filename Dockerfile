@@ -27,8 +27,8 @@ RUN npm run build
 FROM nginx:alpine AS production
 
 # Remover configuração padrão e usar a customizada
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Usar configuração principal customizada
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copiar arquivos gerados do build
 COPY --from=builder /app/dist /usr/share/nginx/html
