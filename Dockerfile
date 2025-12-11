@@ -33,13 +33,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copiar arquivos gerados do build
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Healthcheck simples
-RUN apk add --no-cache curl \
- && echo '#!/bin/sh\ncurl -f http://localhost:80/health || exit 1' > /usr/local/bin/healthcheck.sh \
- && chmod +x /usr/local/bin/healthcheck.sh
-
+# Healthcheck direto para evitar problemas de CRLF em scripts gerados
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD /usr/local/bin/healthcheck.sh
+  CMD curl -f http://localhost:80/health || exit 1
 
 EXPOSE 80
 
