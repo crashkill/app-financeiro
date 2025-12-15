@@ -1,79 +1,69 @@
-# Dependências
+# Dependencies
 node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# Build outputs
+# Testing
+coverage
+.nyc_output
+
+# Production
 dist
 build
 
-# Environment files
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+*.log
+.npm
+
+# Local env files
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# IDE files
-.vscode
-.idea
-*.swp
-*.swo
+# Vercel
+.vercel
 
-# OS files
-.DS_Store
-Thumbs.db
+# Typescript
+*.tsbuildinfo
 
 # Git
 .git
 .gitignore
 
-# Documentation
-README.md
-*.md
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
 
-# Test files
-coverage
-.nyc_output
-test-results
+# Supabase
+supabase/.branches
+supabase/.temp
 
-# Logs
-logs
-*.log
+# Scripts de migração local
+*.js
+!vite.config.js
+!jest.config.js
+migrate_data.js
+export_to_sql.js
+import_to_local.js
+check_cloud_schema.js
+verify_keys_and_schema.js
+clean_migrations.js
+apply_schema.js
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# SQL dumps
+*.sql
+!supabase/migrations/*.sql
 
-# Coverage directory used by tools like istanbul
-coverage
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# Scripts de teste
-test-*.js
-test-*.cjs
-test-*.mjs
-debug-*.js
-cleanup-*.mjs
-scripts/
-
-# Arquivos temporários
-*.tmp
-*.temp
+# Artifacts
+.gemini

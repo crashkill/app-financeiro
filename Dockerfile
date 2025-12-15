@@ -15,8 +15,8 @@ RUN npm ci --silent
 COPY . .
 
 # Variáveis de ambiente de build (injetadas pelo Coolify como build args)
-ARG VITE_SUPABASE_URL=https://supabase.fsw-hitss.duckdns.org
-ARG VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2NTMxMjYyMCwiZXhwIjo0OTIwOTg2MjIwLCJyb2xlIjoiYW5vbiJ9.ROa02tImzr0KYvitB18aq3cmYEvn_v77nhYmhfL6kVc
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
 ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
 ENV VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
 
