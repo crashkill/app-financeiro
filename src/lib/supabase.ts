@@ -8,7 +8,7 @@ const debugSupabaseConfig = () => {
   const timestamp = new Date().toISOString();
   const environment = typeof window !== 'undefined' ? window.location.hostname : 'server';
   const isProduction = environment !== 'localhost' && environment !== '127.0.0.1';
-  
+
   console.log(`[SUPABASE-CONFIG ${timestamp}] [${environment}] Configurando cliente Supabase`, {
     hasUrlEnv: !!import.meta.env.VITE_SUPABASE_URL,
     hasKeyEnv: !!import.meta.env.VITE_SUPABASE_ANON_KEY,
@@ -18,7 +18,7 @@ const debugSupabaseConfig = () => {
     allEnvVars: Object.keys(import.meta.env).filter(key => key.includes('SUPABASE')),
     singleton: !!supabaseInstance
   });
-  
+
   if (isProduction) {
     console.warn(`[VERCEL-SUPABASE-CONFIG] Configuração em produção`, {
       hasUrl: !!import.meta.env.VITE_SUPABASE_URL,
@@ -33,7 +33,11 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 if (!supabaseUrl) {
   throw new Error('❌ VITE_SUPABASE_URL is required. Configure environment variables.')
 }
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2bG1ib3VndWZncmVjeXlqeHpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzNjQxOTYsImV4cCI6MjA3NDk0MDE5Nn0.S3Oy7gEQ9VRUrDick627LH_h3DIPowAaYBkCjjqrgB8'
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseAnonKey) {
+  throw new Error('❌ VITE_SUPABASE_ANON_KEY is required. Configure environment variables.')
+}
 
 // Função para criar ou retornar a instância singleton do Supabase
 const createSupabaseClient = (): SupabaseClient => {
