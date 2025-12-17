@@ -2,25 +2,30 @@ version: '3.8'
 
 services:
   app-financeiro:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+    container_name: app-financeiro
+    ports:
+      - "3000:80"
     environment:
-      # Doppler injeta as variáveis automaticamente
-      - DOPPLER_PROJECT=app-financeiro
-      - DOPPLER_CONFIG=dev
-    volumes:
-      - ./mcp.template.json:/app/mcp.template.json:ro
-    command: doppler run -- npm start
-    depends_on:
-      - doppler-init
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+    labels:
+      - "com.app-financeiro.description=Sistema de Gestão Financeira"
+      - "com.app-financeiro.version=1.0.0"
 
-  doppler-init:
-    image: dopplerhq/cli:latest
-    volumes:
-      - ~/.doppler:/root/.doppler:ro
-      - ./:/app:rw
-    working_dir: /app
-    command: >
-      sh -c "
-        doppler setup --project app-financeiro --config dev --no-interactive &&
-        doppler run -- node sync-mcp-config.js
-      "
+networks:
+  app-network:
+    driver: bridge

@@ -1,2 +1,0 @@
-CI ping #2 — commit simples para testar integração Coolify/GitHub
-Timestamp: 2025-11-06T00:00:00Z

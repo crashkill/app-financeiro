@@ -1,7 +1,0 @@
-codigo_conta,nome_conta,valor,ano,mes,situacao,agrupamento
-3.01.001,Receita de Vendas,100000,2024,1,Ativo,Receitas
-4.01.001,Custo dos Produtos Vendidos,-60000,2024,1,Ativo,Custos
-5.01.001,Despesas Administrativas,-15000,2024,1,Ativo,Despesas
-3.01.001,Receita de Vendas,110000,2024,2,Ativo,Receitas
-4.01.001,Custo dos Produtos Vendidos,-65000,2024,2,Ativo,Custos
-5.01.001,Despesas Administrativas,-16000,2024,2,Ativo,Despesas

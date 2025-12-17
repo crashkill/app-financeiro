@@ -1,67 +1,130 @@
 -- =====================================================
--- MIGRAÇÃO 001: Criação da Tabela DRE HITSS
--- Data: 15 de Janeiro de 2025
--- Objetivo: Criar estrutura da tabela dre_hitss com índices e permissões
+-- MIGRAÇÃO 001 (COMPLETA): Criação da Tabela DRE HITSS
+-- Schema completo baseado no Cloud
 -- =====================================================
 
--- Criar tabela principal dre_hitss
-CREATE TABLE IF NOT EXISTS public.dre_hitss (
-    id BIGSERIAL PRIMARY KEY,
-    execution_id TEXT NOT NULL,
-    conta TEXT,
-    descricao TEXT,
-    valor DECIMAL(15,2),
-    tipo TEXT,
-    periodo TEXT,
-    empresa TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
+DROP TABLE IF EXISTS public.dre_hitss CASCADE;
 
--- Comentários da tabela
-COMMENT ON TABLE public.dre_hitss IS 'Tabela para armazenar dados do DRE HITSS automatizado';
-COMMENT ON COLUMN public.dre_hitss.id IS 'Chave primária auto-incremento';
-COMMENT ON COLUMN public.dre_hitss.execution_id IS 'ID único da execução da automação';
-COMMENT ON COLUMN public.dre_hitss.conta IS 'Código da conta contábil';
-COMMENT ON COLUMN public.dre_hitss.descricao IS 'Descrição da conta contábil';
-COMMENT ON COLUMN public.dre_hitss.valor IS 'Valor monetário da conta';
-COMMENT ON COLUMN public.dre_hitss.tipo IS 'Tipo da conta (RECEITA/DESPESA)';
-COMMENT ON COLUMN public.dre_hitss.periodo IS 'Período de referência dos dados';
-COMMENT ON COLUMN public.dre_hitss.empresa IS 'Nome da empresa';
-COMMENT ON COLUMN public.dre_hitss.created_at IS 'Timestamp de criação do registro';
+CREATE TABLE public.dre_hitss (
+  id uuid not null default gen_random_uuid (),
+  projeto character varying(255) not null,
+  ano integer not null,
+  mes integer not null,
+  conta character varying(255) not null,
+  descricao text null,
+  natureza character varying(20) not null,
+  tipo character varying(30) not null,
+  valor numeric(15, 2) not null default 0.00,
+  observacoes text null,
+  data_criacao timestamp with time zone null default CURRENT_TIMESTAMP,
+  data_atualizacao timestamp with time zone null default CURRENT_TIMESTAMP,
+  usuario_criacao uuid null,
+  usuario_atualizacao uuid null,
+  ativo boolean null default true,
+  metadata jsonb null default '{}'::jsonb,
+  tipo_conta character varying(20) null,
+  receita_total numeric(15, 2) null default 0,
+  custo_total numeric(15, 2) null default 0,
+  desoneracao numeric(15, 2) null default 0,
+  custo_clt numeric(15, 2) null default 0,
+  custo_outros numeric(15, 2) null default 0,
+  custo_subcontratados numeric(15, 2) null default 0,
+  relatorio character varying(255) null,
+  cliente character varying(255) null,
+  linha_negocio character varying(255) null,
+  responsavel_area character varying(255) null,
+  responsavel_delivery character varying(255) null,
+  responsavel_devengado character varying(255) null,
+  id_homs character varying(255) null,
+  codigo_projeto character varying(255) null,
+  filial_faturamento character varying(255) null,
+  imposto character varying(255) null,
+  conta_resumo character varying(255) null,
+  denominacao_conta text null,
+  id_recurso character varying(255) null,
+  recurso character varying(255) null,
+  lancamento numeric null,
+  periodo character varying(255) null,
+  execution_id text null,
+  upload_batch_id uuid null,
+  file_name text null,
+  file_hash text null,
+  row_hash text null,
+  constraint dre_hitss_pkey primary key (id),
+  constraint dre_hitss_mes_check check (
+    (
+      (mes >= 1)
+      and (mes <= 12)
+    )
+  ),
+  constraint dre_hitss_natureza_check check (
+    (
+      (natureza)::text = any (
+        (
+          array[
+            'RECEITA'::character varying,
+            'DESPESA'::character varying
+          ]
+        )::text[]
+      )
+    )
+  ),
+  constraint dre_hitss_tipo_check check (
+    (
+      (tipo)::text = any (
+        (
+          array[
+            'OPERACIONAL'::character varying,
+            'NAO_OPERACIONAL'::character varying
+          ]
+        )::text[]
+      )
+    )
+  ),
+  constraint dre_hitss_tipo_conta_check check (
+    (
+      (tipo_conta)::text = any (
+        (
+          array[
+            'Receita'::character varying,
+            'Custo'::character varying,
+            'Despesa'::character varying
+          ]
+        )::text[]
+      )
+    )
+  )
+) TABLESPACE pg_default;
 
--- Criar índices para performance
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_execution_id ON public.dre_hitss(execution_id);
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_empresa ON public.dre_hitss(empresa);
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_periodo ON public.dre_hitss(periodo);
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_created_at ON public.dre_hitss(created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_tipo ON public.dre_hitss(tipo);
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_conta ON public.dre_hitss(conta);
+-- Índices
+create index IF not exists idx_dre_hitss_projeto_ano_mes on public.dre_hitss using btree (projeto, ano, mes) TABLESPACE pg_default;
+create index IF not exists idx_dre_hitss_natureza on public.dre_hitss using btree (natureza) TABLESPACE pg_default;
+create index IF not exists idx_dre_hitss_tipo on public.dre_hitss using btree (tipo) TABLESPACE pg_default;
+create index IF not exists idx_dre_hitss_tipo_conta on public.dre_hitss using btree (tipo_conta) TABLESPACE pg_default;
+create index IF not exists idx_dre_hitss_ativo on public.dre_hitss using btree (ativo) TABLESPACE pg_default where (ativo = true);
+create index IF not exists idx_dre_hitss_financial_composite on public.dre_hitss using btree (projeto, ano, mes, natureza, tipo) TABLESPACE pg_default where (ativo = true);
+create index IF not exists idx_dre_hitss_valor_filter on public.dre_hitss using btree (valor) TABLESPACE pg_default where (valor <> (0)::numeric);
+create index IF not exists idx_dre_hitss_aggregation on public.dre_hitss using btree (projeto, ano, natureza, valor) TABLESPACE pg_default where (ativo = true);
+create index IF not exists idx_dre_hitss_ano_mes on public.dre_hitss using btree (ano, mes) TABLESPACE pg_default;
+create index IF not exists idx_dre_hitss_file_hash on public.dre_hitss using btree (file_hash) TABLESPACE pg_default;
+create index IF not exists idx_dre_hitss_upload_batch on public.dre_hitss using btree (upload_batch_id) TABLESPACE pg_default;
+create unique INDEX IF not exists idx_dre_hitss_row_hash_unique on public.dre_hitss using btree (row_hash) TABLESPACE pg_default;
 
--- Índice composto para consultas frequentes
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_empresa_periodo ON public.dre_hitss(empresa, periodo);
-CREATE INDEX IF NOT EXISTS idx_dre_hitss_execution_tipo ON public.dre_hitss(execution_id, tipo);
-
--- Habilitar RLS (Row Level Security)
+-- RLS
 ALTER TABLE public.dre_hitss ENABLE ROW LEVEL SECURITY;
 
--- Política para usuários autenticados (leitura e escrita)
 CREATE POLICY "Usuários autenticados podem acessar dre_hitss" ON public.dre_hitss
     FOR ALL USING (auth.role() = 'authenticated');
 
--- Política para service_role (acesso total)
 CREATE POLICY "Service role acesso total dre_hitss" ON public.dre_hitss
     FOR ALL USING (auth.role() = 'service_role');
 
--- Conceder permissões
+-- Permissões
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.dre_hitss TO authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.dre_hitss TO service_role;
-GRANT USAGE, SELECT ON SEQUENCE public.dre_hitss_id_seq TO authenticated;
-GRANT USAGE, SELECT ON SEQUENCE public.dre_hitss_id_seq TO service_role;
-
--- Conceder permissões para anon (apenas leitura)
 GRANT SELECT ON public.dre_hitss TO anon;
 
--- Verificar se a tabela foi criada corretamente
+-- Log
 DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'dre_hitss' AND table_schema = 'public') THEN
@@ -70,8 +133,3 @@ BEGIN
         RAISE EXCEPTION 'Erro ao criar tabela dre_hitss';
     END IF;
 END $$;
-
--- Log da migração
-INSERT INTO public.schema_migrations (version, applied_at) 
-VALUES ('001_create_dre_hitss_table', NOW())
-ON CONFLICT (version) DO NOTHING;

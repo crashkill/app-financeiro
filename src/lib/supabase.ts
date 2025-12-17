@@ -28,7 +28,11 @@ const debugSupabaseConfig = () => {
 };
 
 //# Credenciais do projeto HITSS via MCP-Supabase-HITSS
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://vvlmbougufgrecyyjxzb.supabase.co'
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+
+if (!supabaseUrl) {
+  throw new Error('❌ VITE_SUPABASE_URL is required. Configure environment variables.')
+}
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2bG1ib3VndWZncmVjeXlqeHpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzNjQxOTYsImV4cCI6MjA3NDk0MDE5Nn0.S3Oy7gEQ9VRUrDick627LH_h3DIPowAaYBkCjjqrgB8'
 
 // Função para criar ou retornar a instância singleton do Supabase

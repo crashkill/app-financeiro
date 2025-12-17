@@ -198,7 +198,4 @@ BEGIN
     END IF;
 END $$;
 
--- Log da migração
-INSERT INTO public.schema_migrations (version, applied_at) 
-VALUES ('003_create_system_logs_table', NOW())
-ON CONFLICT (version) DO NOTHING;
+-- Log da migração (removed schema_migrations)

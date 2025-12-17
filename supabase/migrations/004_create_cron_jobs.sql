@@ -159,7 +159,7 @@ BEGIN
             -- Log da execução da automação HITSS
             INSERT INTO system_logs (level, message, source, metadata)
             VALUES (
-                'info',
+                'INFO',
                 'Cron job executado: Automação HITSS diária',
                 'cron-scheduler',
                 jsonb_build_object(
@@ -180,7 +180,7 @@ BEGIN
             -- Log da execução de sincronização
             INSERT INTO system_logs (level, message, source, metadata)
             VALUES (
-                'info',
+                'INFO',
                 'Cron job executado: Sincronização DRE',
                 'cron-scheduler',
                 jsonb_build_object(
@@ -214,7 +214,7 @@ BEGIN
         -- Log do erro
         INSERT INTO system_logs (level, message, source, metadata)
         VALUES (
-            'error',
+            'ERROR',
             'Erro na execução do cron job: ' || job_name,
             'cron-scheduler',
             jsonb_build_object(
@@ -451,7 +451,7 @@ BEGIN
         -- Log da migração
         INSERT INTO system_logs (level, message, source, metadata)
         VALUES (
-            'info',
+            'INFO',
             'Migração 004: Tabela cron_jobs e funções de agendamento criadas',
             'migration',
             jsonb_build_object(

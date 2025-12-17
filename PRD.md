@@ -58,9 +58,10 @@ flowchart TD
 ```
 
 ## 8. Stack Sugerida
-- Supabase Postgres + Storage + Edge Functions (Deno + npm compat) + Vault + Scheduler.
+- Supabase Self-Hosted (Coolify) + Storage + Edge Functions.
+- URL: `https://supabase.fsw-hitss.duckdns.org`
 - Extensão `pg_graphql` para GraphQL nativo.
-- Biblioteca `xlsx` (npm) para parsing do Excel dentro da Edge Function (Deno NPM).
+- Biblioteca `xlsx` (npm) para parsing do Excel dentro da Edge Function.
 
 ## 9. Modelo de Dados (DDL Proposto)
 Observação: ajustar tipos/constraints conforme produção.

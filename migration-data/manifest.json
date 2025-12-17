@@ -1,0 +1,79 @@
+{
+  "exportDate": "2025-12-15T20:01:08.266Z",
+  "sourceUrl": "https://oomhhhfahdvavnhlbioa.supabase.co",
+  "tables": [
+    {
+      "tableName": "dre_hitss",
+      "success": true,
+      "rowCount": 22297,
+      "hash": "621245150129522dc9923052fcff220d7a55a55a2cc8437e20a59569209ea0e2",
+      "filePath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\dre_hitss.json"
+    },
+    {
+      "tableName": "dim_tempo",
+      "success": false,
+      "error": "Could not find the table 'public.dim_tempo' in the schema cache",
+      "rowCount": 0
+    },
+    {
+      "tableName": "dim_cliente",
+      "success": true,
+      "rowCount": 1,
+      "hash": "456256ba0d8454936fdad39d327d02e769a78ad3597537ba8843a1c981e49ee5",
+      "filePath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\dim_cliente.json"
+    },
+    {
+      "tableName": "dim_conta",
+      "success": true,
+      "rowCount": 4,
+      "hash": "8a1b54047fc44f5c72a4c0723702aaeb979070b0f3a49b3495317a1e148ab02b",
+      "filePath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\dim_conta.json"
+    },
+    {
+      "tableName": "dim_projeto",
+      "success": true,
+      "rowCount": 1,
+      "hash": "9ed2472d75b85de3023e86beae1f4c1238736bd7e351c5522da535e8c7d487d2",
+      "filePath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\dim_projeto.json"
+    },
+    {
+      "tableName": "dim_natureza",
+      "success": false,
+      "error": "Could not find the table 'public.dim_natureza' in the schema cache",
+      "rowCount": 0
+    },
+    {
+      "tableName": "dim_tipo",
+      "success": false,
+      "error": "Could not find the table 'public.dim_tipo' in the schema cache",
+      "rowCount": 0
+    },
+    {
+      "tableName": "fato_dre",
+      "success": false,
+      "error": "Could not find the table 'public.fato_dre' in the schema cache",
+      "rowCount": 0
+    },
+    {
+      "tableName": "dre_execution_logs",
+      "success": true,
+      "rowCount": 1325,
+      "hash": "eeabe535c50041f2f010e9012dba95edeef0350cac0266a50d3677e6f25424af",
+      "filePath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\dre_execution_logs.json"
+    },
+    {
+      "tableName": "stg_dre_hitss_raw",
+      "success": true,
+      "rowCount": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "filePath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\stg_dre_hitss_raw.json"
+    }
+  ],
+  "schema": {
+    "success": true,
+    "schemaPath": "C:\\Users\\fabricio.lima\\OneDrive - HITSS DO BRASIL SERVIÇOS TECNOLOGICOS LTDA\\Área de Trabalho - Antiga\\Projetos React\\app-financeiro\\migration-data\\schema-info.json"
+  },
+  "totalRows": 23628,
+  "successCount": 6,
+  "failureCount": 4
+}

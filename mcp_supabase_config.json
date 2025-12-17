@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "supabase-selfhosted": {
+            "type": "http",
+            "url": "https://supabase.fsw-hitss.duckdns.org/mcp?read_only=false&features=database,docs,debugging",
+            "headers": {
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2NTUzNjMwMCwiZXhwIjo0OTIxMjA5OTAwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.W3COShRbLKzYGkIPNN3kDvlhRpXQPA4TmrP05Yrp82g"
+            }
+        }
+    }
+}

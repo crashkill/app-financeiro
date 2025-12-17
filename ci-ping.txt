@@ -1,5 +1,0 @@
-CI Ping: Trigger Coolify pipeline
-Projeto: app-financeiro
-Origem: commit de verificação de integração CI/CD
-Timestamp: 2025-11-04T18:43:00Z
-Observação: mudança não afeta UI nem funcionalidades

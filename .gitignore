@@ -39,4 +39,105 @@ src/modelos/
 *.bak
 *.tmp
 *.temp
+
+# Deploy platforms
 .vercel
+.netlify
+.coolify
+.trae
+
+# Temporary directories
+temp/
+temp_backup/
+migration-backup/
+migration-backup-*/
+backup_*/
+
+# Test files
+test-*.js
+test-*.cjs
+test-*.mjs
+debug-*.js
+debug-*.cjs
+check-*.js
+check-*.cjs
+*-test.js
+*-test.cjs
+
+# Migration and setup scripts (keep only in version control if needed)
+migrate-*.js
+migrate-*.cjs
+migration-*.js
+apply-migration.js
+fix-*.js
+setup-*.js
+create-table-*.js
+create-table-*.cjs
+
+# Analysis and reports
+analyze-*.js
+analyze-*.cjs
+extract-*.cjs
+verify-*.cjs
+validate-*.cjs
+discover-*.js
+diagnose-*.mjs
+simulate_*.js
+stress-test-*.js
+comprehensive-test.js
+simple-test.js
+browser-test.js
+
+# Report files
+RELATORIO_*.md
+RELATORIO_*.json
+relatorio-*.md
+TEST_RESULT.md
+dre-*.json
+*-report-*.json
+projetos-excel-analysis.json
+migration_data.json
+
+# Excel test files
+Relatorio_*.xlsx
+hitss-data-test*.xlsx
+dre_hitss_*.xlsx
+
+# SQL migration files
+create-dre-*.sql
+migrate-*.sql
+setup_*.sql
+query_*.sql
+create_*.sql
+colaboradores_rows.sql
+
+# MCP and config files
+mcp.json
+mcp.template.json
+smithery-config.json
+hitss-credentials.json
+apps.json
+
+# CI/CD artifacts
+ci-ping*.txt
+
+# Docker duplicates (keep only main files)
+Dockerfile.simple
+docker-compose-simple.yml
+docker-compose-final.yml
+docker-compose-html.yml
+docker-compose-inline.yml
+
+# Backup configs
+*.config.*.bak
+vite.config.js
+
+# HTML test files
+clear-localStorage.html
+
+# Misc
+trest.js
+Upload_*.tsx
+*.ps1
+*.bat
+*.sh

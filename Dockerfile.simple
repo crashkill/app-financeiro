@@ -1,8 +1,0 @@
-FROM nginx:alpine
-
-# Copiar uma página HTML simples
-RUN echo '<html><body><h1>App Financeiro - Teste Coolify</h1><p>Aplicação funcionando com sucesso!</p></body></html>' > /usr/share/nginx/html/index.html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]

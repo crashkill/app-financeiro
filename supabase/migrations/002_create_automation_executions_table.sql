@@ -116,7 +116,4 @@ BEGIN
     END IF;
 END $$;
 
--- Log da migração
-INSERT INTO public.schema_migrations (version, applied_at) 
-VALUES ('002_create_automation_executions_table', NOW())
-ON CONFLICT (version) DO NOTHING;
+-- Log da migração (removed schema_migrations)
