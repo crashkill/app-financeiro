@@ -42,7 +42,6 @@ export default defineConfig({
           ui: ['@radix-ui/react-label', '@radix-ui/react-select', '@radix-ui/react-slot', '@radix-ui/react-toast'],
           chart: ['chart.js', 'react-chartjs-2', 'recharts'],
           supabase: ['@supabase/supabase-js'],
-          apollo: ['@apollo/client', 'graphql'],
           utils: ['clsx', 'tailwind-merge', 'framer-motion'],
           icons: ['lucide-react', '@radix-ui/react-icons'],
           excel: ['xlsx', 'react-dropzone'],
