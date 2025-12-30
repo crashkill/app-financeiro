@@ -29,7 +29,14 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-vh-100 bg-background text-foreground">
       <Sidebar />
-      <div className="md:ml-64 transition-all duration-300">
+      <div 
+        style={{ 
+          marginLeft: '250px', 
+          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          minHeight: '100vh'
+        }}
+        className="main-content-wrapper"
+      >
         <Header />
         <main className="p-4 min-h-[calc(100vh-64px)]">
           <Container fluid className="p-0">

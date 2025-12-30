@@ -24,15 +24,15 @@ interface MenuIconProps {
   size?: number;
 }
 
-const MenuIcon = ({ 
-  icon, 
-  color, 
-  isActive = false, 
-  size = 24 
+const MenuIcon = ({
+  icon,
+  color,
+  isActive = false,
+  size = 24
 }: MenuIconProps): JSX.Element => {
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         color: isActive ? '#0d6efd' : color,
         display: 'flex',
         alignItems: 'center',
@@ -105,20 +105,23 @@ const Sidebar = () => {
   ];
 
   return (
-    <div 
-      className="bg-gray-50 dark:bg-slate-800 shadow-sm" 
-      style={{ 
-        width: sidebarWidth, 
-        minHeight: '100vh', 
+    <div
+      className="bg-gray-50 dark:bg-slate-800 shadow-sm"
+      style={{
+        width: sidebarWidth,
+        minHeight: '100vh',
         position: 'fixed',
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        zIndex: 40,
+        left: 0,
+        top: 0
       }}
     >
       <div className="p-3">
         <div className="d-flex align-items-center justify-content-between mb-4">
           {isOpen && <h5 className="mb-0">Menu</h5>}
-          <div style={{ 
+          <div style={{
             color: '#6c757d',
             display: 'flex',
             alignItems: 'center',
@@ -126,8 +129,8 @@ const Sidebar = () => {
             width: '32px',
             height: '32px'
           }}>
-            <Hamburger 
-              toggled={isOpen} 
+            <Hamburger
+              toggled={isOpen}
               toggle={setIsOpen}
               size={22}
               duration={0.5}
@@ -143,18 +146,17 @@ const Sidebar = () => {
             <Nav.Item key={index}>
               <Link
                 to={menuItem.path}
-                className={`nav-link py-2 ${menuItemClass} ${
-                  isActive(menuItem.path) 
-                    ? 'active bg-blue-100 dark:bg-blue-500 dark:bg-opacity-20 text-blue-600 dark:text-blue-400' 
+                className={`nav-link py-2 ${menuItemClass} ${isActive(menuItem.path)
+                    ? 'active bg-blue-100 dark:bg-blue-500 dark:bg-opacity-20 text-blue-600 dark:text-blue-400'
                     : 'text-slate-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
-                }`}
+                  }`}
                 style={{
                   borderRadius: '8px',
                   margin: '2px 0',
                   transition: 'all 0.3s ease'
                 }}
               >
-                <MenuIcon 
+                <MenuIcon
                   icon={menuItem.icon}
                   color={menuItem.color}
                   isActive={isActive(menuItem.path)}
@@ -164,13 +166,13 @@ const Sidebar = () => {
             </Nav.Item>
           ))}
         </Nav>
-        
+
         {isOpen && config.userImage && (
           <div className="position-absolute bottom-0 start-0 p-3 w-100">
             <div className="d-flex align-items-center">
-              <img 
-                src={config.userImage} 
-                alt="User" 
+              <img
+                src={config.userImage}
+                alt="User"
                 className="rounded-circle"
                 style={{ width: '40px', height: '40px', objectFit: 'cover' }}
               />
