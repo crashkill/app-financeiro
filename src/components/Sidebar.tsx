@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { Squash as Hamburger } from 'hamburger-react'
@@ -45,10 +44,14 @@ const MenuIcon = ({
   )
 }
 
-const Sidebar = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
   const location = useLocation()
   const { config } = useConfig()
-  const [isOpen, setIsOpen] = useState(true)
 
   const isActive = (path: string) => {
     return location.pathname === path
@@ -131,7 +134,7 @@ const Sidebar = () => {
           }}>
             <Hamburger
               toggled={isOpen}
-              toggle={setIsOpen}
+              toggle={onToggle}
               size={22}
               duration={0.5}
               easing="ease-in-out"
@@ -147,8 +150,8 @@ const Sidebar = () => {
               <Link
                 to={menuItem.path}
                 className={`nav-link py-2 ${menuItemClass} ${isActive(menuItem.path)
-                    ? 'active bg-blue-100 dark:bg-blue-500 dark:bg-opacity-20 text-blue-600 dark:text-blue-400'
-                    : 'text-slate-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
+                  ? 'active bg-blue-100 dark:bg-blue-500 dark:bg-opacity-20 text-blue-600 dark:text-blue-400'
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
                   }`}
                 style={{
                   borderRadius: '8px',
