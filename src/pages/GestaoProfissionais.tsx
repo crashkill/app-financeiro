@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Table, Button, Badge, Tabs, Tab, Alert, Toast, ToastContainer, Form } from 'react-bootstrap';
-import { Plus, Upload, Edit, Trash2, AlertTriangle, X } from 'lucide-react';
+import { Container, Row, Col, Card, Table, Button, Badge, Tabs, Tab, Alert, Toast, ToastContainer, Form, Spinner } from 'react-bootstrap';
+import { Plus, Upload, Edit, Trash2, AlertTriangle, X, RefreshCw, Cloud, Check } from 'lucide-react';
+import { hostSyncService, SyncResult } from '../services/hostSyncService';
 import { profissionaisService, Profissional } from '../services/profissionaisService';
 import { formatCurrency } from '../utils/formatters';
 import { profissionaisFilterService } from '../services/profissionaisFilterService';
@@ -56,13 +57,17 @@ const GestaoProfissionais: React.FC = () => {
   const [loadingData, setLoadingData] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Estados para sincronização com HOST
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncResult, setLastSyncResult] = useState<SyncResult | null>(null);
+
   // Carregar profissionais do Supabase
   const carregarProfissionais = async () => {
     try {
       setLoadingProfissionais(true);
       setErrorProfissionais(null);
       const response = await profissionaisService.listarProfissionais();
-      
+
       // Garantir que sempre temos um array válido
       if (!response || !response.success || !Array.isArray(response.data)) {
         console.warn('[GestaoProfissionais] Resposta inválida do serviço:', response);
@@ -70,7 +75,7 @@ const GestaoProfissionais: React.FC = () => {
         setErrorProfissionais('Dados de profissionais inválidos recebidos do servidor');
         return;
       }
-      
+
       setProfissionaisList(response.data);
     } catch (err) {
       console.error('[GestaoProfissionais] Erro ao carregar dados dos colaboradores:', err);
@@ -138,22 +143,52 @@ const GestaoProfissionais: React.FC = () => {
     setShowToast(true);
   };
 
+  // Sincronizar com HOST GlobalHitss
+  const handleSyncHost = async () => {
+    try {
+      setIsSyncing(true);
+      showToastMessage('Iniciando sincronização com HOST GlobalHitss...', 'success');
+
+      const result = await hostSyncService.triggerSync({
+        reportType: 'recursos_projeto',
+        ano: anoSelecionado,
+        mes: mesSelecionado ? parseInt(mesSelecionado) : new Date().getMonth() + 1,
+      });
+
+      setLastSyncResult(result);
+
+      if (result.success) {
+        showToastMessage(
+          `Sincronização concluída! ${result.recordsInserted} inseridos, ${result.recordsUpdated} atualizados.`,
+          'success'
+        );
+        await carregarProfissionais();
+      } else {
+        showToastMessage(`Erro na sincronização: ${result.errors.join(', ')}`, 'danger');
+      }
+    } catch (err) {
+      showToastMessage(err instanceof Error ? err.message : 'Erro ao sincronizar', 'danger');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   // Carregar dados de filtros (projetos e anos)
   useEffect(() => {
     const carregarDadosFiltros = async () => {
       try {
         setLoadingData(true);
         setError(null);
-        
+
         // Buscar projetos e anos usando o serviço de profissionais
         const [projetosData, anosData] = await Promise.all([
           profissionaisFilterService.getLocaisAlocacao(),
           profissionaisFilterService.getAnos()
         ]);
-        
+
         setProjetos(projetosData);
         setAnos(anosData);
-        
+
         console.log('[GestaoProfissionais] Dados de filtros carregados:', {
           projetos: projetosData.length,
           anos: anosData.length
@@ -175,33 +210,33 @@ const GestaoProfissionais: React.FC = () => {
       setIsLoading(true);
       try {
         console.log('[GestaoProfissionais] Carregando dados dos colaboradores...');
-        
+
         // Buscar todos os profissionais
         const response = await profissionaisService.listarProfissionais();
-        
+
         // Garantir que sempre temos um array válido
         if (!response || !response.success || !Array.isArray(response.data)) {
           console.warn('[GestaoProfissionais] Resposta inválida do serviço:', response);
           setCustosPorTipo({});
           return;
         }
-        
+
         const profissionais = response.data;
-        
+
         // Filtrar colaboradores baseado nos filtros selecionados
         const colaboradoresFiltrados = profissionais.filter(prof => {
           // Filtro por local de alocação (usado como "projeto")
-          const localMatch = projetoSelecionado.length === 0 || 
+          const localMatch = projetoSelecionado.length === 0 ||
             projetoSelecionado.includes(prof.local_alocacao || '');
-          
+
           // Filtro por ano (baseado na data de criação)
           const anoColaborador = new Date(prof.data_criacao).getFullYear();
           const anoMatch = anoColaborador === anoSelecionado;
-          
+
           // Filtro por mês (baseado na data de criação)
           const mesColaborador = new Date(prof.data_criacao).getMonth() + 1;
           const mesMatch = !mesSelecionado || mesColaborador.toString() === mesSelecionado;
-          
+
           return localMatch && anoMatch && mesMatch;
         });
 
@@ -244,7 +279,7 @@ const GestaoProfissionais: React.FC = () => {
               return direcaoOrdenacao === 'desc' ? b.valor - a.valor : a.valor - b.valor;
             }
             if (ordenacao === 'descricao') {
-              return direcaoOrdenacao === 'desc' 
+              return direcaoOrdenacao === 'desc'
                 ? b.descricao.localeCompare(a.descricao)
                 : a.descricao.localeCompare(b.descricao);
             }
@@ -256,7 +291,7 @@ const GestaoProfissionais: React.FC = () => {
         });
 
         setCustosPorTipo(custosAgrupados);
-        
+
         console.log('[GestaoProfissionais] Dados carregados:', {
           colaboradores: colaboradoresFiltrados.length,
           grupos: Object.keys(custosAgrupados).length,
@@ -321,14 +356,32 @@ const GestaoProfissionais: React.FC = () => {
               <h1>Gestão de Profissionais</h1>
               <p className="text-muted">Gerencie os profissionais alocados nos projetos</p>
             </div>
-            <Button 
-              variant="primary" 
-              onClick={() => setShowUploadModal(true)}
-              className="align-self-start"
-            >
-              <i className="bi bi-upload me-2"></i>
-              Importar Profissionais
-            </Button>
+            <div className="d-flex gap-2">
+              <Button
+                variant="outline-primary"
+                onClick={handleSyncHost}
+                disabled={isSyncing}
+              >
+                {isSyncing ? (
+                  <>
+                    <Spinner animation="border" size="sm" className="me-2" />
+                    Sincronizando...
+                  </>
+                ) : (
+                  <>
+                    <Cloud size={18} className="me-2" />
+                    Sync HOST
+                  </>
+                )}
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => setShowUploadModal(true)}
+              >
+                <Upload size={18} className="me-2" />
+                Importar Profissionais
+              </Button>
+            </div>
           </div>
         </Col>
       </Row>
@@ -411,8 +464,8 @@ const GestaoProfissionais: React.FC = () => {
                                 <th style={{ cursor: 'pointer' }} onClick={() => handleSort('periodo')}>
                                   Período {ordenacao === 'periodo' && (direcaoOrdenacao === 'asc' ? '↑' : '↓')}
                                 </th>
-                                <th 
-                                  className="text-end" 
+                                <th
+                                  className="text-end"
                                   style={{ cursor: 'pointer' }}
                                   onClick={() => handleSort('valor')}
                                 >
@@ -453,9 +506,9 @@ const GestaoProfissionais: React.FC = () => {
       </Tabs>
 
       {/* Modais */}
-      <UploadProfissionais 
-        show={showUploadModal} 
-        onHide={() => setShowUploadModal(false)} 
+      <UploadProfissionais
+        show={showUploadModal}
+        onHide={() => setShowUploadModal(false)}
         onSuccess={() => {
           carregarProfissionais();
         }}
@@ -478,8 +531,8 @@ const GestaoProfissionais: React.FC = () => {
 
       {/* Toast de notificações */}
       <ToastContainer position="top-end" className="p-3">
-        <Toast 
-          show={showToast} 
+        <Toast
+          show={showToast}
           onClose={() => setShowToast(false)}
           delay={4000}
           autohide

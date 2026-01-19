@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globalhitss - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .animate-pulse-slow {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .json-viewer {
+            background: rgba(0, 0, 0, 0.4);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            max-height: 400px;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen flex flex-col relative">
+
+    <!-- Background Decoration -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div
+            class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-red-600 rounded-full mix-blend-multiply filter blur-[100px] opacity-10 animate-pulse-slow">
+        </div>
+        <div
+            class="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-900 rounded-full mix-blend-multiply filter blur-[100px] opacity-10 animate-pulse-slow">
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="w-full glass px-8 py-4 flex justify-between items-center z-10 border-b border-gray-800">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold tracking-tighter">
+                <span class="text-white">Global</span><span class="text-red-600">hitss</span>
+            </span>
+            <span class="px-2 py-0.5 rounded text-[10px] bg-gray-800 text-gray-400 border border-gray-700">BETA</span>
+        </div>
+        <div>
+            <% if (isAuthenticated) { %>
+                <div class="flex items-center gap-4">
+                    <% if (user.photo) { %>
+                        <img src="<%= user.photo %>" alt="Foto" class="w-8 h-8 rounded-full border border-gray-600">
+                        <% } %>
+                            <span class="text-sm text-gray-300">
+                                <%= user.graph?.displayName || user._msalAccount?.name %>
+                            </span>
+                            <a href="/auth/signout"
+                                class="text-xs border border-red-500/50 text-red-400 px-3 py-1.5 rounded hover:bg-red-500/10 transition-colors">Sair</a>
+                </div>
+                <% } else { %>
+                    <a href="/login" class="text-sm font-medium text-white hover:text-red-400 transition-colors">Acesso
+                        Restrito</a>
+                    <% } %>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+        <% if (isAuthenticated) { %>
+
+            <div class="max-w-6xl mx-auto space-y-6">
+
+                <!-- Header com Foto -->
+                <div class="glass p-6 rounded-xl flex items-center gap-6">
+                    <div class="relative">
+                        <div
+                            class="absolute -inset-1 rounded-full bg-gradient-to-r from-red-600 to-blue-600 opacity-30 blur">
+                        </div>
+                        <% if (user.photo) { %>
+                            <img src="<%= user.photo %>" alt="Foto do Perfil"
+                                class="relative w-24 h-24 rounded-full border-2 border-gray-700 object-cover">
+                            <% } else { %>
+                                <div
+                                    class="relative w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center border-2 border-gray-700">
+                                    <span class="text-3xl font-bold text-gray-500">
+                                        <%= user.graph?.givenName?.charAt(0) || 'U' %>
+                                    </span>
+                                </div>
+                                <% } %>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">
+                            <%= user.graph?.displayName || 'Usuário' %>
+                        </h1>
+                        <p class="text-gray-400">
+                            <%= user.graph?.jobTitle || 'Cargo não informado' %>
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            <%= user.graph?.department || '' %>
+                                <%= user.graph?.officeLocation ? '• ' + user.graph.officeLocation : '' %>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Grid de Dados -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                    <!-- Dados de Identificação -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            📧 Identificação</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">ID:</span><span
+                                    class="text-white font-mono text-xs">
+                                    <%= user.graph?.id %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Display Name:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.displayName %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Given Name:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.givenName %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Surname:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.surname %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Mail Nickname:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.mailNickname %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">User Principal
+                                    Name:</span><span class="text-white text-xs">
+                                    <%= user.graph?.userPrincipalName %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">User Type:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.userType %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- Contato -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            📞 Contato</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">Mail:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.mail || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Other Mails:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.otherMails?.join(', ') || ' N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Mobile Phone:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.mobilePhone || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Business Phones:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.businessPhones?.join(', ') || ' N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Fax Number:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.faxNumber || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">IM Addresses:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.imAddresses?.join(', ') || ' N/A' %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- Organização -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            🏢 Organização</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">Company Name:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.companyName || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Department:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.department || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Job Title:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.jobTitle || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Office Location:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.officeLocation || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Employee ID:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.employeeId || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Employee Type:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.employeeType || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Employee Hire
+                                    Date:</span><span class="text-white">
+                                    <%= user.graph?.employeeHireDate || 'N/A' %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- Endereço -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            📍 Endereço</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">Street Address:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.streetAddress || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">City:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.city || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">State:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.state || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Postal Code:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.postalCode || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Country:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.country || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Usage Location:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.usageLocation || 'N/A' %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- On-Premises (AD Local) -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            🖥️ On-Premises (AD Local)</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">SAM Account Name:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.onPremisesSamAccountName || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">UPN:</span><span
+                                    class="text-white text-xs">
+                                    <%= user.graph?.onPremisesUserPrincipalName || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Domain Name:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.onPremisesDomainName || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Last Sync:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.onPremisesLastSyncDateTime || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Sync Enabled:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.onPremisesSyncEnabled %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- Configurações -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            ⚙️ Configurações</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">Preferred
+                                    Language:</span><span class="text-white">
+                                    <%= user.graph?.preferredLanguage || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Account Enabled:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.accountEnabled %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Show In Address
+                                    List:</span><span class="text-white">
+                                    <%= user.graph?.showInAddressList %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Is Resource
+                                    Account:</span><span class="text-white">
+                                    <%= user.graph?.isResourceAccount %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- Datas -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            📅 Datas</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">Created DateTime:</span><span
+                                    class="text-white">
+                                    <%= user.graph?.createdDateTime || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Last Password
+                                    Change:</span><span class="text-white">
+                                    <%= user.graph?.lastPasswordChangeDateTime || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Sessions Valid
+                                    From:</span><span class="text-white">
+                                    <%= user.graph?.signInSessionsValidFromDateTime || 'N/A' %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Autenticado em:</span><span
+                                    class="text-white">
+                                    <%= user._session?.authenticatedAt %>
+                                </span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Token Expira em:</span><span
+                                    class="text-white">
+                                    <%= user._session?.tokenExpiresOn %>
+                                </span></div>
+                        </div>
+                    </div>
+
+                    <!-- Manager -->
+                    <div class="data-card rounded-xl p-5">
+                        <h2
+                            class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                            👔 Gerente (Manager)</h2>
+                        <% if (user.manager) { %>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between"><span class="text-gray-500">ID:</span><span
+                                        class="text-white font-mono text-xs">
+                                        <%= user.manager.id %>
+                                    </span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Display Name:</span><span
+                                        class="text-white">
+                                        <%= user.manager.displayName %>
+                                    </span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Mail:</span><span
+                                        class="text-white">
+                                        <%= user.manager.mail %>
+                                    </span></div>
+                                <div class="flex justify-between"><span class="text-gray-500">Job Title:</span><span
+                                        class="text-white">
+                                        <%= user.manager.jobTitle %>
+                                    </span></div>
+                            </div>
+                            <% } else { %>
+                                <p class="text-gray-500 text-sm">Gerente não informado ou sem permissão para visualizar.
+                                </p>
+                                <% } %>
+                    </div>
+
+                </div>
+
+                <!-- JSON Viewer - Dados Completos -->
+                <div class="data-card rounded-xl p-5">
+                    <h2
+                        class="text-xs text-red-500 uppercase tracking-wider mb-4 font-semibold border-b border-gray-800 pb-2">
+                        🔍 JSON Completo (Debug)</h2>
+                    <pre
+                        class="json-viewer p-4 rounded-lg text-green-400 overflow-x-auto"><%= JSON.stringify(user, null, 2) %></pre>
+                </div>
+
+            </div>
+
+            <% } else { %>
+
+                <!-- Not Authenticated -->
+                <div class="flex-1 flex items-center justify-center">
+                    <div class="glass p-8 rounded-2xl shadow-2xl w-full max-w-lg text-center">
+                        <div
+                            class="w-16 h-16 bg-gray-800/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-700">
+                            <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h1 class="text-3xl font-bold mb-2">Terminal Bloqueado</h1>
+                        <p class="text-gray-400 mb-6">A autenticação é necessária para acessar os sistemas da
+                            Globalhitss.</p>
+                        <div class="space-y-3">
+                            <a href="/login"
+                                class="block w-full px-8 py-3 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 shadow-lg transition-all">
+                                Login (Split Screen)
+                            </a>
+                            <a href="/login-simple"
+                                class="block w-full px-8 py-3 text-sm font-medium rounded-md text-white bg-gray-700 hover:bg-gray-600 transition-all">
+                                Login Simplificado
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <% } %>
+    </main>
+
+    <footer class="glass py-4 text-center border-t border-gray-800">
+        <p class="text-xs text-gray-600">&copy; 2026 Globalhitss. Divisão de Tecnologia Imperial.</p>
+    </footer>
+
+</body>
+
+</html>

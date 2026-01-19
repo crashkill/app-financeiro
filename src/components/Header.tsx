@@ -1,5 +1,5 @@
 import { Container, Nav, Button } from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthProviderSwitch'
 import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
@@ -16,10 +16,10 @@ const Header = () => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between py-2">
           <div className="d-flex align-items-center">
-            <img 
+            <img
               src="https://globalhitss.com/br/wp-content/uploads/2024/03/logo_BR-no-copy.png"
-              alt="Global Hitss" 
-              style={{ 
+              alt="Global Hitss"
+              style={{
                 height: '50px',
                 width: 'auto',
                 marginRight: '20px'
@@ -31,7 +31,7 @@ const Header = () => {
             </div>
           </div>
           <div className="d-flex align-items-center">
-            <span className="me-3">Olá, {user?.email}</span>
+            <span className="me-3">Olá, {(user as any)?.name || user?.email}</span>
             <Button variant="outline-primary" onClick={handleLogout}>
               Sair
             </Button>

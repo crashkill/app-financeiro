@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
+// Usar o switch que permite alternar entre Supabase e Azure AD
+// Configure VITE_AUTH_PROVIDER='azure' para usar Azure AD
+import { AuthProvider } from './contexts/AuthProviderSwitch'
 import { ConfigProvider } from './contexts/ConfigContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import router from './router'
@@ -24,8 +26,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <AuthProvider>
       <ConfigProvider>
         <ThemeProvider>
-          <RouterProvider 
-            router={router} 
+          <RouterProvider
+            router={router}
             future={{
               v7_startTransition: true,
             }}

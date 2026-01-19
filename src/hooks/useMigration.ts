@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { MigrationService, MigrationProgress, MigrationResult } from '../services/migrationService';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthProviderSwitch';
 
 export interface UseMigrationReturn {
   // Estado
@@ -100,7 +100,7 @@ export const useMigration = (): UseMigrationReturn => {
     try {
       const migrationService = new MigrationService();
       await migrationService.clearIndexedDBAfterMigration();
-      
+
       // Atualizar status após limpeza
       await checkStatus();
     } catch (err) {

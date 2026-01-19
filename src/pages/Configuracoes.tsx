@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthProviderSwitch'
 import { useConfig } from '../contexts/ConfigContext'
 
 const Configuracoes = () => {
@@ -12,7 +12,7 @@ const Configuracoes = () => {
     e.preventDefault()
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
-    
+
     updateConfig({
       currency: formData.get('currency') as string,
       dateFormat: formData.get('dateFormat') as string,
@@ -70,7 +70,7 @@ const Configuracoes = () => {
               <Form onSubmit={handlePreferenceSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Moeda</Form.Label>
-                  <Form.Select 
+                  <Form.Select
                     name="currency"
                     defaultValue={config.currency}
                   >
@@ -82,7 +82,7 @@ const Configuracoes = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Formato de Data</Form.Label>
-                  <Form.Select 
+                  <Form.Select
                     name="dateFormat"
                     defaultValue={config.dateFormat}
                   >
@@ -93,7 +93,7 @@ const Configuracoes = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Check 
+                  <Form.Check
                     type="switch"
                     id="notifications"
                     name="notifications"
@@ -103,7 +103,7 @@ const Configuracoes = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Check 
+                  <Form.Check
                     type="switch"
                     id="darkMode"
                     name="darkMode"

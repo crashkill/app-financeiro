@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import basicSsl from '@vitejs/plugin-basic-ssl'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), basicSsl()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -18,9 +19,26 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3002,
+    port: 3000,
     open: true,
     host: true,
+    proxy: {
+      '/auth': {
+        target: 'https://localhost:3001',
+        changeOrigin: true,
+        secure: false, // Aceitar self-signed cert do backend
+      },
+      '/getAToken': {
+        target: 'https://localhost:3001',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/api': {
+        target: 'https://localhost:3001',
+        changeOrigin: true,
+        secure: false,
+      }
+    },
     fs: {
       // Permite que o Vite sirva arquivos fora do diretório raiz
       strict: false,

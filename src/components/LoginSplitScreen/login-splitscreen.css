@@ -1,0 +1,467 @@
+/**
+ * LoginSplitScreen Styles
+ * 
+ * Estilos para o componente de login Split Screen
+ * Design fiel ao original login.ejs do projeto Login - Microsoft
+ * 
+ * Características:
+ * - Glassmorphism
+ * - Animated orbs
+ * - Split screen layout
+ * - Cores Imperial (vermelho HITSS + azul profundo)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ========================================
+   CSS VARIABLES
+======================================== */
+:root {
+  --hitss-red: #dc2626;
+  --hitss-red-hover: #b91c1c;
+  --hitss-blue: #1e40af;
+  --bg-dark: #0f172a;
+  --bg-darker: #020617;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --input-bg: rgba(17, 24, 39, 0.5);
+  --input-border: #374151;
+  --glow-red: 0 0 15px rgba(220, 38, 38, 0.5);
+}
+
+/* ========================================
+   PAGE BASE
+======================================== */
+.login-splitscreen-page {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ========================================
+   LOADING STATE
+======================================== */
+.splitscreen-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.splitscreen-loading .loading-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--hitss-red);
+  animation: spin 1s linear infinite;
+}
+
+.splitscreen-loading p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   BACKGROUND DECORATION
+======================================== */
+.background-decoration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.animated-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  mix-blend-mode: multiply;
+}
+
+.orb-red-top {
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background-color: var(--hitss-red);
+  opacity: 0.2;
+  animation: float 6s ease-in-out infinite;
+}
+
+.orb-blue-bottom {
+  bottom: -10%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background-color: var(--hitss-blue);
+  opacity: 0.2;
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ========================================
+   SPLIT SCREEN CARD
+======================================== */
+.splitscreen-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 56rem;
+  margin: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .splitscreen-card {
+    flex-direction: row;
+  }
+}
+
+/* ========================================
+   LEFT SIDE - CREDENTIALS FORM
+======================================== */
+.card-left {
+  width: 100%;
+  padding: 2.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+  .card-left {
+    width: 50%;
+    border-bottom: none;
+    border-right: 1px solid var(--glass-border);
+  }
+}
+
+.form-header {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   FORM ELEMENTS
+======================================== */
+.credentials-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.375rem;
+  padding: 0.625rem 0.75rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-input:focus {
+  border-color: var(--hitss-red);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+/* ========================================
+   ERROR MESSAGE
+======================================== */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 0.375rem;
+  padding: 0.625rem 0.75rem;
+  color: #fca5a5;
+  font-size: 0.875rem;
+}
+
+.error-message .error-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   SUBMIT BUTTON
+======================================== */
+.submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.375rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-btn .btn-arrow {
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.submit-btn:hover .btn-arrow {
+  color: var(--text-primary);
+}
+
+.submit-btn .btn-loader {
+  width: 1rem;
+  height: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   MFA NOTICE
+======================================== */
+.mfa-notice {
+  margin-top: 1.5rem;
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ========================================
+   RIGHT SIDE - MICROSOFT SSO
+======================================== */
+.card-right {
+  width: 100%;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, rgba(127, 29, 29, 0.1), transparent);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .card-right {
+    width: 50%;
+  }
+}
+
+/* ========================================
+   DECORATOR ICON
+======================================== */
+.decorator-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.2;
+}
+
+.decorator-icon .icon-imperial {
+  width: 6rem;
+  height: 6rem;
+  color: var(--hitss-red);
+}
+
+/* ========================================
+   SSO CONTENT
+======================================== */
+.sso-content {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.brand-logo {
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+}
+
+.brand-global {
+  color: var(--text-primary);
+}
+
+.brand-hitss {
+  color: var(--hitss-red);
+}
+
+.sso-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   MICROSOFT BUTTON
+======================================== */
+.microsoft-btn {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 16rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--hitss-red);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 0.375rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--glow-red);
+  transition: all 0.3s ease;
+}
+
+.microsoft-btn:hover:not(:disabled) {
+  background: var(--hitss-red-hover);
+  transform: scale(1.05);
+}
+
+.microsoft-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.microsoft-btn .microsoft-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ========================================
+   SSO FOOTER
+======================================== */
+.sso-footer {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 16rem;
+}
+
+/* ========================================
+   PAGE FOOTER
+======================================== */
+.page-footer {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+======================================== */
+@media (max-width: 480px) {
+  .splitscreen-card {
+    margin: 0.5rem;
+  }
+  
+  .card-left,
+  .card-right {
+    padding: 1.5rem;
+  }
+  
+  .form-title {
+    font-size: 1.25rem;
+  }
+  
+  .brand-logo {
+    font-size: 1.5rem;
+  }
+  
+  .decorator-icon .icon-imperial {
+    width: 4rem;
+    height: 4rem;
+  }
+}

@@ -1,24 +1,42 @@
 /**
- * Login Styles - Azure AD Authentication
- * Design baseado no login-simple.ejs do projeto Login - Microsoft
+ * LoginSimple Styles
+ * 
+ * Estilos para o componente de login simplificado
+ * Design fiel ao original login-simple.ejs
  * 
  * Características:
  * - Glassmorphism
- * - Animações suaves
- * - Cores da identidade HITSS (vermelho + cinza escuro)
- * - Responsivo
+ * - Animated orbs
+ * - Card centralizado único
+ * - Cores Imperial (vermelho HITSS + azul profundo)
  */
-
-/* ========================================
-   BASE & FONTS
-======================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-.login-page {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #0f172a;
-    color: white;
+/* ========================================
+   CSS VARIABLES
+======================================== */
+:root {
+    --hitss-red: #dc2626;
+    --hitss-red-hover: #b91c1c;
+    --hitss-blue: #1e40af;
+    --bg-dark: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --input-bg: rgba(17, 24, 39, 0.5);
+    --input-border: #374151;
+}
+
+/* ========================================
+   PAGE BASE
+======================================== */
+.login-simple-page {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -28,14 +46,37 @@
 }
 
 /* ========================================
-   BACKGROUND ORBS (Animações)
+   LOADING STATE
 ======================================== */
+.login-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
 
+.login-loading .loading-spinner {
+    width: 2rem;
+    height: 2rem;
+    color: var(--hitss-red);
+    animation: spin 1s linear infinite;
+}
+
+.login-loading p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* ========================================
+   BACKGROUND ORBS
+======================================== */
 .background-orbs {
     position: absolute;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
+    z-index: 0;
 }
 
 .orb {
@@ -45,28 +86,28 @@
     mix-blend-mode: multiply;
 }
 
-.orb-red-top {
+.orb-red {
     top: -8rem;
     right: -8rem;
     width: 500px;
     height: 500px;
-    background-color: #dc2626;
+    background-color: var(--hitss-red);
     opacity: 0.1;
     animation: pulse-glow 6s ease-in-out infinite;
 }
 
-.orb-blue-bottom {
+.orb-blue {
     bottom: -8rem;
     left: -8rem;
     width: 500px;
     height: 500px;
-    background-color: #1e40af;
+    background-color: var(--hitss-blue);
     opacity: 0.1;
     animation: pulse-glow 6s ease-in-out infinite;
     animation-delay: 3s;
 }
 
-.orb-red-small {
+.orb-small {
     top: 25%;
     left: 25%;
     width: 200px;
@@ -105,15 +146,20 @@
     }
 }
 
-/* ========================================
-   LOGIN CARD (Glassmorphism)
-======================================== */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
+/* ========================================
+   LOGIN CARD
+======================================== */
 .login-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
     border-radius: 1rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     width: 100%;
@@ -134,13 +180,12 @@
 /* ========================================
    LOGO SECTION
 ======================================== */
-
 .logo-section {
     text-align: center;
     margin-bottom: 2rem;
 }
 
-.logo-text {
+.logo {
     font-size: 2.25rem;
     font-weight: 700;
     letter-spacing: -0.025em;
@@ -149,22 +194,21 @@
 }
 
 .logo-global {
-    color: white;
+    color: var(--text-primary);
 }
 
 .logo-hitss {
-    color: #dc2626;
+    color: var(--hitss-red);
 }
 
 .logo-subtitle {
-    color: #9ca3af;
+    color: var(--text-secondary);
     font-size: 0.875rem;
 }
 
 /* ========================================
    ERROR ALERT
 ======================================== */
-
 .error-alert {
     display: flex;
     align-items: center;
@@ -178,7 +222,7 @@
     font-size: 0.875rem;
 }
 
-.error-icon {
+.error-alert .error-icon {
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
@@ -187,7 +231,6 @@
 /* ========================================
    FORM
 ======================================== */
-
 .login-form {
     display: flex;
     flex-direction: column;
@@ -204,17 +247,17 @@
     display: block;
     font-size: 0.75rem;
     font-weight: 500;
-    color: #9ca3af;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
 .field-input {
-    background: rgba(17, 24, 39, 0.5);
-    border: 1px solid #374151;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
     border-radius: 0.5rem;
     padding: 0.75rem 1rem;
-    color: white;
+    color: var(--text-primary);
     font-size: 0.875rem;
     outline: none;
     transition: all 0.3s ease;
@@ -222,79 +265,31 @@
 }
 
 .field-input::placeholder {
-    color: #6b7280;
+    color: var(--text-muted);
 }
 
 .field-input:focus {
-    border-color: #dc2626;
+    border-color: var(--hitss-red);
     box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
 }
 
-.field-input.input-error {
-    border-color: #ef4444;
-}
-
-.field-hint {
-    font-size: 0.75rem;
-    color: #6b7280;
-    margin-top: 0.25rem;
-}
-
-/* ========================================
-   PASSWORD FIELD
-======================================== */
-
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.password-wrapper .field-input {
-    padding-right: 2.75rem;
-}
-
-.password-toggle {
-    position: absolute;
-    right: 0.75rem;
-    background: transparent;
-    border: none;
-    color: #6b7280;
-    cursor: pointer;
-    padding: 0.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease;
-}
-
-.password-toggle:hover {
-    color: #9ca3af;
-}
-
-/* ========================================
-   VALIDATION ERRORS
-======================================== */
-
-.validation-error {
-    color: #fca5a5;
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
+.field-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* ========================================
    SUBMIT BUTTON
 ======================================== */
-
 .submit-button {
-    background: #dc2626;
+    background: var(--hitss-red);
     box-shadow: 0 4px 14px 0 rgba(220, 38, 38, 0.4);
     transition: all 0.3s ease;
     width: 100%;
     padding: 0.875rem 1rem;
     border: none;
     border-radius: 0.5rem;
-    color: white;
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 0.875rem;
     text-transform: uppercase;
@@ -308,7 +303,7 @@
 }
 
 .submit-button:hover:not(:disabled) {
-    background: #b91c1c;
+    background: var(--hitss-red-hover);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px 0 rgba(220, 38, 38, 0.5);
 }
@@ -322,25 +317,15 @@
     cursor: not-allowed;
 }
 
-.loading-spinner {
+.submit-button .button-spinner {
     width: 1.125rem;
     height: 1.125rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
     animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 /* ========================================
    DIVIDER
 ======================================== */
-
 .divider {
     display: flex;
     align-items: center;
@@ -355,13 +340,12 @@
 .divider-text {
     padding: 0 1rem;
     font-size: 0.75rem;
-    color: #6b7280;
+    color: var(--text-muted);
 }
 
 /* ========================================
    SECURITY NOTICE
 ======================================== */
-
 .security-notice {
     text-align: center;
     display: flex;
@@ -369,25 +353,14 @@
     gap: 0.5rem;
 }
 
-.security-icon-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-}
-
-.security-icon {
-    color: #4ade80;
-    opacity: 0.8;
-}
-
 .notice-text {
     font-size: 0.6875rem;
-    color: #6b7280;
+    color: var(--text-muted);
     line-height: 1.5;
 }
 
 .notice-text strong {
-    color: #9ca3af;
+    color: var(--text-secondary);
 }
 
 .mfa-highlight {
@@ -402,8 +375,7 @@
 /* ========================================
    FOOTER
 ======================================== */
-
-.login-footer {
+.page-footer {
     position: absolute;
     bottom: 1rem;
     left: 0;
@@ -411,60 +383,7 @@
     text-align: center;
 }
 
-.login-footer p {
+.page-footer p {
     font-size: 0.75rem;
     color: #4b5563;
-}
-
-/* ========================================
-   UTILITIES
-======================================== */
-
-.flex {
-    display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.py-12 {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-}
-
-.mb-4 {
-    margin-bottom: 1rem;
-}
-
-.text-sm {
-    font-size: 0.875rem;
-}
-
-.text-gray-400 {
-    color: #9ca3af;
-}
-
-.text-red-500 {
-    color: #ef4444;
-}
-
-.animate-spin {
-    animation: spin 1s linear infinite;
-}
-
-.w-8 {
-    width: 2rem;
-}
-
-.h-8 {
-    height: 2rem;
 }

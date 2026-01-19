@@ -1,7 +1,9 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { useAuth } from './contexts/AuthContext'
+import { useAuth } from './contexts/AuthProviderSwitch'
 import { ThemeProvider } from './contexts/ThemeContext'
-import Login from './pages/Login'
+// Login Simplificado - Design Imperial (email + senha)
+import { LoginSimple as Login } from './components/LoginSimple'
+import LoginAzure from './pages/LoginAzure'
 import Dashboard from './pages/Dashboard'
 import Upload from './pages/Upload'
 import Config from './pages/Config'
@@ -49,103 +51,104 @@ function App() {
     <ThemeProvider>
       <ThemeWrapper>
         <div data-testid="app-container" className="min-h-screen transition-colors duration-300 bg-background text-foreground">
-      <Routes>
-        {/* Rota pública de Login */}
-        <Route path="/login" element={<Login />} />
+          <Routes>
+            {/* Rota pública de Login */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/login-azure" element={<LoginAzure />} />
 
-        {/* Rotas Protegidas */}
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/planilhas"
-          element={
-            <PrivateRoute>
-              <PlanilhasFinanceiras />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/forecast"
-          element={
-            <PrivateRoute>
-              <Forecast />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/gestao-profissionais"
-          element={
-            <PrivateRoute>
-              <GestaoProfissionais />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/upload"
-          element={
-            <PrivateRoute>
-              <Upload />
-            </PrivateRoute>
-          }
-        />
+            {/* Rotas Protegidas */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/planilhas"
+              element={
+                <PrivateRoute>
+                  <PlanilhasFinanceiras />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/forecast"
+              element={
+                <PrivateRoute>
+                  <Forecast />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/gestao-profissionais"
+              element={
+                <PrivateRoute>
+                  <GestaoProfissionais />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/upload"
+              element={
+                <PrivateRoute>
+                  <Upload />
+                </PrivateRoute>
+              }
+            />
 
-        <Route
-          path="/consulta-sap"
-          element={
-            <PrivateRoute>
-              <ConsultaSAP />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/config"
-          element={
-            <PrivateRoute>
-              <Config />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/test-filter"
-          element={
-            <PrivateRoute>
-              <ProjectFilterExample />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/button-example"
-          element={
-            <PrivateRoute>
-              <ButtonExample />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/automation-test"
-          element={
-            <PrivateRoute>
-              <AutomationTestPage />
-            </PrivateRoute>
-          }
-        />
-        
-        {/* Redirecionamento da raiz e Rota Catch-all */}
-        <Route 
-          path="/" 
-          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
-        />
-        <Route 
-          path="*" 
-          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
-        />
-      </Routes>
+            <Route
+              path="/consulta-sap"
+              element={
+                <PrivateRoute>
+                  <ConsultaSAP />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/config"
+              element={
+                <PrivateRoute>
+                  <Config />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/test-filter"
+              element={
+                <PrivateRoute>
+                  <ProjectFilterExample />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/button-example"
+              element={
+                <PrivateRoute>
+                  <ButtonExample />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/automation-test"
+              element={
+                <PrivateRoute>
+                  <AutomationTestPage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Redirecionamento da raiz e Rota Catch-all */}
+            <Route
+              path="/"
+              element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="*"
+              element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />}
+            />
+          </Routes>
         </div>
       </ThemeWrapper>
     </ThemeProvider>
